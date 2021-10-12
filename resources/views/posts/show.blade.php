@@ -13,6 +13,8 @@
         
     </head>
     <body>
+        @extends('layouts.app')
+        @section('content')
         <h1>Blog Name</h1>
         <p class="edit">[<a href="/posts/{{ $post->id }}/edit">edit</a>]</p>
         <form action="/posts/{{ $post->id }}" id="form_{{ $post->id }}" method="post" style="display:inline">
@@ -22,6 +24,7 @@
         </form>
         <div class='post'>
             <h2 class='title'>{{ $post->title }}</h2>
+            <small>{{ $post->user->name }}</small>
             <p class='body'>{{ $post->body }}</p>
             <p class='updated_at'>{{ $post->updated_at }}</p>
         </div>
@@ -34,5 +37,6 @@
                }
            }
        </script>
+       @endsection
     </body>
 </html>
