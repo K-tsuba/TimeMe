@@ -1,37 +1,49 @@
-<!DOCTYPE html>
-<html lang="{{ str_replace('_', '-', app()->getLocale()) }}">
-    <head>
-        <meta charset="utf-8">
-        <meta name="viewport" content="width=device-width, initial-scale=1">
+{{--
+@extends('layouts.app')
 
-        <title>Blog</title>
+@section('content')
+<div>
+    {{Auth::user()->name}}
+</div>
+<h1>Blog Name</h1>
+[<a href='/posts/create'>create</a>]
+<div class='own_posts'>
+    @foreach ($own_posts as $post)
+    <div class='post'>
+        <a href='/posts/{{ $post->id }}'><h2 class='title'>{{ $post->title }}</h2></a>
+        <small>{{ $post->user->name }}</small>
+        <p class='body'>{{ $post->body }}</p>
+    </div>
+    @endforeach
+</div>
+<div class='paginate'>
+    {{ $own_posts->links() }}
+</div>
+@endsection
 
-        <!-- Fonts -->
-        <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@200;600&display=swap" rel="stylesheet">
+<div>
+    @foreach($questions as $question)
+        <div>{{ $question['title'] }}</div>
+    @endforeach
+</div>
 
-        <!-- Styles -->
-        
-    </head>
-    <body>
-        @extends('layouts.app')
-        @section('content')
+<div>
+    @foreach($questions as $question)
         <div>
-            {{Auth::user()->name}}
+            <a href="https://teratail.com/questions/{{ $question['id'] }}" >
+                {{ $question['title'] }}
+            </a>
         </div>
-        <h1>Blog Name</h1>
-        [<a href='/posts/create'>create</a>]
-        <div class='posts'>
-            @foreach ($posts as $post)
-            <div class='post'>
-                <a href='/posts/{{ $post->id }}'><h2 class='title'>{{ $post->title }}</h2></a>
-                <small>{{ $post->user->name }}</small>
-                <p class='body'>{{ $post->body }}</p>
-            </div>
-            @endforeach
-        </div>
-        <div class='paginate'>
-            {{ $posts->links() }}
-        </div>
-        @endsection
-    </body>
-</html>
+    @endforeach
+</div>
+--}}
+@extends('layouts.app')
+@section('content')
+
+<h1>アウトプット投稿・質問画面</h1>
+<p>ユーザー名</p>
+<p>投稿・質問タイトル</p>
+<p>詳細画面</p>
+
+@endsection
+
