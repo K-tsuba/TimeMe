@@ -28,7 +28,8 @@ class StudySite extends Model
     }
     public function getOwnTimes()
     {
-        return $this::with('times')->where('user_id', Auth::id())->orderBy('updated_at', 'desc')->get();
+        return $this->times()->get();
+        // return $this::with('times')->where('user_id', Auth::id())->orderBy('updated_at', 'desc')->get();
         // dd($this::with('times')->where('user_id', Auth::id())->get());
     }
     

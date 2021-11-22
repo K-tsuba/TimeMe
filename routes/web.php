@@ -21,20 +21,7 @@
 //     Route::post('/posts', 'PostController@store');
 // });
 
-// Auth::routes();
 
-// Route::get('/home', 'HomeController@index')->name('home');
-
-// Route::get('/user', 'UserController@index');
-
-
-
-
-// Route::get('/times', 'TimeController@index');
-
-// Route::get('/times', function () {
-//     return view('times/index');
-// });
 
 Route::group(['middleware' => 'auth'], function(){
     Route::get('/', 'TimeController@index');
@@ -46,11 +33,20 @@ Route::group(['middleware' => 'auth'], function(){
     Route::get('/times/{time}/edit', 'TimeController@edit');
     Route::put('/times/{time}', 'TimeController@update');
     Route::delete('/times/{time}', 'TimeController@delete');
-    Route::get('/user', 'UserController@index');
+    
+    Route::get('/user/{study_site_id}', 'UserController@index');
+    
     Route::post('/study_sites/store', 'StudySiteController@store'); //サイトのtitleとurlを保存
     Route::get('/ranking', 'TimeController@ranking');
     Route::get('/posts/create', 'PostController@create');
-    // Route::post('/study_site/study_site_store/{study_site}', 'TimeController@study_site_store'); //勉強するを押したらstudy_site_idの保存
+    Route::get('/posts', 'PostController@index');
+    Route::post('posts/store', 'PostController@store');
+    
+    Route::post('/comments/create', 'CommentController@create');
+    Route::get('/comments/{post_id}', 'CommentController@index');
+    Route::post('/comments/store/{post_id}', 'CommentController@store');
+    Route::get('/comments/reply/{comment_id}', 'CommentController@reply');
+    Route::post('/comments/reply/store/{comment_id}', 'CommentController@reply_store');
 });
 
 Auth::routes();

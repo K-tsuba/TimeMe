@@ -72,6 +72,10 @@ class PostController extends Controller
     //     $post->delete();
     //     return redirect('/');
     // }
+    public function index(Post $post)
+    {
+        return view('/posts/index')->with(['posts' => $post->getUser()]);
+    }
     public function create()
     {
         return view('posts/create');
@@ -82,7 +86,7 @@ class PostController extends Controller
         $input = $request['post'];
         $input += ['user_id' => $request->user()->id];
         $post->fill($input)->save();
-        return redirect('/posts/' . $post->id);
+        return redirect('/posts/');
     }
     
 }

@@ -47,6 +47,10 @@ class User extends Authenticatable
     {
         return $this->belongsToMany('App\StudySite');
     }
+    public function posts()
+    {
+        return $this->hasMany('App\Post');
+    }
     public function getOwnTimes()
     {
         // dd($this->times()->get());

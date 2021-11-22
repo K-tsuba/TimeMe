@@ -4,7 +4,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-class AddUserIdToTimesTable extends Migration
+class RenamePostToBodyOnPostsTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,9 +13,8 @@ class AddUserIdToTimesTable extends Migration
      */
     public function up()
     {
-        Schema::table('times', function (Blueprint $table) {
-            $table->bigInteger('user_id')->unsigned();
-            
+        Schema::table('posts', function (Blueprint $table) {
+            $table->renameColumn('post', 'body');
         });
     }
 
@@ -26,8 +25,8 @@ class AddUserIdToTimesTable extends Migration
      */
     public function down()
     {
-        Schema::table('times', function (Blueprint $table) {
-            //
+        Schema::table('posts', function (Blueprint $table) {
+            $table->renameColumn('body', 'post');
         });
     }
 }
