@@ -11,16 +11,45 @@
 |
 */
 
+// Route::group(['middleware' => 'auth'], function(){
+//     Route::get('/', 'PostController@index');
+//     Route::get('/posts/create', 'PostController@create');
+//     Route::get('/posts/{post}/edit', 'PostController@edit');
+//     Route::put('/posts/{post}', 'PostController@update');
+//     Route::delete('/posts/{post}', 'PostController@delete');
+//     Route::get('/posts/{post}', 'PostController@show');
+//     Route::post('/posts', 'PostController@store');
+// });
+
+
+
 Route::group(['middleware' => 'auth'], function(){
-    Route::get('/', 'PostController@index');
+    Route::get('/', 'TimeController@index');
+    Route::get('/times/create', 'TimeController@create');
+    Route::post('/times/start_store/{study_site}', 'TimeController@start_store');
+    Route::post('/times/stop_store', 'TimeController@stop_store');
+    Route::get('times/store', 'TimeController@store');
+    Route::get('/times/show', 'TimeController@show');
+    Route::get('/times/{time}/edit', 'TimeController@edit');
+    Route::put('/times/{time}', 'TimeController@update');
+    Route::delete('/times/{time}', 'TimeController@delete');
+    
+    Route::get('/user/{study_site_id}', 'UserController@index');
+    
+    Route::post('/study_sites/store', 'StudySiteController@store'); //サイトのtitleとurlを保存
+    Route::get('/ranking', 'TimeController@ranking');
     Route::get('/posts/create', 'PostController@create');
-    Route::get('/posts/{post}/edit', 'PostController@edit');
-    Route::put('/posts/{post}', 'PostController@update');
-    Route::delete('/posts/{post}', 'PostController@delete');
-    Route::get('/posts/{post}', 'PostController@show');
-    Route::post('/posts', 'PostController@store');
+    Route::get('/posts', 'PostController@index');
+    Route::post('posts/store', 'PostController@store');
+    
+    Route::post('/comments/create', 'CommentController@create');
+    Route::get('/comments/{post_id}', 'CommentController@index');
+    Route::post('/comments/store/{post_id}', 'CommentController@store');
+    Route::get('/comments/reply/{comment_id}', 'CommentController@reply');
+    Route::post('/comments/reply/store/{comment_id}', 'CommentController@reply_store');
 });
 
 Auth::routes();
 
-Route::get('/home', 'HomeController@index')->name('home');
+
+

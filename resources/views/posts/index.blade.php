@@ -1,37 +1,29 @@
-<!DOCTYPE html>
-<html lang="{{ str_replace('_', '-', app()->getLocale()) }}">
-    <head>
-        <meta charset="utf-8">
-        <meta name="viewport" content="width=device-width, initial-scale=1">
+<head>
+    <style>
+        .post{
+            /*text-align: center;*/
+        }
+        .user_name{
+            float: left;
+    </style>
+</head>
+@extends('layouts.app')
+@section('content')
 
-        <title>Blog</title>
+<h1>アウトプット投稿・質問画面</h1>
+<div class="post">
+    @foreach($posts as $post)
+        <div >
+            <p class="user_name">Uesr Name:{{ $post->user->name }}</p>
+            <p class="post_title">Title:{{ $post->title }}</p>
+            <p class="post_body">Post:{{ $post->body }}</p>
+            <p><a href="/comments/{{ $post->id }}">コメント</a></p>
+        </div>
+    @endforeach
+</div>
 
-        <!-- Fonts -->
-        <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@200;600&display=swap" rel="stylesheet">
+<a href="/posts/create">投稿・質問画面</a>
+<!--<a href="/comments/create">コメントする</a>-->
 
-        <!-- Styles -->
-        
-    </head>
-    <body>
-        @extends('layouts.app')
-        @section('content')
-        <div>
-            {{Auth::user()->name}}
-        </div>
-        <h1>Blog Name</h1>
-        [<a href='/posts/create'>create</a>]
-        <div class='posts'>
-            @foreach ($posts as $post)
-            <div class='post'>
-                <a href='/posts/{{ $post->id }}'><h2 class='title'>{{ $post->title }}</h2></a>
-                <small>{{ $post->user->name }}</small>
-                <p class='body'>{{ $post->body }}</p>
-            </div>
-            @endforeach
-        </div>
-        <div class='paginate'>
-            {{ $posts->links() }}
-        </div>
-        @endsection
-    </body>
-</html>
+@endsection
+
