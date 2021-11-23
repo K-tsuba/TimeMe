@@ -7,26 +7,41 @@
         var min=0;
         var sec=0;
         function start_timer(){
-            if (start_click === false){
-                interval_id=setInterval(count_down, 1000);
-                start_click=true;
+            
+            var selectBox = document.getElementById('select_study_site');
+            var start_button = document.getElementById('start');
+            
+            if (selectBox.options[0].selected === false){
+                start_button.disabled = false;
                 
-                var select = document.getElementById('select_study_site');
-                var study_site_id = select.value;
+                if (start_click === false){
+                    
+                    interval_id=setInterval(count_down, 1000);
+                    start_click=true;
+                    
+                    var select = document.getElementById('select_study_site');
+                    var study_site_id = select.value;
+                    
+                    var token = document.getElementsByName('csrf-token').item(0).content;
+                    var request = new XMLHttpRequest();
+        
+                    request.open('post', '/times/start_store/'+study_site_id, true);
+                    request.responseType = 'json';
+                    request.setRequestHeader('X-CSRF-Token', token);
+                    request.onload = function () {
+                        var data = this.response;
+                        console.log(data);
+                    };
+                    request.setRequestHeader('Content-type', 'application/x-www-form-urlencoded');
+                    request.send("status=start");
+                }
                 
-                var token = document.getElementsByName('csrf-token').item(0).content;
-                var request = new XMLHttpRequest();
-    
-                request.open('post', '/times/start_store/'+study_site_id, true);
-                request.responseType = 'json';
-                request.setRequestHeader('X-CSRF-Token', token);
-                request.onload = function () {
-                    var data = this.response;
-                    console.log(data);
-                };
-                request.setRequestHeader('Content-type', 'application/x-www-form-urlencoded');
-                request.send("status=start");
+            } else {
+                alert("学習するサイトを選択してください。");
+                start_click=false;
             }
+            
+            
         }
         function count_down(){
             time++;
@@ -72,9 +87,9 @@
     </script>
     <style>
         .register{
-            float: right;
+            /*float: right;*/
             margin-right: 600px;
-            /*margin: auto;*/
+            margin: auto;
             width: 400px;
         }
         .study_title{
@@ -84,10 +99,12 @@
             float: left;
         }
         .own_study_site{
-            margin-left: 300px;
+            float: left;
+            margin-left: 350px;
         }
         .select_study_site{
             margin-top: 10px;
+            /*float: left;*/
         }
         .display{
             font-size: 100px;

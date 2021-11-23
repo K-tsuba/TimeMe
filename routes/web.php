@@ -35,6 +35,7 @@ Route::group(['middleware' => 'auth'], function(){
     Route::delete('/times/{time}', 'TimeController@delete');
     
     Route::get('/user/{study_site_id}', 'UserController@index');
+    // Route::get('/search', 'UserController@index');
     
     Route::post('/study_sites/store', 'StudySiteController@store'); //サイトのtitleとurlを保存
     Route::get('/ranking', 'TimeController@ranking');
