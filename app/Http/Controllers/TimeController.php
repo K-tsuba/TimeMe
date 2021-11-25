@@ -116,7 +116,7 @@ class TimeController extends Controller
         
         return view('times/ranking')->with([
             'times' => $ranking,
-            'sum_this_weeks' => $sum_this_week
+            // 'sum_this_weeks' => $sum_this_week
         ]);
     }
 }
