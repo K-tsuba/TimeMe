@@ -57,8 +57,33 @@ class TimeController extends Controller
 
     public function show(Time $time)
     {
+        function _get_sum_time($source_time, $add_time) {
+            $source_times = explode(":", $source_time);
+            $add_times = explode(":", $add_time);
+            return date("H:i:s", mktime($source_times[0] + $add_times[0], $source_times[1] + $add_times[1], $source_times[2] + $add_times[2]));
+        };
+        
+        $Times_data = array();
+        $i = 0;
+        
         $Users = User::get(['id']);
         // dd($Users);
+        foreach ($Users as $user_id){
+            $Times = Time::where('user_id', $user_id['id'])->get();
+            $Times_data[$i] = array('time'=>$Times);
+            $i++;
+        }
+            // dd($Times_data);
+            // dd($Times);
+        $initial_time = "00:00:00";
+        $sum_time = "00:00:00";
+        
+        foreach ($Times_data as $addend){
+            $sum_time = _get_sum_time($sum_time, _get_sum_time($initial_time, $addend['time']));
+        };
+        
+        
+    
         
         // dd($User[0]['id']);
         // $Time = Time::where('user_id', $User[0]['id'])->get(['time']);
@@ -73,7 +98,7 @@ class TimeController extends Controller
         foreach ($Users as $user_id){
             $Time = Time::where('user_id', $user_id['id'])->get();
         };
-        dd($Time);
+        // dd($Time);
         
         return view('times/show')->with(['times' => $time->getTimes()]);
     }

@@ -1,6 +1,28 @@
 <head>
     <style>
-        
+        .day_of_week{
+            float: left;
+            clear: both;
+            margin-left: 10%;
+        }
+        .time{
+            float: left;
+            margin-left: 20px;
+        }
+        .edit{
+            float: left;
+            margin-left: 20px;
+        }
+        .delete{
+            float: left;
+            margin-left: 20px;
+            /*clear: both;*/
+        }
+        .table{
+            /*clear: both;*/
+            float: right;
+            /*margin-left: 20px;*/
+        }
     </style>
 </head>
 
@@ -9,47 +31,65 @@
 <div>
     <h1>Study Site : {{ $own_study_site->study_title }}</h1>
 </div>
+
+<div>
+    <h2>今までの合計時間{{ $all_sum }}</h2>
+</div>
+
 <div>
     <h2>今週の学習時間</h2>
     @foreach($own_study_sites as $study_site)
-        <div>{{ $week[date('w', strtotime($study_site->updated_at))] }}</div>
-        <div>
+        <div class="day_of_week">{{ $week[date('w', strtotime($study_site->updated_at))] }}</div>
+        <div class="time">
             <p>Time : {{ $study_site->time }}</p>
         </div>
-        <p><a href="/user/{{ $study_site->id }}/edit">edit</a></p>
-        <form action="/user/{{ $study_site->id }}" id="form_{{ $study_site->id }}" method="post" style="display:inline">
-            @csrf
-            @method('delete')
-            <button type="submit">delete</button>
-        </form>
+        <div class="edit"><a href="/user/{{ $study_site->id }}/edit">edit</a></div>
+        <div class="delete">
+            <form action="/user/{{ $study_site->id }}" id="form_{{ $study_site->id }}" method="post" style="display:inline">
+                @csrf
+                @method('delete')
+                <button type="submit">delete</button>
+            </form>
+        </div>
     @endforeach
 </div>
-<div>
-    今週の合計時間{{ $sum_this_week }}
-</div>
-<div>
-    今月の合計時間{{ $this_month_sum }}
-</div>
-<div>
-    今までの合計時間{{ $all_sum }}
-</div>
-<div>
-    {{ $today->startOfMonth()->month }}月の第{{ $today->startOfMonth()->weekOfMonth }}週の学習時間の合計:{{ $first_week_sum }}
-</div>
-<div>
-    {{ $today->startOfMonth()->month }}月の第{{ $today->startOfMonth()->addWeek()->weekOfMonth }}週の学習時間の合計:{{ $second_week_sum }}
-</div>
-<div>
-    {{ $today->startOfMonth()->month }}月の第{{ $today->startOfMonth()->addWeek(2)->weekOfMonth }}週の学習時間の合計:{{ $third_week_sum }}
-</div>
-<div>
-    {{ $today->startOfMonth()->month }}月の第{{ $today->startOfMonth()->addWeek(3)->weekOfMonth }}週の学習時間の合計:{{ $fourth_week_sum }}
-</div>
-<div>
-    {{ $today->startOfMonth()->month }}月の第{{ $today->startOfMonth()->addWeek(4)->weekOfMonth }}週の学習時間の合計:{{ $fifth_week_sum }}
+
+<div class="table">
+    <table>
+        <tr>
+            <th>今週の合計時間</th>
+            <th>{{ $sum_this_week }}</th>
+        </tr>
+        <tr>
+            <th>今月の合計時間</th>
+            <th>{{ $this_month_sum }}</th>
+        </tr>
+        <tr>
+            <th>{{ $today->startOfMonth()->month }}月の第{{ $today->startOfMonth()->weekOfMonth }}週の学習時間の合計</th>
+            <th>{{ $first_week_sum }}</th>
+        </tr>
+        <tr>
+            <th>{{ $today->startOfMonth()->month }}月の第{{ $today->startOfMonth()->addWeek()->weekOfMonth }}週の学習時間の合計</th>
+            <th>{{ $second_week_sum }}</th>
+        </tr>
+        <tr>
+            <th>{{ $today->startOfMonth()->month }}月の第{{ $today->startOfMonth()->addWeek(2)->weekOfMonth }}週の学習時間の合計</th>
+            <th>{{ $third_week_sum }}</th>
+        </tr>
+        <tr>
+            <th>{{ $today->startOfMonth()->month }}月の第{{ $today->startOfMonth()->addWeek(3)->weekOfMonth }}週の学習時間の合計</th>
+            <th>{{ $fourth_week_sum }}</th>
+        </tr>
+        <tr>
+            <th>{{ $today->startOfMonth()->month }}月の第{{ $today->startOfMonth()->addWeek(4)->weekOfMonth }}週の学習時間の合計</th>
+            <th>{{ $fifth_week_sum }}</th>
+        </tr>
+    </table>
 </div>
 
-<form method="get" action="/search">
+
+
+<form method="get" action="/user/{{ $own_study_site->id }}">
     @csrf
     <div>
         <p>過去の学習時間の表示</p>
@@ -62,7 +102,7 @@
     </div>
     <div>
         <select name="month">
-            @for($i=0; $i<13; $i++)
+            @for($i=1; $i<13; $i++)
                 <option value="{{ $i }}">{{ $i }}月</option>
                 <!--<option></option>-->
             @endfor
@@ -74,29 +114,15 @@
 </form>
 
 <div>
-    @if(!empty($data))
-        @foreach($data as $time)
+    @if(!empty($datas))
+        @foreach($datas as $time)
             <p>{{ $time }}</p>
         @endforeach
     @endif
 </div>
 
-<!--<p>{{ $data }}</p>-->
+<!--<p>{{-- $data --}}</p>-->
 
-<div>
-    先月の学習時間を合計で表示
-</div>
-<div>
-    先々月の合計を表示
-</div>
-<div>
-    3か月の合計を表示
-</div>
-<div>
-    半年の合計
-</div>
-<div>
-    1年間の合計を表示
-</div>
+
 <div class="back"><a href="/">back</a></div>
 @endsection

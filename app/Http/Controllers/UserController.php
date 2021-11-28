@@ -101,20 +101,31 @@ class UserController extends Controller
         };
         // dd($this_month_sum);
         
-        $query = Time::query();
+        
+        $Time = Time::orderBy('updated_at', 'desc')->get();
+        // dd($Time);
         // $query = User::query();
         // dd($query);
         $year = $request->input('year');
-        // dd($year);
         $month = $request->input('month');
+
+        // if($request->has('year') && $year != null){
+        //     $query->where('updated_at', $year)->get();
+        //     if($request->has('month') && $month != null){
+        //         $query->where('updated_at', $month)->get();
+        //     }
+        // }
+        if ($year !== null){
+            $Time->whereYear('updated_at', $year)->get();
+            if ($month !== null){
+                $Time->whereMonth('updated_at', $month)->get();
+            }
+        }
         
-        if($request->has('year') && $year != null){
-            $query->where('updated_at', $year)->get();
-        }
-        if($request->has('month') && $month != null){
-            $query->where('updated_at', $month)->get();
-        }
-        $data = $query->get();
+        // $data = $query->whereYear('updated_at', $year)->get();
+        
+        $data = $Time->get();
+        dd($data);
         
         
         
@@ -152,7 +163,7 @@ class UserController extends Controller
             'fifth_week_sum' => $fifth_week_sum,
             'this_month_sum' => $this_month_sum,
             'all_sum' => $all_sum,
-            'data' => $data
+            'datas' => $data
         ]);
         // dd(user());
     }

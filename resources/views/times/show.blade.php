@@ -42,36 +42,36 @@
     @endforeach
 </div>
 <p>今週の学習時間ランキング</p>
-<table>
-    <tr>
-        <th>順位</th>
-        <th>名前</th>
-        <th>Time</th>
-    </tr>
-    @foreach($times as $time)
-    <tr>
-        <td>{{ $loop->iteration }}</td>
-        <td>{{ $time->user->name }}</td>
-        <td>{{ $time->time }}</td>
-    </tr>
-    @endforeach
-</table>
+<!--<table>-->
+<!--    <tr>-->
+<!--        <th>順位</th>-->
+<!--        <th>名前</th>-->
+<!--        <th>Time</th>-->
+<!--    </tr>-->
+<!--    {{--@foreach($times as $time)-->
+<!--    <tr>-->
+<!--        <td>{{ $loop->iteration }}</td>-->
+<!--        <td>{{ $time->user->name }}</td>-->
+<!--        <td>{{ $time->time }}</td>-->
+<!--    </tr>-->
+<!--    @endforeach--}}-->
+<!--</table>-->
 
 <p>今月の学習時間ランキング</p>
-<table>
-    <tr>
-        <th>順位</th>
-        <th>名前</th>
-        <th>Time</th>
-    </tr>
-    @foreach($sum_this_weeks as $sum_this_week)
-    <tr>
-        <td>{{ $loop->iteration }}</td>
-        <td>{{ $sum_this_week->user->name }}</td>
-        <td>{{ $sum_this_week->time }}</td>
-    </tr>
-    @endforeach
-</table>
+<!--<table>-->
+<!--    <tr>-->
+<!--        <th>順位</th>-->
+<!--        <th>名前</th>-->
+<!--        <th>Time</th>-->
+<!--    </tr>-->
+<!--    {{--@foreach($sum_this_weeks as $sum_this_week)-->
+<!--    <tr>-->
+<!--        <td>{{ $loop->iteration }}</td>-->
+<!--        <td>{{ $sum_this_week->user->name }}</td>-->
+<!--        <td>{{ $sum_this_week->time }}</td>-->
+<!--    </tr>-->
+<!--    @endforeach--}}-->
+<!--</table>-->
 
 <div class="back">{<a href="/">back</a>}</div>
 @endsection

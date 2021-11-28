@@ -11,7 +11,7 @@
             if(xhr.readyState === 4 && xhr.status === 200){
                 var json = JSON.parse(xhr.responseText);
                 var html = "";
-                var thumnail = "";
+                var thumbnail = "";
                 var videoid = "";
                 var title = "";
                 for (var i=0; i<json.items.length; i++){

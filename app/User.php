@@ -51,6 +51,10 @@ class User extends Authenticatable
     {
         return $this->hasMany('App\Post');
     }
+    public function replies()
+    {
+        return $this->hasMany('App\Reply');
+    }
     public function getOwnTimes()
     {
         // dd($this->times()->get());

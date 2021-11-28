@@ -1,9 +1,9 @@
 @extends('layouts.app')
 @section('content')
 
-<div>
-    {{Auth::user()->name}}
-</div>
+<!--<div>-->
+    {{--Auth::user()->name--}}
+<!--</div>-->
 <div>
     <h2>Post</h2>
     <small>User name   {{ $post->user->name }}</small>
@@ -29,7 +29,8 @@
             @foreach($comment->replies as $reply)
                 <div>
                     <p>返信内容</p>
-                    <p>{{ $reply->reply }}</p>
+                    <p>User Name:{{ $reply->user->name }}</p>
+                    <p>Reply:{{ $reply->reply }}</p>
                 </div>
             @endforeach
         @endif

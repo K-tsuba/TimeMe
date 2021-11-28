@@ -1,5 +1,8 @@
 <head>
     <script>
+        
+        
+        
     
         var interval_id;
         var start_click=false;
@@ -20,6 +23,9 @@
                     interval_id=setInterval(count_down, 1000);
                     start_click=true;
                     
+                    document.getElementById("stop").disabled = false;
+                    document.getElementById("reset").disabled = false;
+                    
                     var select = document.getElementById('select_study_site');
                     var study_site_id = select.value;
                     
@@ -32,8 +38,10 @@
                     request.onload = function () {
                         var data = this.response;
                         console.log(data);
+                        console.log(start_click);
                     };
                     request.setRequestHeader('Content-type', 'application/x-www-form-urlencoded');
+                    
                     request.send("status=start");
                 }
                 
@@ -44,6 +52,18 @@
             
             
         }
+        
+        function hoge(event) {
+            if (start_click === true) {
+                event = event || window.event;
+                return event.returnValue = '表示させたいメッセージ';
+            }
+        }
+        
+        if (window.addEventListener) {
+            window.addEventListener('beforeunload', hoge, false);
+        }
+        
         function count_down(){
             time++;
             hour=Math.floor(time/3600);
@@ -88,8 +108,10 @@
         
         
         var apikey = 'AIzaSyCRj1tsmPrdQa7NC3TWwrVlDdpwUzQntSw';
+        //AIzaSyCRj1tsmPrdQa7NC3TWwrVlDdpwUzQntSw
         var channelid = 'UCHrjqpLwUNY4BV017sq21Tw';
-        var maxresults = '5';
+        //UCHrjqpLwUNY4BV017sq21Tw
+        var maxresults = '1';
         var url = 'https://www.googleapis.com/youtube/v3/search?part=snippet&channelId='+channelid+'&maxResults='+maxresults+'&order=date&type=video&key='+apikey;
         var xhr = new XMLHttpRequest();
         xhr.open('get', url);
@@ -105,41 +127,83 @@
                     thumbnail = json.items[i].snippet.thumbnails.default.url;
                     videoid = json.items[i].id.videoId;
                     title = json.items[i].snippet.title;
-                    html += '<a href="https://www.youtube.com/watch?v='+videoid+'" target="_blank"><img src="'+thumbnail+'"><br>'+title+'<br>';
+                    html += '<div class="youtube_box"><a href="https://www.youtube.com/watch?v='+videoid+'" target="_blank"><img src="'+thumbnail+'"><br>'+title+'<br></div>';
                 }
                 document.getElementById('youtubeList').innerHTML = html;
             }
         }
+        
+        
     </script>
     <style>
-        /*.register{*/
-            /*float: right;*/
-        /*    margin-right: 600px;*/
-        /*    margin: auto;*/
-        /*    width: 400px;*/
-        /*}*/
-        /*.study_title{*/
+        .parent{
+            /*overflow:hidden;*/
+            /*height:100%;*/
+            /*background-color: gray;*/
+            /*border: 1px;*/
+            /*min-width: 500px;*/
+            /*background-color: blue;*/
+            /*text-align: center;*/
+            margin: auto;
+            /*display: block;*/
+            width: 90%;
+            /*margin-left: 100px;*/
+        }
+        .own_study_site{
+            float: left;
+            width: 20%;
+            /*margin-left: 20%;*/
+        }
+        .study_register{
+            float: left;
+            width: 50%;
+            /*margin-left: 1%;*/
+            /*margin-right: 600px;*/
+            /*margin: auto;*/
+            /*width: 400px;*/
+        }
+        .study_title{
+            float:left;
+        }
+        .study_site{
+            float:left;
+            margin-left: 10px;
+        }
+        .save_button{
+            float:left;
+            width: 50px;
+            margin-left: 10px;
+            margin-top: 38px;
+        }
+        .select_study_site{
+            margin-top: 50px;
+            clear: both;
+        }
+        .display{
+            font-size: 200px;
+            /*width: 300px;*/
+            margin: 0;
+        }
+        .start,.stop,.reset{
+            padding: 10px 30px;
+            font-size: 20px;
+            margin-left: 20px;
+        }
+        .youtubelist{
+            float: left;
+            /*margin-top: 100px;*/
+            width: 20%;
+            /*margin-left: 300px;*/
+        }
+        /*.youtube_box{*/
         /*    float: left;*/
+        /*    width: 200px;*/
+        /*    clear: both;*/
         /*}*/
-        /*.study_site{*/
-        /*    float: left;*/
-        /*}*/
-        /*.own_study_site{*/
-        /*    float: left;*/
-        /*    margin-left: 350px;*/
-        /*}*/
-        /*.select_study_site{*/
-        /*    margin-top: 10px;*/
-            /*float: left;*/
-        /*}*/
-        /*.display{*/
-        /*    font-size: 100px;*/
-        /*}*/
-        /*.start,.stop,.reset{*/
-        /*    padding: 10px 30px;*/
-        /*    font-size: 20px;*/
-        /*    margin-left: 20px;*/
-        /*}*/
+        
+        
+        
+        
     </style>
 </head>
 @extends('layouts.app')
@@ -149,16 +213,16 @@
 <!--    {{--Auth::user()->name--}}-->
 <!--</div>-->
 
-<div class="container-fluid">
-    <div class="row">
+<div class="">
+    <div class="parent">
         
-        <div class="col-3　w-25">
+        <div class="own_study_site">
             <h2>Own Study Site</h2>
             <div>
                 @foreach($study_sites as $study_site)
                     <div>
                         <p>{{ $study_site->study_title }}</p>
-                        <p>{{ $study_site->study_site }}</p>
+                        <p><a href="{{ $study_site->study_site }}" target="_blank">{{ $study_site->study_site }}</a></p>
                     </div>
                     
                 @endforeach
@@ -169,55 +233,57 @@
                 <option value="/user/{{ $study_site->id }}" >{{ $study_site->study_title }}</option>
                 @endforeach
             </select>
+            <div>
+                <a href="/times/show">学習時間一覧</a>
+                <a href="/posts">投稿・質問画面</a>
+                <div class="back"><a href="/">back</a></div>
+            </div>
+            
         </div>
         
         
-        <div class="col-6 w-25">
+        <div class="study_register">
             <h2 class="">勉強するサイトの登録</h2>
             <div class="">
                 <form action="/study_sites/store" method="post">
                     @csrf
-                    <div class="form-row">
-                        <div class="col-3">
+                    <div class="">
+                        <div class="study_title">
                             <h3>Study title</h3>
                             <input type="text" name="study_title" placeholder="タイトル">
                         </div>
-                        <div class="col-3">
+                        <div class="study_site">
                             <h3>Study site</h3>
                             <input type="text" name="study_site" placeholder="urlを記入">
                         </div>
-                        <div class="col">
+                        <div class="save_button">
                             <input type="submit" value="save">
                         </div>
                     </div>
                 </form>
             </div>
-            
-            <select id="select_study_site" class="select_study_site">
-                <option selected>学習するサイトを選択</option>
-                @foreach($study_sites as $study_site)
-                <option value="{{ $study_site->id }}" >{{ $study_site->study_title }}</option>
-                @endforeach
-            </select>
-            
-            <p id="display" class="display">00:00:00</p>
+            <div class="select_study_site">
+                <select id="select_study_site">
+                    <option selected>学習するサイトを選択</option>
+                    @foreach($study_sites as $study_site)
+                    <option value="{{ $study_site->id }}" >{{ $study_site->study_title }}</option>
+                    @endforeach
+                </select>
+            </div>
+            <div>
+                <p id="display" class="display">0:0:0</p>
+            </div>
             <button id="start" class="start">start</button>
-            <button id="stop" class="stop">stop</button>
-            <button id="reset" class="reset">reset</button>
+            <button id="stop" class="stop" disabled>stop</button>
+            <button id="reset" class="reset" disabled>reset</button>
             
         </div>
         
-        <div class="col-3 w-25">
-            <div id="youtubeList"></div>
+        <div class="youtubelist">
+            <div id="youtubeList" class=""></div>
         </div>
         
     </div>
 </div>
 
-
-<a href="/times/show">学習時間一覧</a>
-<!--<a href="/user">自分の学習時間</a>-->
-<a href="/posts">投稿・質問画面</a>
-
-<div class="back"><a href="/">back</a></div>
 @endsection
