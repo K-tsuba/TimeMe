@@ -2,7 +2,7 @@
     <script>
         var apikey = 'AIzaSyCRj1tsmPrdQa7NC3TWwrVlDdpwUzQntSw';
         var channelid = 'UCHrjqpLwUNY4BV017sq21Tw';
-        var maxresults = '5';
+        var maxresults = '1';
         var url = 'https://www.googleapis.com/youtube/v3/search?part=snippet&channelId='+channelid+'&maxResults='+maxresults+'&order=date&type=video&key='+apikey;
         var xhr = new XMLHttpRequest();
         xhr.open('get', url);
@@ -45,5 +45,12 @@
     </table>
     
     <div id="youtubeList"></div>
+    
+    <div>
+        <form action="/ranking/tweet" method="post">
+            <input type="text" value="">
+            <input type="submit" value="tweet">
+        </form>
+    </div>
     
 @endsection

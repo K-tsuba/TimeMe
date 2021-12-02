@@ -16,8 +16,10 @@ class UserController extends Controller
     public function index(User $user, Request $request, $study_site_id)
     {
         $today = Carbon::today();
+        // dd($today);
         //今週1週間のtimesを取得
         $time = Time::whereDate('created_at', '>=', $today->startOfWeek())->where('study_site_id', $study_site_id)->get();
+        // dd($time);
         //表示する学習サイトを取得
         $study_site = StudySite::where('id', $study_site_id)->first();
 
@@ -27,7 +29,7 @@ class UserController extends Controller
             return date("H:i:s", mktime($source_times[0] + $add_times[0], $source_times[1] + $add_times[1], $source_times[2] + $add_times[2]));
         };
         //今週1週間の時間だけを取得
-        $this_week_times = Time::whereDate('created_at', '>=', $today->startOfWeek())->where('study_site_id', $study_site_id)->get(['time']);
+        $this_week_times = Time::whereDate('created_at', '>=', Carbon::today()->startOfWeek())->where('study_site_id', $study_site_id)->get(['time']);
         // dd($this_week_times);
         $initial_time = "00:00:00";
         $sum_this_week = "00:00:00";
@@ -48,7 +50,7 @@ class UserController extends Controller
         
         //第1週目
         $first_week_times = Time::whereBetween('updated_at', [$first_week, $second_week])->where('study_site_id', $study_site_id)->get(['time']);
-        $initial_time = "00:00:00";
+        // $initial_time = "00:00:00";
         $first_week_sum = "00:00:00";
         foreach ($first_week_times as $addend){
             $first_week_sum = _get_sum_time($first_week_sum, _get_sum_time($initial_time, $addend['time']));
@@ -56,14 +58,14 @@ class UserController extends Controller
         // dd($first_week_sum);
         //第2週目
         $second_week_times = Time::whereBetween('updated_at', [$second_week, $third_week])->where('study_site_id', $study_site_id)->get(['time']);
-        $initial_time = "00:00:00";
+        // $initial_time = "00:00:00";
         $second_week_sum = "00:00:00";
         foreach ($second_week_times as $addend){
             $second_week_sum = _get_sum_time($second_week_sum, _get_sum_time($initial_time, $addend['time']));
         };
         //第3週目
         $third_week_times = Time::whereBetween('updated_at', [$third_week, $fourth_week])->where('study_site_id', $study_site_id)->get(['time']);
-        $initial_time = "00:00:00";
+        // $initial_time = "00:00:00";
         $third_week_sum = "00:00:00";
         foreach ($third_week_times as $addend){
             $third_week_sum = _get_sum_time($third_week_sum, _get_sum_time($initial_time, $addend['time']));
@@ -71,7 +73,7 @@ class UserController extends Controller
         // dd($third_week_sum);
         //第4週目
         $fourth_week_times = Time::whereBetween('updated_at', [$fourth_week, $fifth_week])->where('study_site_id', $study_site_id)->get(['time']);
-        $initial_time = "00:00:00";
+        // $initial_time = "00:00:00";
         $fourth_week_sum = "00:00:00";
         foreach ($fourth_week_times as $addend){
             $fourth_week_sum = _get_sum_time($fourth_week_sum, _get_sum_time($initial_time, $addend['time']));
@@ -79,7 +81,7 @@ class UserController extends Controller
         // dd($fourth_week_sum);
         //第5週目
         $fifth_week_times = Time::whereBetween('updated_at', [$fifth_week, $six_week])->where('study_site_id', $study_site_id)->get(['time']);
-        $initial_time = "00:00:00";
+        // $initial_time = "00:00:00";
         $fifth_week_sum = "00:00:00";
         foreach ($fifth_week_times as $addend){
             $fifth_week_sum = _get_sum_time($fifth_week_sum, _get_sum_time($initial_time, $addend['time']));
@@ -87,14 +89,15 @@ class UserController extends Controller
         
         //全部の合計時間
         $all_times = Time::where('study_site_id', $study_site_id)->get(['time']);
-        $initial_time = "00:00:00";
+        // $initial_time = "00:00:00";
         $all_sum = "00:00:00";
         foreach ($all_times as $addend){
             $all_sum = _get_sum_time($all_sum, _get_sum_time($initial_time, $addend['time']));
         };
+        
         //今月の合計時間
         $this_month_times = Time::whereMonth('updated_at', Carbon::today()->month)->where('study_site_id', $study_site_id)->get(['time']);
-        $initial_time = "00:00:00";
+        // $initial_time = "00:00:00";
         $this_month_sum = "00:00:00";
         foreach ($this_month_times as $addend){
             $this_month_sum = _get_sum_time($this_month_sum, _get_sum_time($initial_time, $addend['time']));
@@ -102,53 +105,41 @@ class UserController extends Controller
         // dd($this_month_sum);
         
         
-        $Time = Time::orderBy('updated_at', 'desc')->get();
+        
+        // $Time = Time::orderBy('updated_at', 'desc')->where('user_id', Auth::user()->id);
+        $Time = Time::orderBy('updated_at', 'desc')->where('study_site_id', $study_site_id);
         // dd($Time);
         // $query = User::query();
         // dd($query);
         $year = $request->input('year');
         $month = $request->input('month');
-
+        
         // if($request->has('year') && $year != null){
         //     $query->where('updated_at', $year)->get();
         //     if($request->has('month') && $month != null){
         //         $query->where('updated_at', $month)->get();
         //     }
         // }
+        // $year = '2021';
+        // $month = '11';
         if ($year !== null){
-            $Time->whereYear('updated_at', $year)->get();
+            $Time = $Time->whereYear('updated_at', $year);
             if ($month !== null){
-                $Time->whereMonth('updated_at', $month)->get();
+                $Time = $Time->whereMonth('updated_at', $month);
             }
         }
         
-        // $data = $query->whereYear('updated_at', $year)->get();
-        
         $data = $Time->get();
-        dd($data);
+        // dd($data);
+        // $data = $query->whereYear('updated_at', $year)->get();
+        $initial_time = "00:00:00";
+        $month_sum = "00:00:00";
+        foreach ($data as $addend){
+            
+            $month_sum = _get_sum_time($month_sum, _get_sum_time($initial_time, $addend['time']));
+        };
         
-        
-        
-        // $Users = User::get();
-        // dd($Users);
-        // // dd($User[0]['id']);
-        // // $Time = Time::where('user_id', $User[0]['id'])->get(['time']);
-        // // dd($Time);
-        // // $initial_time = "00:00:00";
-        // // $User_0_sum = "00:00:00";
-        // // foreach ($Time as $addend){
-        // //     $User_0_sum = _get_sum_time($User_0_sum, _get_sum_time($initial_time, $addend['time']));
-        // // };
-        // // $Times = $Time['time'];
-        // // dd($User_0_sum);
-        // foreach ($Users as $user_id){
-        //     $Time = Time::where('user_id', $user_id['id'])->get(['time']);
-        // };
-        // dd($Time);
-        
-        
-        
-        
+        $today = Carbon::today();
 
         return view('User/index')->with([
             'own_study_sites' => $time,
@@ -163,7 +154,9 @@ class UserController extends Controller
             'fifth_week_sum' => $fifth_week_sum,
             'this_month_sum' => $this_month_sum,
             'all_sum' => $all_sum,
-            'datas' => $data
+            'month_sum' => $month_sum,
+            'year' => $year,
+            'month' => $month
         ]);
         // dd(user());
     }

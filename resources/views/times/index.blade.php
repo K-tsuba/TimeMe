@@ -23,6 +23,7 @@
                     interval_id=setInterval(count_down, 1000);
                     start_click=true;
                     
+                    document.getElementById("start").disabled = true;
                     document.getElementById("stop").disabled = false;
                     document.getElementById("reset").disabled = false;
                     
@@ -95,7 +96,7 @@
             var min=0;
             var sec=0;
             var reset=document.getElementById('display');
-            reset.innerHTML='00:00:00';
+            reset.innerHTML='0:0:0';
         }
         window.onload=function(){
             var start=document.getElementById('start');
@@ -137,6 +138,7 @@
     </script>
     <style>
         .parent{
+            border: 1px solid;
             /*overflow:hidden;*/
             /*height:100%;*/
             /*background-color: gray;*/
@@ -144,6 +146,8 @@
             /*min-width: 500px;*/
             /*background-color: blue;*/
             /*text-align: center;*/
+            /*max-width: 1350px;*/
+            
             margin: auto;
             /*display: block;*/
             width: 90%;
@@ -151,19 +155,38 @@
         }
         .own_study_site{
             float: left;
-            width: 20%;
+            width: 40%;
+            border: 1px solid;
+            /*max-width: 705px;*/
+            min-width: 337px;
+            /*margin-left: 10%;*/
             /*margin-left: 20%;*/
         }
-        .study_register{
+        .box_site_list{
+            margin-left: 10%;
+        }
+        .time{
             float: left;
-            width: 50%;
+            width: 60%;
+            border: 1px solid;
+            max-width: 100%;
+            min-width: 675px;
+            /*margin-left: 10%;*/
+            /*text-align: center;*/
             /*margin-left: 1%;*/
             /*margin-right: 600px;*/
             /*margin: auto;*/
             /*width: 400px;*/
         }
+        .register_study_site{
+            margin-left: 10%;
+        }
+        .title_register{
+            /*margin-left: 10%;*/
+        }
         .study_title{
             float:left;
+            /*margin-left: 10%;*/
         }
         .study_site{
             float:left;
@@ -176,24 +199,32 @@
             margin-top: 38px;
         }
         .select_study_site{
-            margin-top: 50px;
+            margin-top: 100px;
+            margin-left: 10%;
             clear: both;
         }
         .display{
             font-size: 200px;
+            text-align: center;
             /*width: 300px;*/
             margin: 0;
         }
         .start,.stop,.reset{
             padding: 10px 30px;
             font-size: 20px;
-            margin-left: 20px;
+            /*margin-left: 20px;*/
+            margin-left: 10%;
         }
         .youtubelist{
             float: left;
             /*margin-top: 100px;*/
-            width: 20%;
+            width: 40%;
+            border: 1px solid;
+            min-width: 337px;
             /*margin-left: 300px;*/
+        }
+        .box_youtube{
+            margin-left: 10%;
         }
         /*.youtube_box{*/
         /*    float: left;*/
@@ -216,53 +247,36 @@
 <div class="">
     <div class="parent">
         
-        <div class="own_study_site">
-            <h2>Own Study Site</h2>
-            <div>
-                @foreach($study_sites as $study_site)
-                    <div>
-                        <p>{{ $study_site->study_title }}</p>
-                        <p><a href="{{ $study_site->study_site }}" target="_blank">{{ $study_site->study_site }}</a></p>
-                    </div>
-                    
-                @endforeach
-            </div>
-            <select onChange="location.href=value;">
-                <option selected>自分の学習時間の表示</option>
-                @foreach($study_sites as $study_site)
-                <option value="/user/{{ $study_site->id }}" >{{ $study_site->study_title }}</option>
-                @endforeach
-            </select>
-            <div>
-                <a href="/times/show">学習時間一覧</a>
-                <a href="/posts">投稿・質問画面</a>
-                <div class="back"><a href="/">back</a></div>
+        
+        
+        
+        
+        
+        <div class="time">
+            <div class="register_study_site">
+                <h2 class="title_register">勉強するサイトの登録</h2>
+                <div class="">
+                    <form action="/study_sites/store" method="post">
+                        @csrf
+                        <div class="">
+                            <div class="study_title">
+                                <h3>Study title</h3>
+                                <input type="text" name="study_title" placeholder="タイトル">
+                            </div>
+                            <div class="study_site">
+                                <h3>Study site</h3>
+                                <input type="text" name="study_site" placeholder="urlを記入">
+                            </div>
+                            <div class="save_button">
+                                <input type="submit" value="save">
+                            </div>
+                        </div>
+                    </form>
+                </div>
             </div>
             
-        </div>
-        
-        
-        <div class="study_register">
-            <h2 class="">勉強するサイトの登録</h2>
-            <div class="">
-                <form action="/study_sites/store" method="post">
-                    @csrf
-                    <div class="">
-                        <div class="study_title">
-                            <h3>Study title</h3>
-                            <input type="text" name="study_title" placeholder="タイトル">
-                        </div>
-                        <div class="study_site">
-                            <h3>Study site</h3>
-                            <input type="text" name="study_site" placeholder="urlを記入">
-                        </div>
-                        <div class="save_button">
-                            <input type="submit" value="save">
-                        </div>
-                    </div>
-                </form>
-            </div>
             <div class="select_study_site">
+                <h2>学習するサイトを選択</h2>
                 <select id="select_study_site">
                     <option selected>学習するサイトを選択</option>
                     @foreach($study_sites as $study_site)
@@ -279,10 +293,39 @@
             
         </div>
         
-        <div class="youtubelist">
-            <div id="youtubeList" class=""></div>
+        <div class="own_study_site">
+            <div class="box_site_list">
+                <h2>～Own Study Site～</h2>
+                <div>
+                    @foreach($study_sites as $study_site)
+                        <ul>
+                            <li>{{ $study_site->study_title }}</li>
+                            <p><a href="{{ $study_site->study_site }}" target="_blank">{{ $study_site->study_site }}</a></p>
+                        </ul>
+                        
+                    @endforeach
+                </div>
+            </div>
         </div>
         
+        <div class="youtubelist">
+            <div class="box_youtube">
+                <h2>～Refresh～</h2>
+                <div id="youtubeList" class=""></div>
+            </div>
+        </div>
+        
+    </div>
+    <select onChange="location.href=value;">
+        <option selected>自分の学習時間の表示</option>
+        @foreach($study_sites as $study_site)
+        <option value="/user/{{ $study_site->id }}" >{{ $study_site->study_title }}</option>
+        @endforeach
+    </select>
+    <div>
+        <a href="/times/show">学習時間一覧</a>
+        <a href="/posts">投稿・質問画面</a>
+        <div class="back"><a href="/">back</a></div>
     </div>
 </div>
 

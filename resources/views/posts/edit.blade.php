@@ -1,55 +1,65 @@
-<!DOCTYPE html>
-<html lang="{{ str_replace('_', '-', app()->getLocale()) }}">
-    <head>
-        <meta charset="utf-8">
-        <meta name="viewport" content="width=device-width, initial-scale=1">
+<head>
+    <style>
+        .parent{
+            border: 1px solid;
+            width: 70%;
+            margin: auto;
+        }
+        .edit_form{
+            border: 1px solid;
+            width: 90%;
+            margin: auto;
+            padding: 20px;
+        }
+        h2, .error{
+            margin-left: 3%;
+        }
+        .title_box, .body_box{
+            text-align: center;
+        }
+        .title{
+            width: 90%;
+        }
+        textarea {
+            resize: vertical;
+            width: 90%;
+            height: 100px;
+            /*text-align: center;*/
+            /*display: block;*/
+            /*margin: auto;*/
+        }
+        .save_button{
+            text-align: right;
+        }
+    </style>
+</head>
 
-        <title>Blog</title>
-
-        <!-- Fonts -->
-        <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@200;600&display=swap" rel="stylesheet">
-
-        <!-- Styles -->
-        
-    </head>
-    <body>
-        @extends('layouts.app')
-        @section('content')
+@extends('layouts.app')
+@section('content')
+<div class="parent">
+    <div class="edit_form">
         <h1 class="title">編集画面</h1>
         <div class="content">
-            <form action="/posts/{{ $post->id }}" method="POST">
+            <form action="/posts/{{ $post->id }}" method="post">
                 @csrf
-                @method('PUT')
-                <div class='content__title'>
-                    <h2>タイトル</h2>
-                    <input type='text' name='post[title]' value="{{ $post->title }}">
+                @method('put')
+                <div>
+                    <h2>Title</h2>
+                    <div class='title_box'>
+                        <input type='text' class="title" name='post[title]' value="{{ $post->title }}">
+                    </div>
                 </div>
-                <div class='content__body'>
-                    <h2>本文</h2>
-                    <input type='text' name='post[body]' value="{{ $post->body }}">
+                <h2>Body</h2>
+                <div class='body_box'>
+                    <textarea name="post[body]" placeholder="">{{ $post->body }}</textarea>
                 </div>
-                <input type="submit" value="保存">
+                <div class="save_button">
+                    <input type="submit" value="保存">
+                </div>
             </form>
-            <div class="back">{<a href="/">back</a>}</div>
         </div>
-        @endsection
-        
-        
-        <!--<h1>Blog Name</h1>-->
-        <!--<form action="/posts" method="POST">-->
-        <!--    @csrf-->
-        <!--    <div class="title">-->
-        <!--        <h2>Title</h2>-->
-        <!--        <input type="text" name="post[title]" placeholder="タイトル" value="{{ old('post.title') }}"/>-->
-        <!--        <p class="title__error" style="color:red">{{ $errors->first('post.title') }}</p>-->
-        <!--    </div>-->
-        <!--    <div class="body">-->
-        <!--        <h2>Body</h2>-->
-        <!--        <textarea name="post[body]" placeholder="今日も1日お疲れさまでした。">{{ old('post.body') }}</textarea>-->
-        <!--        <p class="body__error" style="color:red">{{ $errors->first('post.body') }}</p>-->
-        <!--    </div>-->
-        <!--    <input type="submit" value="保存"/>-->
-        <!--</form>-->
-        <!--<div class="back">[<a href="/">back</a>]</div>-->
-    </body>
-</html>
+    </div>
+</div>
+<div class="back">{<a href="/">back</a>}</div>
+@endsection
+

@@ -9,13 +9,17 @@ use Illuminate\Http\Request;
 use Carbon\Carbon;
 use Illuminate\Support\Facades\Auth;
 
+// use App\Http\Controllers\TwitterOAuth;
+use Abraham\TwitterOAuth\TwitterOAuth;
+
 
 class TimeController extends Controller
 {
     public function index(StudySite $study_site, Time $time)
     {
         return view('/times/index')->with([
-            'study_sites' => $study_site->getOwnStudySites()]);
+            'study_sites' => $study_site->getOwnStudySites() //Timeモデルじゃない所から関数を呼べるのか？
+        ]);
     }
     
     
@@ -24,11 +28,8 @@ class TimeController extends Controller
         $input = $request['status'];
         if ($input === 'start'){
             $time->user_id = Auth::user()->id;
-
             $time->start_time = new Carbon('now');
-            
             $time->study_site_id = $study_site->id;
-            
             $time->save();
             return redirect('/');
         } 
@@ -38,69 +39,80 @@ class TimeController extends Controller
     public function stop_store(Request $request, Time $time){
         $input = $request['status'];
         if ($input === 'stop'){
-            $user_id = Auth::user()->id;
-            $record = $time->where('user_id', $user_id)->latest('updated_at')->first();
-            $id = $record->id;
-            $time = Time::find($id);
+            $time = $time->getLatestTime();
             $time->stop_time = new Carbon('now');
-            $start_time = $record->start_time;
-            $start = strtotime($start_time);
-            $stop = strtotime('now');
-            $diff = $stop - $start;
-            $diff_time = gmdate('H:i:s', $diff);
-            $time->time = $diff_time;
+            $diff = strtotime('now') - strtotime($time->start_time);
+            $time->time = gmdate('H:i:s', $diff);
             $time->save();
             return redirect('/');
         }
-        // dd($request->all());
     }
 
     public function show(Time $time)
     {
+        //先週のランキング
         function _get_sum_time($source_time, $add_time) {
             $source_times = explode(":", $source_time);
             $add_times = explode(":", $add_time);
             return date("H:i:s", mktime($source_times[0] + $add_times[0], $source_times[1] + $add_times[1], $source_times[2] + $add_times[2]));
         };
         
-        $Times_data = array();
+        $last_week_data = array();
         $i = 0;
         
         $Users = User::get(['id']);
-        // dd($Users);
+
+        $last_monday = Carbon::today()->startOfWeek()->subDay(7)->toDateString();
+        $this_monday = Carbon::today()->startOfWeek()->toDateString();
+        
         foreach ($Users as $user_id){
-            $Times = Time::where('user_id', $user_id['id'])->get();
-            $Times_data[$i] = array('time'=>$Times);
+            // $last_week_times = Time::where('user_id', $user_id['id'])->whereBetween('updated_at', [$last_monday, $this_monday])->get();
+            $last_week_times = $time->where('user_id', $user_id['id'])->whereBetween('updated_at', [$last_monday, $this_monday])->get();
+            // $last_week_times = $time->lastWeekTimes();
+            $initial_time = "00:00:00";
+            $sum_time_week = "00:00:00";
+            
+            foreach ($last_week_times as $addend){
+                $sum_time_week = _get_sum_time($sum_time_week, _get_sum_time($initial_time, $addend['time']));
+            }
+            $last_week_data[$i] = array('sum'=>$sum_time_week);
             $i++;
         }
-            // dd($Times_data);
-            // dd($Times);
-        $initial_time = "00:00:00";
-        $sum_time = "00:00:00";
-        
-        foreach ($Times_data as $addend){
-            $sum_time = _get_sum_time($sum_time, _get_sum_time($initial_time, $addend['time']));
-        };
+
+        $week_data_order = collect($last_week_data)->sortByDesc('sum')->take(10);
         
         
-    
         
-        // dd($User[0]['id']);
-        // $Time = Time::where('user_id', $User[0]['id'])->get(['time']);
-        // dd($Time);
-        $initial_time = "00:00:00";
-        $User_0_sum = "00:00:00";
-        // foreach ($Time as $addend){
-        //     $User_0_sum = _get_sum_time($User_0_sum, _get_sum_time($initial_time, $addend['time']));
-        // };
-        // $Times = $Time['time'];
-        // dd($User_0_sum);
+        //先月のランキング
+        $last_month_data = array();
+        $i = 0;
+        
+        $Users = User::get(['id']);
+
+        $last_month = Carbon::today()->startOfMonth()->subMonth()->toDateString();
+        $this_month = Carbon::today()->startOfMonth()->toDateString();
+        
         foreach ($Users as $user_id){
-            $Time = Time::where('user_id', $user_id['id'])->get();
-        };
-        // dd($Time);
+            $last_month_times = Time::where('user_id', $user_id['id'])->whereBetween('updated_at', [$last_month, $this_month])->get();
+            // dd($last_month_times);
+            $initial_time = "00:00:00";
+            $sum_time_month = "00:00:00";
+            
+            foreach ($last_month_times as $addend){
+                $sum_time_month = _get_sum_time($sum_time_month, _get_sum_time($initial_time, $addend['time']));
+            }
+            $last_month_data[$i] = array('sum'=>$sum_time_month);
+            $i++;
+        }
+
+        $month_data_order = collect($last_month_data)->sortByDesc('sum')->take(10);
+
         
-        return view('times/show')->with(['times' => $time->getTimes()]);
+        return view('times/show')->with([
+            'times' => $time->getTimes(),
+            'week_ranking' => $week_data_order,
+            'month_ranking' => $month_data_order
+        ]);
     }
     public function edit(Time $time)
     {
@@ -109,8 +121,8 @@ class TimeController extends Controller
     public function update(Request $request, Time $time)
     {
         $edit_time = $request['time'];
-        $strtotime = strtotime($edit_time);
-        $time->time = date('H:i:s', $strtotime);
+        // $strtotime = strtotime($edit_time);
+        $time->time = date('H:i:s', strtotime($edit_time));
         $time->save();
         return redirect('/');
     }
@@ -119,6 +131,10 @@ class TimeController extends Controller
         $time->delete();
         return redirect('times/show');
     }
+    
+    
+    
+    
     public function ranking(Time $time)
     {
         $week = Carbon::today()->subDay(7);
@@ -139,9 +155,35 @@ class TimeController extends Controller
         // };
         
         
+    
+        
+        
+        
+        
         return view('times/ranking')->with([
             'times' => $ranking,
             // 'sum_this_weeks' => $sum_this_week
         ]);
+    }
+    public function tweet(Request $request){
+        $twitter = new TwitterOAuth(
+            env('TWITTER_CLIENT_ID'),
+            env('TWITTER_CLIENT_SECRET'),
+            env('TWITTER_CLIENT_ID_ACCESS_TOKEN'),
+            env('TWITTER_CLIENT_ID_ACCESS_TOKEN_SECRET')
+            );
+            
+        $twitter->post("statuses/update", [
+            "status" =>
+                'New Photo Post!' . PHP_EOL .
+                '新しい聖地の写真が投稿されました!' . PHP_EOL 
+                // 'タイトル「' . $title . '」' . PHP_EOL .
+                // '#photo #anime #photography #アニメ #聖地 #写真 #HolyPlacePhoto' . PHP_EOL .
+                // 'https://www.holy-place-photo.com/photos/' . $id
+        ]);
+        // $res = self::tweet($twitter);
+        // return $res;
+        return redirect('/ranking');
+
     }
 }

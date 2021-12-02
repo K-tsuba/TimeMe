@@ -1,5 +1,34 @@
 <head>
     <style>
+        .parent{
+            width: 70%;
+            border: 1px solid;
+            margin: auto;
+        }
+        .posts{
+            border: 1px solid;
+            width: 90%;
+            margin: auto;
+            padding: 20px;
+        }
+        .user_name{
+            float: left;
+            margin-right: 20%;
+        }
+        .title{
+            float: left;
+            margin-right: 20%;
+            /*margin: auto;*/
+            /*text-align: center;*/
+            /*width: 200px;*/
+            /*margin-left: 20px;*/
+        }
+        .post{
+            /*clear: both;*/
+        }
+        .body{
+            margin-left: 20px;
+        }
         /*.post{*/
             /*text-align: center;*/
         /*}*/
@@ -9,21 +38,35 @@
 </head>
 @extends('layouts.app')
 @section('content')
-<div class="container-fluid mx-auto">
-    <h1>アウトプット投稿・質問</h1>
-    <div class="text-center">
+<div class="parent">
+    <h1>アウトプット投稿/質問</h1>
+    <div class="">
         @foreach($posts as $post)
-            <div class="border" style="">
-                <div class="row">
-                    <div class="col-2">
-                        <p class="user_name">Uesr Name:{{ $post->user->name }}</p>
+            <div class="posts" style="">
+                <div class="">
+                    <div class="user_name">
+                        <p class="">Uesr Name : {{ $post->user->name }}</p>
                     </div>
-                    <div class="col-2">
-                        <p class="post_title">Title:{{ $post->title }}</p>
+                    <div class="title">
+                        <p class="">Title : {{ $post->title }}</p>
+                    </div>
+                    <div class="date">
+                        <p class="">Date : {{ $post->updated_at->format('Y-m-d H:i') }}</p>
                     </div>
                 </div>
                 <div>
-                    <p class="post_body">Post:{{ $post->body }}</p>
+                    <p class="post">Post</p>
+                    <p class="body">{{ $post->body }}</p>
+                </div>
+                <div class="edit">
+                    <p>[<a href="/posts/{{ $post->id }}/edit">edit</a>]</p>
+                </div>
+                <div class="delete">
+                    <form action="/posts/{{ $post->id }}" id="form_{{ $post->id }}" method="post" style="display:inline">
+                        @csrf
+                        @method('DELETE')
+                        <button type="submit" class="">delete</button> 
+                    </form>
                 </div>
                 <div>
                     <p><a href="/comments/{{ $post->id }}">コメント</a></p>

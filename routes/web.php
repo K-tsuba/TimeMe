@@ -38,16 +38,22 @@ Route::group(['middleware' => 'auth'], function(){
     // Route::get('/search', 'UserController@index');
     
     Route::post('/study_sites/store', 'StudySiteController@store'); //サイトのtitleとurlを保存
-    Route::get('/ranking', 'TimeController@ranking');
     Route::get('/posts/create', 'PostController@create');
     Route::get('/posts', 'PostController@index');
     Route::post('posts/store', 'PostController@store');
+    Route::get('/posts/{post}/edit', 'PostController@edit');
+    Route::put('/posts/{post}', 'PostController@update');
+    Route::delete('/posts/{post}', 'PostController@delete');
     
     Route::post('/comments/create', 'CommentController@create');
     Route::get('/comments/{post_id}', 'CommentController@index');
     Route::post('/comments/store/{post_id}', 'CommentController@store');
     Route::get('/comments/reply/{comment_id}', 'CommentController@reply');
     Route::post('/comments/reply/store/{comment_id}', 'CommentController@reply_store');
+    
+    
+    Route::get('/ranking', 'TimeController@ranking');
+    Route::post('/ranking/tweet', 'TimeController@tweet');
 });
 
 Auth::routes();
