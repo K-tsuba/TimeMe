@@ -32,5 +32,8 @@ class StudySite extends Model
         // return $this::with('times')->where('user_id', Auth::id())->orderBy('updated_at', 'desc')->get();
         // dd($this::with('times')->where('user_id', Auth::id())->get());
     }
-    
+    public function getStudySitefirst($study_site_id)
+    {
+        return $this->where('id', $study_site_id)->first();
+    }
 }

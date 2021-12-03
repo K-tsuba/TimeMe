@@ -13,15 +13,18 @@ use Auth;
 
 class UserController extends Controller
 {
-    public function index(User $user, Request $request, $study_site_id)
+    public function index(Time $time, User $user, StudySite $study_site, Request $request, $study_site_id)
     {
         $today = Carbon::today();
         // dd($today);
         //今週1週間のtimesを取得
-        $time = Time::whereDate('created_at', '>=', Carbon::today()->startOfWeek())->where('study_site_id', $study_site_id)->get();
+        // $time = Time::whereDate('created_at', '>=', Carbon::today()->startOfWeek())->where('study_site_id', $study_site_id)->get();
+        $time = $time->this_week_all($study_site_id);
+
         // dd($time);
         //表示する学習サイトを取得
-        $study_site = StudySite::where('id', $study_site_id)->first();
+        // $study_site = StudySite::where('id', $study_site_id)->first();
+        $study_site = $study_site->getStudySitefirst($study_site_id);
 
         function _get_sum_time($source_time, $add_time) {
             $source_times = explode(":", $source_time);
@@ -30,6 +33,11 @@ class UserController extends Controller
         };
         //今週1週間の時間だけを取得
         $this_week_times = Time::whereDate('created_at', '>=', Carbon::today()->startOfWeek())->where('study_site_id', $study_site_id)->get(['time']);
+        // dd($time);
+        // $this_week_times = $time->this_week_times($study_site_id);
+        
+        
+        
         // dd($this_week_times);
         $initial_time = "00:00:00";
         $sum_this_week = "00:00:00";
@@ -133,21 +141,19 @@ class UserController extends Controller
             }
         }
         
-        if (!empty($request)){
+        if (!empty($request['year']) && !empty($request['month'])){
             $data = $Time->get();
+            $initial_time = "00:00:00";
+            $month_sum = "00:00:00";
+            foreach ($data as $addend){
+                
+                $month_sum = _get_sum_time($month_sum, _get_sum_time($initial_time, $addend['time']));
+            };
         } else {
             $data = null;
+            $month_sum = null;
         }
-        // $data = $Time->get();
-        // dd($data);
         
-        // $data = $query->whereYear('updated_at', $year)->get();
-        $initial_time = "00:00:00";
-        $month_sum = "00:00:00";
-        foreach ($data as $addend){
-            
-            $month_sum = _get_sum_time($month_sum, _get_sum_time($initial_time, $addend['time']));
-        };
         
         $today = Carbon::today();
 

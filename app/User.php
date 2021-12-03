@@ -71,5 +71,8 @@ class User extends Authenticatable
         // dd($week[$day_week]);
         return $week[$day_week];
     }
-    
+    public function this_week_times($study_site_id)
+    {
+        return $this->whereDate('created_at', '>=', Carbon::today()->startOfWeek())->where('study_site_id', $study_site_id)->get();
+    }
 }
