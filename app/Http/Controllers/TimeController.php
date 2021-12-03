@@ -51,23 +51,25 @@ class TimeController extends Controller
     public function show(Time $time)
     {
         //先週のランキング
-        function _get_sum_time($source_time, $add_time) {
-            $source_times = explode(":", $source_time);
-            $add_times = explode(":", $add_time);
-            return date("H:i:s", mktime($source_times[0] + $add_times[0], $source_times[1] + $add_times[1], $source_times[2] + $add_times[2]));
-        };
+        // function _get_sum_time($source_time, $add_time) {
+        //     $source_times = explode(":", $source_time);
+        //     $add_times = explode(":", $add_time);
+        //     return date("H:i:s", mktime($source_times[0] + $add_times[0], $source_times[1] + $add_times[1], $source_times[2] + $add_times[2]));
+        // };
         
         $last_week_data = array();
         $i = 0;
         
-        $Users = User::get(['id']);
+        // $Users = User::get(['id']);
+        $Users = User::get();
 
         $last_monday = Carbon::today()->startOfWeek()->subDay(7)->toDateString();
         $this_monday = Carbon::today()->startOfWeek()->toDateString();
         
-        foreach ($Users as $user_id){
+        foreach ($Users as $user){
             // $last_week_times = Time::where('user_id', $user_id['id'])->whereBetween('updated_at', [$last_monday, $this_monday])->get();
-            $last_week_times = $time->where('user_id', $user_id['id'])->whereBetween('updated_at', [$last_monday, $this_monday])->get();
+            
+            $last_week_times = $time->where('user_id', $user->id)->whereBetween('updated_at', [$last_monday, $this_monday])->get();
             // $last_week_times = $time->lastWeekTimes();
             $initial_time = "00:00:00";
             $sum_time_week = "00:00:00";
@@ -75,11 +77,13 @@ class TimeController extends Controller
             foreach ($last_week_times as $addend){
                 $sum_time_week = _get_sum_time($sum_time_week, _get_sum_time($initial_time, $addend['time']));
             }
-            $last_week_data[$i] = array('sum'=>$sum_time_week);
+            $last_week_data[$i] = array('sum'=>$sum_time_week, 'user_name'=>$user->name);
+            // dd($last_week_data);
             $i++;
         }
 
         $week_data_order = collect($last_week_data)->sortByDesc('sum')->take(10);
+        // dd($week_data_order);
         
         
         
@@ -101,7 +105,7 @@ class TimeController extends Controller
             foreach ($last_month_times as $addend){
                 $sum_time_month = _get_sum_time($sum_time_month, _get_sum_time($initial_time, $addend['time']));
             }
-            $last_month_data[$i] = array('sum'=>$sum_time_month);
+            $last_month_data[$i] = array('sum'=>$sum_time_month, 'user_name'=>$user->name);
             $i++;
         }
 
@@ -114,6 +118,7 @@ class TimeController extends Controller
             'month_ranking' => $month_data_order
         ]);
     }
+    
     public function edit(Time $time)
     {
         return view('times/edit')->with(['time' => $time ]);

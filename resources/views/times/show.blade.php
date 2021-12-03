@@ -115,7 +115,7 @@
             @foreach($week_ranking as $time)
             <tr>
                 <td>{{ $loop->iteration }}</td>
-                <td>名前</td>
+                <td>{{ $time['user_name'] }}</td>
                 <td>{{ $time['sum'] }}</td>
             </tr>
             @endforeach
@@ -131,7 +131,7 @@
             @foreach($month_ranking as $time)
             <tr>
                 <td>{{ $loop->iteration }}</td>
-                <td>名前</td>
+                <td>{{ $time['user_name'] }}</td>
                 <td>{{ $time['sum'] }}</td>
             </tr>
             @endforeach

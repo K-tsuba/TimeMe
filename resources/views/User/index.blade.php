@@ -183,7 +183,6 @@
                 <select name="year">
                     <option value="" selected>「年」を選択してください</option>
                     @for($i=2021; $i<2025; $i++)
-        
                     <option value="{{ $i }}" @if(!empty($year) && $i == $year) selected @endif>{{ $i }}年</option>
                     @endfor
                 </select>

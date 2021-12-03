@@ -41,12 +41,18 @@ class Time extends Model
     {
         return $this->where('user_id', Auth::user()->id)->latest('updated_at')->first();
     }
-    // public function _get_sum_time($source_time, $add_time)
-    // {
-    //     $source_times = explode(":", $source_time);
-    //     $add_times = explode(":", $add_time);
-    //     return date("H:i:s", mktime($source_times[0] + $add_times[0], $source_times[1] + $add_times[1], $source_times[2] + $add_times[2]));
-    // }
+    
+    public function _get_sum_time($source_time, $add_time)
+    {
+        $source_times = explode(":", $source_time);
+        $add_times = explode(":", $add_time);
+        return date("H:i:s", mktime($source_times[0] + $add_times[0], $source_times[1] + $add_times[1], $source_times[2] + $add_times[2]));
+    }
+    
+    public function last_week_times()
+    {
+        return $this->where('user_id', $user->id)->whereBetween('updated_at', [$last_monday, $this_monday])->get();
+    }
     // public function lastWeekTimes()
     // {
     //     return $this->where('user_id', $user_id['id'])->whereBetween('updated_at', [$last_monday, $this_monday])->get();

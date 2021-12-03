@@ -18,7 +18,7 @@ class UserController extends Controller
         $today = Carbon::today();
         // dd($today);
         //今週1週間のtimesを取得
-        $time = Time::whereDate('created_at', '>=', $today->startOfWeek())->where('study_site_id', $study_site_id)->get();
+        $time = Time::whereDate('created_at', '>=', Carbon::today()->startOfWeek())->where('study_site_id', $study_site_id)->get();
         // dd($time);
         //表示する学習サイトを取得
         $study_site = StudySite::where('id', $study_site_id)->first();
@@ -56,6 +56,7 @@ class UserController extends Controller
             $first_week_sum = _get_sum_time($first_week_sum, _get_sum_time($initial_time, $addend['time']));
         };
         // dd($first_week_sum);
+        
         //第2週目
         $second_week_times = Time::whereBetween('updated_at', [$second_week, $third_week])->where('study_site_id', $study_site_id)->get(['time']);
         // $initial_time = "00:00:00";
@@ -63,6 +64,7 @@ class UserController extends Controller
         foreach ($second_week_times as $addend){
             $second_week_sum = _get_sum_time($second_week_sum, _get_sum_time($initial_time, $addend['time']));
         };
+        
         //第3週目
         $third_week_times = Time::whereBetween('updated_at', [$third_week, $fourth_week])->where('study_site_id', $study_site_id)->get(['time']);
         // $initial_time = "00:00:00";
@@ -71,6 +73,7 @@ class UserController extends Controller
             $third_week_sum = _get_sum_time($third_week_sum, _get_sum_time($initial_time, $addend['time']));
         };
         // dd($third_week_sum);
+        
         //第4週目
         $fourth_week_times = Time::whereBetween('updated_at', [$fourth_week, $fifth_week])->where('study_site_id', $study_site_id)->get(['time']);
         // $initial_time = "00:00:00";
@@ -79,6 +82,7 @@ class UserController extends Controller
             $fourth_week_sum = _get_sum_time($fourth_week_sum, _get_sum_time($initial_time, $addend['time']));
         };
         // dd($fourth_week_sum);
+        
         //第5週目
         $fifth_week_times = Time::whereBetween('updated_at', [$fifth_week, $six_week])->where('study_site_id', $study_site_id)->get(['time']);
         // $initial_time = "00:00:00";
@@ -129,8 +133,14 @@ class UserController extends Controller
             }
         }
         
-        $data = $Time->get();
+        if (!empty($request)){
+            $data = $Time->get();
+        } else {
+            $data = null;
+        }
+        // $data = $Time->get();
         // dd($data);
+        
         // $data = $query->whereYear('updated_at', $year)->get();
         $initial_time = "00:00:00";
         $month_sum = "00:00:00";
