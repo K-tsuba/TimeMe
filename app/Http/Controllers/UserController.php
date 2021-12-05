@@ -15,38 +15,12 @@ class UserController extends Controller
 {
     public function index(Time $time, User $user, StudySite $study_site, Request $request, $study_site_id)
     {
-        $today = Carbon::today();
-        // dd($today);
         //今週1週間のtimesを取得
-        // $time = Time::whereDate('created_at', '>=', Carbon::today()->startOfWeek())->where('study_site_id', $study_site_id)->get();
-        $time = $time->this_week_all($study_site_id);
-
-        // dd($time);
+        $this_week_time_all = $time->this_week_all($study_site_id);
         //表示する学習サイトを取得
-        // $study_site = StudySite::where('id', $study_site_id)->first();
         $study_site = $study_site->getStudySitefirst($study_site_id);
-
-        function _get_sum_time($source_time, $add_time) {
-            $source_times = explode(":", $source_time);
-            $add_times = explode(":", $add_time);
-            return date("H:i:s", mktime($source_times[0] + $add_times[0], $source_times[1] + $add_times[1], $source_times[2] + $add_times[2]));
-        };
         //今週1週間の時間だけを取得
-        $this_week_times = Time::whereDate('created_at', '>=', Carbon::today()->startOfWeek())->where('study_site_id', $study_site_id)->get(['time']);
-        // dd($time);
-        // $this_week_times = $time->this_week_times($study_site_id);
-        
-        
-        
-        // dd($this_week_times);
-        $initial_time = "00:00:00";
-        $sum_this_week = "00:00:00";
-        foreach ($this_week_times as $addend){
-            $sum_this_week = _get_sum_time($sum_this_week, _get_sum_time($initial_time, $addend['time']));
-        };
-        // dd($sum_this_week);
-        $week = [ '日', '月', '火', '水', '木', '金', '土' ];
-
+        $sum_this_week = $time->sum_times($time->this_week_times($study_site_id));
         //第1,2,3,4,5週目の日付取得
         $first_week = Carbon::today()->startOfMonth()->toDateString();
         $second_week = Carbon::today()->startOfMonth()->addWeek()->toDateString();
@@ -54,111 +28,42 @@ class UserController extends Controller
         $fourth_week = Carbon::today()->startOfMonth()->addWeek(3)->toDateString();
         $fifth_week = Carbon::today()->startOfMonth()->addWeek(4)->toDateString();
         $six_week = Carbon::today()->startOfMonth()->addMonth()->toDateString();
-        // dd($six_week);
-        
         //第1週目
-        $first_week_times = Time::whereBetween('updated_at', [$first_week, $second_week])->where('study_site_id', $study_site_id)->get(['time']);
-        // $initial_time = "00:00:00";
-        $first_week_sum = "00:00:00";
-        foreach ($first_week_times as $addend){
-            $first_week_sum = _get_sum_time($first_week_sum, _get_sum_time($initial_time, $addend['time']));
-        };
-        // dd($first_week_sum);
-        
+        $first_week_sum = $time->sum_times($time->week_of_times($study_site_id, $first_week, $second_week));
         //第2週目
-        $second_week_times = Time::whereBetween('updated_at', [$second_week, $third_week])->where('study_site_id', $study_site_id)->get(['time']);
-        // $initial_time = "00:00:00";
-        $second_week_sum = "00:00:00";
-        foreach ($second_week_times as $addend){
-            $second_week_sum = _get_sum_time($second_week_sum, _get_sum_time($initial_time, $addend['time']));
-        };
-        
+        $second_week_sum = $time->sum_times($time->week_of_times($study_site_id, $second_week, $third_week));
         //第3週目
-        $third_week_times = Time::whereBetween('updated_at', [$third_week, $fourth_week])->where('study_site_id', $study_site_id)->get(['time']);
-        // $initial_time = "00:00:00";
-        $third_week_sum = "00:00:00";
-        foreach ($third_week_times as $addend){
-            $third_week_sum = _get_sum_time($third_week_sum, _get_sum_time($initial_time, $addend['time']));
-        };
-        // dd($third_week_sum);
-        
+        $third_week_sum = $time->sum_times($time->week_of_times($study_site_id, $third_week, $fourth_week));
         //第4週目
-        $fourth_week_times = Time::whereBetween('updated_at', [$fourth_week, $fifth_week])->where('study_site_id', $study_site_id)->get(['time']);
-        // $initial_time = "00:00:00";
-        $fourth_week_sum = "00:00:00";
-        foreach ($fourth_week_times as $addend){
-            $fourth_week_sum = _get_sum_time($fourth_week_sum, _get_sum_time($initial_time, $addend['time']));
-        };
-        // dd($fourth_week_sum);
-        
+        $fourth_week_sum = $time->sum_times($time->week_of_times($study_site_id, $fourth_week, $fifth_week));
         //第5週目
-        $fifth_week_times = Time::whereBetween('updated_at', [$fifth_week, $six_week])->where('study_site_id', $study_site_id)->get(['time']);
-        // $initial_time = "00:00:00";
-        $fifth_week_sum = "00:00:00";
-        foreach ($fifth_week_times as $addend){
-            $fifth_week_sum = _get_sum_time($fifth_week_sum, _get_sum_time($initial_time, $addend['time']));
-        };
-        
+        $fifth_week_sum = $time->sum_times($time->week_of_times($study_site_id, $fifth_week, $six_week));
         //全部の合計時間
         $all_times = Time::where('study_site_id', $study_site_id)->get(['time']);
-        // $initial_time = "00:00:00";
-        $all_sum = "00:00:00";
-        foreach ($all_times as $addend){
-            $all_sum = _get_sum_time($all_sum, _get_sum_time($initial_time, $addend['time']));
-        };
-        
+        $all_sum = $time->sum_times($all_times);
         //今月の合計時間
         $this_month_times = Time::whereMonth('updated_at', Carbon::today()->month)->where('study_site_id', $study_site_id)->get(['time']);
-        // $initial_time = "00:00:00";
-        $this_month_sum = "00:00:00";
-        foreach ($this_month_times as $addend){
-            $this_month_sum = _get_sum_time($this_month_sum, _get_sum_time($initial_time, $addend['time']));
-        };
-        // dd($this_month_sum);
+        $this_month_sum = $time->sum_times($this_month_times);
         
+        //過去のデータ表示
+        $Times = $time->times_of_one_site($study_site_id);
         
-        
-        // $Time = Time::orderBy('updated_at', 'desc')->where('user_id', Auth::user()->id);
-        $Time = Time::orderBy('updated_at', 'desc')->where('study_site_id', $study_site_id);
-        // dd($Time);
-        // $query = User::query();
-        // dd($query);
         $year = $request->input('year');
         $month = $request->input('month');
-        
-        // if($request->has('year') && $year != null){
-        //     $query->where('updated_at', $year)->get();
-        //     if($request->has('month') && $month != null){
-        //         $query->where('updated_at', $month)->get();
-        //     }
-        // }
-        // $year = '2021';
-        // $month = '11';
-        if ($year !== null){
-            $Time = $Time->whereYear('updated_at', $year);
-            if ($month !== null){
-                $Time = $Time->whereMonth('updated_at', $month);
-            }
-        }
-        
+
+        $past_times = $time->past_time_search($Times, $year, $month);
+
         if (!empty($request['year']) && !empty($request['month'])){
-            $data = $Time->get();
-            $initial_time = "00:00:00";
-            $month_sum = "00:00:00";
-            foreach ($data as $addend){
-                
-                $month_sum = _get_sum_time($month_sum, _get_sum_time($initial_time, $addend['time']));
-            };
+            $past_month_sum = $time->sum_times($past_times->get());
         } else {
-            $data = null;
-            $month_sum = null;
+            $past_month_sum = null;
         }
-        
         
         $today = Carbon::today();
+        $week = [ '日', '月', '火', '水', '木', '金', '土' ];
 
         return view('User/index')->with([
-            'own_study_sites' => $time,
+            'own_study_sites' => $this_week_time_all,
             'own_study_site' => $study_site,
             'sum_this_week' => $sum_this_week,
             'week' => $week,
@@ -170,10 +75,9 @@ class UserController extends Controller
             'fifth_week_sum' => $fifth_week_sum,
             'this_month_sum' => $this_month_sum,
             'all_sum' => $all_sum,
-            'month_sum' => $month_sum,
+            'month_sum' => $past_month_sum,
             'year' => $year,
             'month' => $month
         ]);
-        // dd(user());
     }
 }

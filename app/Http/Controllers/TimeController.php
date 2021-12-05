@@ -23,6 +23,14 @@ class TimeController extends Controller
     }
     
     
+    public function app(StudySite $study_site, Time $time)
+    {
+        return view('/times/index')->with([
+            'study_sites' => $study_site->getOwnStudySites() //Timeモデルじゃない所から関数を呼べるのか？
+        ]);
+    }
+    
+    
     public function start_store(Request $request, Time $time, StudySite $study_site)
     {
         $input = $request['status'];
@@ -51,68 +59,19 @@ class TimeController extends Controller
     public function show(Time $time)
     {
         //先週のランキング
-        // function _get_sum_time($source_time, $add_time) {
-        //     $source_times = explode(":", $source_time);
-        //     $add_times = explode(":", $add_time);
-        //     return date("H:i:s", mktime($source_times[0] + $add_times[0], $source_times[1] + $add_times[1], $source_times[2] + $add_times[2]));
-        // };
-        
-        // $last_week_data = array();
-        // $i = 0;
-        
         $Users = User::get();
-
-        // $last_monday = Carbon::today()->startOfWeek()->subDay(7)->toDateString();
-        // $this_monday = Carbon::today()->startOfWeek()->toDateString();
-        
-        // foreach ($Users as $user){
-
-        //     $last_week_times = $time->where('user_id', $user->id)->whereBetween('updated_at', [$last_monday, $this_monday])->get();
-        //     $initial_time = "00:00:00";
-        //     $sum_time_week = "00:00:00";
-            
-        //     foreach ($last_week_times as $addend){
-        //         $sum_time_week = _get_sum_time($sum_time_week, _get_sum_time($initial_time, $addend['time']));
-        //     }
-        //     $last_week_data[$i] = array('sum'=>$sum_time_week, 'user_name'=>$user->name);
-        //     $i++;
-        // }
-        
-        // $week_data_order = collect($last_week_data)->sortByDesc('sum')->take(10);
-        
-        
-        $week_ranking = last_week_ranking($Users);
-        
-        
+        $last_monday = Carbon::today()->startOfWeek()->subDay(7)->toDateString();
+        $this_monday = Carbon::today()->startOfWeek()->toDateString();
+        $week_ranking = $time->ranking($Users, $last_monday, $this_monday);
         //先月のランキング
-        $last_month_data = array();
-        $i = 0;
-        
-        $Users = User::get(['id']);
-
         $last_month = Carbon::today()->startOfMonth()->subMonth()->toDateString();
         $this_month = Carbon::today()->startOfMonth()->toDateString();
-        
-        foreach ($Users as $user_id){
-            $last_month_times = Time::where('user_id', $user_id['id'])->whereBetween('updated_at', [$last_month, $this_month])->get();
-            // dd($last_month_times);
-            $initial_time = "00:00:00";
-            $sum_time_month = "00:00:00";
-            
-            foreach ($last_month_times as $addend){
-                $sum_time_month = _get_sum_time($sum_time_month, _get_sum_time($initial_time, $addend['time']));
-            }
-            $last_month_data[$i] = array('sum'=>$sum_time_month, 'user_name'=>$user->name);
-            $i++;
-        }
-
-        $month_data_order = collect($last_month_data)->sortByDesc('sum')->take(10);
-
+        $month_ranking = $time->ranking($Users, $last_month, $this_month);
         
         return view('times/show')->with([
             'times' => $time->getTimes(),
-            'week_ranking' => $week_data_order,
-            'month_ranking' => $month_data_order
+            'week_ranking' => $week_ranking,
+            'month_ranking' => $month_ranking
         ]);
     }
     
@@ -123,7 +82,6 @@ class TimeController extends Controller
     public function update(Request $request, Time $time)
     {
         $edit_time = $request['time'];
-        // $strtotime = strtotime($edit_time);
         $time->time = date('H:i:s', strtotime($edit_time));
         $time->save();
         return redirect('/');
@@ -133,9 +91,6 @@ class TimeController extends Controller
         $time->delete();
         return redirect('times/show');
     }
-    
-    
-    
     
     public function ranking(Time $time)
     {

@@ -11,18 +11,6 @@
 |
 */
 
-// Route::group(['middleware' => 'auth'], function(){
-//     Route::get('/', 'PostController@index');
-//     Route::get('/posts/create', 'PostController@create');
-//     Route::get('/posts/{post}/edit', 'PostController@edit');
-//     Route::put('/posts/{post}', 'PostController@update');
-//     Route::delete('/posts/{post}', 'PostController@delete');
-//     Route::get('/posts/{post}', 'PostController@show');
-//     Route::post('/posts', 'PostController@store');
-// });
-
-
-
 Route::group(['middleware' => 'auth'], function(){
     Route::get('/', 'TimeController@index');
     Route::get('/times/create', 'TimeController@create');
@@ -35,15 +23,16 @@ Route::group(['middleware' => 'auth'], function(){
     Route::delete('/times/{time}', 'TimeController@delete');
     
     Route::get('/user/{study_site_id}', 'UserController@index');
-    // Route::get('/search', 'UserController@index');
-    
+
     Route::post('/study_sites/store', 'StudySiteController@store'); //サイトのtitleとurlを保存
-    Route::get('/posts/create', 'PostController@create');
-    Route::get('/posts', 'PostController@index');
-    Route::post('posts/store', 'PostController@store');
-    Route::get('/posts/{post}/edit', 'PostController@edit');
     Route::put('/posts/{post}', 'PostController@update');
     Route::delete('/posts/{post}', 'PostController@delete');
+    Route::get('/posts', 'PostController@index');
+    Route::get('/posts/{post}/edit', 'PostController@edit');
+    Route::get('/posts/create', 'PostController@create');
+    Route::post('posts/store', 'PostController@store');
+    
+    
     
     Route::post('/comments/create', 'CommentController@create');
     Route::get('/comments/{post_id}', 'CommentController@index');

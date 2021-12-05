@@ -3,6 +3,9 @@
 namespace App\Providers;
 
 use Illuminate\Support\ServiceProvider;
+use App\StudySite;
+use Illuminate\Support\Facades\View;
+use Illuminate\Support\Facades\Auth;
 
 class AppServiceProvider extends ServiceProvider
 {
@@ -24,5 +27,7 @@ class AppServiceProvider extends ServiceProvider
     public function boot()
     {
         $this->app['request']->server->set('HTTPS', 'on');
+        
+        View::share('study_sites', StudySite::where('user_id', Auth::id())->get());
     }
 }

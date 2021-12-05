@@ -24,9 +24,7 @@ class Time extends Model
     public function latestId(){
         return $this->latest('updated_at')->first();
     }
-    public function diff(){
-        // return 
-    }
+    
     public function user()
     {
         return $this->belongsTo('App\User','user_id');
@@ -55,10 +53,7 @@ class Time extends Model
     {
         return $this->where('user_id', $user->id)->whereBetween('updated_at', [$last_monday, $this_monday])->get();
     }
-    // public function lastWeekTimes()
-    // {
-    //     return $this->where('user_id', $user_id['id'])->whereBetween('updated_at', [$last_monday, $this_monday])->get();
-    // }
+    
     public function this_week_all($study_site_id)
     {
         return $this->whereDate('created_at', '>=', Carbon::today()->startOfWeek())->where('study_site_id', $study_site_id)->get();
@@ -66,31 +61,51 @@ class Time extends Model
     
     public function this_week_times($study_site_id)
     {
-        return $this->get(['time']);
+        return $this->whereDate('created_at', '>=', Carbon::today()->startOfWeek())->where('study_site_id', $study_site_id)->get(['time']);
     }
     
-    public function last_week_ranking($Users)
+    public function ranking($Users, $start, $end)
     {
-        $last_week_data = array();
+        $last_data = array();
         $i = 0;
-        // $Users = User::get();
-        $last_monday = Carbon::today()->startOfWeek()->subDay(7)->toDateString();
-        $this_monday = Carbon::today()->startOfWeek()->toDateString();
-        
         foreach ($Users as $user){
-
-            $last_week_times = $time->where('user_id', $user->id)->whereBetween('updated_at', [$last_monday, $this_monday])->get();
+            $last_times = $this->where('user_id', $user->id)->whereBetween('updated_at', [$start, $end])->get();
             $initial_time = "00:00:00";
-            $sum_time_week = "00:00:00";
-            
-            foreach ($last_week_times as $addend){
-                $sum_time_week = _get_sum_time($sum_time_week, _get_sum_time($initial_time, $addend['time']));
+            $sum_time = "00:00:00";
+            foreach ($last_times as $addend){
+                $sum_time = $this->_get_sum_time($sum_time, $this->_get_sum_time($initial_time, $addend['time']));
             }
-            $last_week_data[$i] = array('sum'=>$sum_time_week, 'user_name'=>$user->name);
+            $last_data[$i] = array('sum'=>$sum_time, 'user_name'=>$user->name);
             $i++;
         };
-        $week_data_order = collect($last_week_data)->sortByDesc('sum')->take(10);
-        
-        return $week_data_order;
+        $data_order = collect($last_data)->sortByDesc('sum')->take(10);
+        return $data_order;
+    }
+    public function sum_times($times)
+    {
+        $initial_time = "00:00:00";
+        $sum_times = "00:00:00";
+        foreach ($times as $addend){
+            $sum_times = $this->_get_sum_time($sum_times, $this->_get_sum_time($initial_time, $addend['time']));
+        };
+        return $sum_times;
+    }
+    public function week_of_times($study_site_id, $start_week, $next_week)
+    {
+        return $this->whereBetween('updated_at', [$start_week, $next_week])->where('study_site_id', $study_site_id)->get(['time']);
+    }
+    public function times_of_one_site($study_site_id)
+    {
+        return $this->orderBy('updated_at', 'desc')->where('study_site_id', $study_site_id);
+    }
+    public function past_time_search($Times, $year, $month)
+    {
+        if ($year !== null){
+            $past_times = $Times->whereYear('updated_at', $year);
+            if ($month !== null){
+                $past_times = $Times->whereMonth('updated_at', $month);
+            }
+        }
+        return $past_times;
     }
 }

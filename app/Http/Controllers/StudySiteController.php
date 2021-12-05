@@ -12,7 +12,6 @@ class StudySiteController extends Controller
     {
         $study_site->study_title = $request->study_title;
         $study_site->study_site = $request->study_site;
-        // $input = $request['post'];
         $study_site->user_id = Auth::user()->id;
         $study_site->save();
         return redirect('/');
