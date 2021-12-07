@@ -385,7 +385,8 @@
             <h2>今日の目標をツイートしよう</h2>
             <form action="/tweets/store" method="post">
                 @csrf
-                <textarea name="goal" placeholder="ツイート">{{ old('goal', $latest_goal->goal) }}</textarea>
+                <textarea name="goal" placeholder="ツイート">{{ old('goal', $latest_goal->goal ?? '') }}</textarea>
+                <!--<textarea name="goal" placeholder="ツイート">{{-- old('goal') --}}</textarea>-->
                 <p class="title__error" style="color:red">{{ $errors->first('goal') }}</p>
                 <input type="submit" id="button" value="tweet">
                 <input type="hidden" name="status" value="1">
@@ -394,12 +395,7 @@
         
     </div>
     
-    <select onChange="location.href=value;">
-        <option selected>自分の学習時間の表示</option>
-        @foreach($study_sites as $study_site)
-        <option value="/user/{{ $study_site->id }}" >{{ $study_site->study_title }}</option>
-        @endforeach
-    </select>
+    
     
 </div>
 

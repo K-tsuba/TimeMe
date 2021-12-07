@@ -5,11 +5,13 @@ namespace App\Http\Controllers;
 use App\User;
 use App\StudySite;
 use App\Time;
+use App\Tweet;
 
 use Carbon\Carbon;
 use Illuminate\Http\Request;
 
 use Auth;
+
 
 class UserController extends Controller
 {
@@ -68,6 +70,8 @@ class UserController extends Controller
         
         $today = Carbon::today();
         $week = [ '日', '月', '火', '水', '木', '金', '土' ];
+        
+        $latest_review = Tweet::where('user_id', Auth::user()->id)->whereDate('updated_at', Carbon::today())->latest('updated_at')->first(['review']);
 
         return view('User/index')->with([
             'own_study_sites' => $this_week_time_all,
@@ -84,7 +88,8 @@ class UserController extends Controller
             'all_sum' => $all_sum,
             'month_sum' => $past_month_sum,
             'year' => $year,
-            'month' => $month
+            'month' => $month,
+            'latest_review' => $latest_review
         ]);
     }
 }

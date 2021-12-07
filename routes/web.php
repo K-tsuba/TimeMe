@@ -22,7 +22,9 @@ Route::group(['middleware' => 'auth'], function(){
     Route::put('/times/{time}', 'TimeController@update');
     Route::delete('/times/{time}', 'TimeController@delete');
     
+    // Route::post('/tweets/goal_store', 'TweetController@goal_store');
     Route::post('/tweets/store', 'TweetController@store');
+    Route::post('/tweets/review_store', 'TweetController@review_store');
     
     Route::get('/user/{study_site_id}', 'UserController@index');
 

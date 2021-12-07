@@ -55,6 +55,12 @@
             text-align: center;
         }
         
+        .tweet{
+            float: left;
+            border: 1px solid;
+            width: 30%;
+        }
+        
         .times_list{
             float: left;
             border: 1px solid;
@@ -139,6 +145,18 @@
     <div class="total_time">
         <h2>今までの合計時間</h2>
         <p class="all_sum">{{ $all_sum }}</p>
+    </div>
+    
+    <div class="tweet">
+        <h2>今日の振り返りをツイートしよう</h2>
+        <form action="/tweets/review_store" method="post">
+            @csrf
+            <textarea name="review" placeholder="ツイート">{{ old('review', $latest_review->review ?? '') }}</textarea>
+            <!--<textarea name="review" placeholder="ツイート">{{-- old('review') --}}</textarea>-->
+            <p class="title__error" style="color:red">{{ $errors->first('review') }}</p>
+            <input type="submit" id="button" value="tweet">
+            <input type="hidden" name="status" value="1">
+        </form>
     </div>
     
     <div class="times_list">
