@@ -22,6 +22,8 @@ Route::group(['middleware' => 'auth'], function(){
     Route::put('/times/{time}', 'TimeController@update');
     Route::delete('/times/{time}', 'TimeController@delete');
     
+    Route::post('/tweets/store', 'TweetController@store');
+    
     Route::get('/user/{study_site_id}', 'UserController@index');
 
     Route::post('/study_sites/store', 'StudySiteController@store'); //サイトのtitleとurlを保存
@@ -34,8 +36,8 @@ Route::group(['middleware' => 'auth'], function(){
     
     
     
-    Route::post('/comments/create', 'CommentController@create');
     Route::get('/comments/{post_id}', 'CommentController@index');
+    Route::post('/comments/create', 'CommentController@create');
     Route::post('/comments/store/{post_id}', 'CommentController@store');
     Route::get('/comments/reply/{comment_id}', 'CommentController@reply');
     Route::post('/comments/reply/store/{comment_id}', 'CommentController@reply_store');

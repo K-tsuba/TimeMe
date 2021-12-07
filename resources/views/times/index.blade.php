@@ -97,6 +97,9 @@
             var sec=0;
             var reset=document.getElementById('display');
             reset.innerHTML='0:0:0';
+            document.getElementById("start").disabled = false;
+            document.getElementById("stop").disabled = true;
+            document.getElementById("reset").disabled = true;
         }
         window.onload=function(){
             var start=document.getElementById('start');
@@ -105,7 +108,32 @@
             stop.addEventListener('click', stop_timer, false);
             var reset=document.getElementById('reset');
             reset.addEventListener('click', reset_timer, false);
+            
+            /*
+            var tweet = document.getElementById('button');
+        
+            tweet.addEventListener('click', function() {
+                console.log('クリックされました！');
+                
+                var token = document.getElementsByName('csrf-token').item(0).content;
+                var request = new XMLHttpRequest();
+                
+                request.open('post', '/tweets/store', true);
+                request.responseType = 'json';
+                request.setRequestHeader('X-CSRF-Token', token);
+                request.onload = function(){
+                    var data = this.response;
+                    console.log(data);
+                };
+                request.setRequestHeader('Content-type', 'application/x-www-form-urlencoded');
+                request.send("status=stop");
+                console.log(request.send("status=stop"));
+                
+            }, false);
+            */
         }
+        
+        
         
         
         var apikey = 'AIzaSyCRj1tsmPrdQa7NC3TWwrVlDdpwUzQntSw';
@@ -133,6 +161,38 @@
                 document.getElementById('youtubeList').innerHTML = html;
             }
         }
+        
+        
+        /*
+        document.getElementById("button").onclick = function() {
+            alert('Click');
+            
+            var token = document.getElementsByName('csrf-token').item(0).content;
+            var request = new XMLHttpRequest();
+            
+            request.open('post', '/tweets/store', true);
+            request.responseType = 'json';
+            request.setRequestHeader('X-CSRF-Token', token);
+            request.onload = function(){
+                var data = this.response;
+                console.log(data);
+            };
+            request.setRequestHeader('Content-type', 'application/x-www-form-urlencoded');
+            request.send("status=stop");
+        };
+        */
+        
+        /*
+        window.addEventListener=function(){
+            var tweet = document.getElementById('button');
+        
+            tweet.addEventListener('click', function() {
+                console.log('クリックされました！');
+                alert('Click');
+            }, false);
+        }
+        */
+        
         
         
     </script>
@@ -231,7 +291,13 @@
         /*    width: 200px;*/
         /*    clear: both;*/
         /*}*/
-        
+        .tweet{
+            float: left;
+            /*margin-top: 100px;*/
+            width: 40%;
+            border: 1px solid;
+            min-width: 337px;
+        }
         
         
         
@@ -315,18 +381,26 @@
             </div>
         </div>
         
+        <div class="tweet">
+            <h2>今日の目標をツイートしよう</h2>
+            <form action="/tweets/store" method="post">
+                @csrf
+                <textarea name="goal" placeholder="ツイート">{{ old('goal', $latest_goal->goal) }}</textarea>
+                <p class="title__error" style="color:red">{{ $errors->first('goal') }}</p>
+                <input type="submit" id="button" value="tweet">
+                <input type="hidden" name="status" value="1">
+            </form>
+        </div>
+        
     </div>
+    
     <select onChange="location.href=value;">
         <option selected>自分の学習時間の表示</option>
         @foreach($study_sites as $study_site)
         <option value="/user/{{ $study_site->id }}" >{{ $study_site->study_title }}</option>
         @endforeach
     </select>
-    <div>
-        <a href="/times/show">学習時間一覧</a>
-        <a href="/posts">投稿・質問画面</a>
-        <div class="back"><a href="/">back</a></div>
-    </div>
+    
 </div>
 
 @endsection

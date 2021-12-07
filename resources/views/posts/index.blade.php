@@ -5,6 +5,15 @@
             border: 1px solid;
             margin: auto;
         }
+        h1{
+            float: left;
+        }
+        .post_question{
+            float: right;
+        }
+        .post_content{
+            clear: both;
+        }
         .posts{
             border: 1px solid;
             width: 90%;
@@ -40,7 +49,10 @@
 @section('content')
 <div class="parent">
     <h1>アウトプット投稿/質問</h1>
-    <div class="">
+    <div class="post_question">
+        <a href="/posts/create">投稿・質問する</a>
+    </div>
+    <div class="post_content">
         @foreach($posts as $post)
             <div class="posts" style="">
                 <div class="">
@@ -75,8 +87,6 @@
         @endforeach
     </div>
 </div>
-<a href="/posts/create">投稿・質問画面</a>
-<!--<a href="/comments/create">コメントする</a>-->
 
 @endsection
 

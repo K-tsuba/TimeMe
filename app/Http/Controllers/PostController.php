@@ -22,6 +22,10 @@ class PostController extends Controller
     }
     public function store(Post $post, PostRequest $request)
     {
+        // $data = $request->all();
+        // dd($data);
+        // $input = $request['status'];
+        // dd($input);
         $input = $request['post'];
         $input += ['user_id' => $request->user()->id];
         $post->fill($input)->save();
@@ -83,6 +87,6 @@ class PostController extends Controller
     public function delete(Post $post)
     {
         $post->delete();
-        return redirect('/');
+        return redirect('/posts');
     }
 }

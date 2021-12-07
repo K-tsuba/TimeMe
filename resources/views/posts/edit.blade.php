@@ -60,6 +60,5 @@
         </div>
     </div>
 </div>
-<div class="back">{<a href="/">back</a>}</div>
 @endsection
 

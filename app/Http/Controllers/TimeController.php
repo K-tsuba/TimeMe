@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Time;
 use App\StudySite;
 use App\User;
+use App\Tweet;
 use Illuminate\Http\Request;
 use Carbon\Carbon;
 use Illuminate\Support\Facades\Auth;
@@ -17,16 +18,13 @@ class TimeController extends Controller
 {
     public function index(StudySite $study_site, Time $time)
     {
+        $latest_goal = Tweet::where('user_id', Auth::user()->id)->whereDate('updated_at', Carbon::today())->latest('updated_at')->first(['goal']);
+        // $latest_goal = Tweet::where('user_id', Auth::user()->id)->whereDate('updated_at', Carbon::today()->get(['goal']);
+        // dd($latest_goal);
+        
         return view('/times/index')->with([
-            'study_sites' => $study_site->getOwnStudySites() //Timeモデルじゃない所から関数を呼べるのか？
-        ]);
-    }
-    
-    
-    public function app(StudySite $study_site, Time $time)
-    {
-        return view('/times/index')->with([
-            'study_sites' => $study_site->getOwnStudySites() //Timeモデルじゃない所から関数を呼べるのか？
+            'study_sites' => $study_site->getOwnStudySites(),
+            'latest_goal' => $latest_goal
         ]);
     }
     

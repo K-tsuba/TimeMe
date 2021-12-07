@@ -38,7 +38,7 @@
             border: 1px solid;
             width: 90%;
             margin: auto;
-            padding: 20px;
+            /*padding: 20px;*/
         }
         .comment_body{
             /*width: 95%;     */
@@ -98,6 +98,7 @@
         </div>
     </div>
     
+    @if(!empty($comments))
     <div class="comment">
         @foreach($comments as $comment)
             <!--<div>-->
@@ -140,6 +141,7 @@
             @endif
         @endforeach 
     </div>
+    @endif
     
     <!--<div>-->
     <!--        <div>-->
@@ -152,9 +154,9 @@
     <div class="comment_form">
         <form action="/comments/store/{{ $post->id }}" method="post">
             @csrf
-            <div>
-                <input type="hidden" name="post_id" value="{{-- $post->id --}}">
-            </div>
+            <!--<div>-->
+            <!--    <input type="hidden" name="post_id" value="{{-- $post->id --}}">-->
+            <!--</div>-->
             <div>
                 <h2>Comment Form</h2>
                 <div class="comment_box">
@@ -166,8 +168,5 @@
         </form>
     </div>
 </div>
-
-<a href="/posts">投稿・質問画面</a>
-<div class="back"><a href="/">back</a></div>
 
 @endsection

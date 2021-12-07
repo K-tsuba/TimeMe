@@ -28,6 +28,10 @@ class AppServiceProvider extends ServiceProvider
     {
         $this->app['request']->server->set('HTTPS', 'on');
         
-        View::share('study_sites', StudySite::where('user_id', Auth::id())->get());
+        // View::share('study_sites', StudySite::where('user_id', Auth::id())->get());
+        
+        view()->composer('layouts.app', function($view) {
+            $view->with('study_sites', StudySite::where('user_id', Auth::id())->get());
+        });
     }
 }

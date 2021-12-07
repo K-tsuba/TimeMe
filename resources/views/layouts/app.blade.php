@@ -24,7 +24,7 @@
     <link href="{{ asset('css/nav.css') }}" rel="stylesheet">
 </head>
 <body>
-    <!--<div id="app">-->
+    <div id="app">
         <nav class="navbar navbar-light bg-white shadow-sm">
             <div class="container">
                 
@@ -48,9 +48,9 @@
                         <li class="nav-item">
                             <a class="nav-link" href="/posts">投稿・質問</a>
                         </li>
-                        <li class="nav-item">
-                            <a class="nav-link" href="#">リンク３</a>
-                        </li>
+                        <!--<li class="nav-item">-->
+                        <!--    <a class="nav-link" href="#">リンク３</a>-->
+                        <!--</li>-->
                     </ul>
                 </div>
                 
@@ -64,7 +64,7 @@
                     <!-- Right Side Of Navbar -->
                     <ul class="navbar-nav ml-auto">
                         <li class="nav-item dropdown">
-                            <a class="btn btn-secondary dropdown-toggle" href="#" role="button" id="dropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                            <a class="nav-link dropdown-toggle" href="#" role="button" id="dropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                                 自分の学習時間の表示
                             </a>
                             <div class="dropdown-menu" aria-labelledby="dropdownMenuLink">
@@ -140,6 +140,6 @@
         <main class="py-4">
             @yield('content')
         </main>
-    <!--</div>-->
+    </div>
 </body>
 </html>

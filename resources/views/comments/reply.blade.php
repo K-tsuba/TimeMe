@@ -43,7 +43,7 @@
         textarea {
             resize: vertical;
             width: 90%;
-            height: 500px;
+            height: 200px;
             /*text-align: center;*/
             /*display: block;*/
             /*margin: auto;*/
@@ -87,7 +87,6 @@
         </form>
     </div>
 </div>
-<div class="back"><a href="/">back</a></div>
-<div class="back"><a href="/">back</a></div>
+
 
 @endsection

@@ -1,4 +1,58 @@
 <head>
+    <script>
+        var token = document.getElementsByName('csrf-token').item(0).content;
+        var request = new XMLHttpRequest();
+        
+        request.open('post', '/posts/create', true);
+        request.responseType = 'json';
+        request.setRequestHeader('X-CSRF-Token', token);
+        request.onload = function(){
+            var data = this.response;
+            console.log(data);
+        };
+        request.setRequestHeader('Content-type', 'application/x-www-form-urlencoded');
+        request.send("status=stop");
+    
+    
+        // var xhr = new XMLHttpRequest();
+        // xhr.open("post", "/posts/create");
+        // xhr.responseType = 'json';
+        // xhr.onreadystatechange  = function (e) {
+        //   if (xhr.readyState === 4) {
+        //     if (xhr.status === 200) {
+        //         console.log(request.responseText);
+        //     } else {
+        //         console.error(request.statusText);
+        //     }
+        //   }
+        // };
+        /*
+        xhr.send("status");
+        */
+
+        /*
+        var request = new XMLHttpRequest();
+
+        request.open('post', '/posts/create', true);
+        request.responseType = 'json';
+        request.onload = function () {
+            
+            if (request.readyState === 4) {
+                if (request.status === 200) {
+                    console.log(request.responseText);
+                } else {
+                    console.error(request.statusText);
+                }
+            }
+        };
+        request.setRequestHeader('Content-type', 'application/x-www-form-urlencoded');
+        
+        request.send("status=1");
+        console.log(request.send("status=1"));
+        */
+        
+        
+    </script>
     <style>
         .parent{
             border: 1px solid;
@@ -62,5 +116,4 @@
         </form>
     </div>
 </div>
-<div class="back"><a href="/">back</a></div>
 @endsection

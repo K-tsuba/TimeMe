@@ -50,8 +50,15 @@ class UserController extends Controller
         
         $year = $request->input('year');
         $month = $request->input('month');
+        
+        if ($year !== null){
+            $past_times = $Times->whereYear('updated_at', $year);
+            if ($month !== null){
+                $past_times = $Times->whereMonth('updated_at', $month);
+            }
+        }
 
-        $past_times = $time->past_time_search($Times, $year, $month);
+        // $past_times = $time->past_time_search($Times, $year, $month);
 
         if (!empty($request['year']) && !empty($request['month'])){
             $past_month_sum = $time->sum_times($past_times->get());
