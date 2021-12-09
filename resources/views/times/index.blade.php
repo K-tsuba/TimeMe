@@ -108,39 +108,12 @@
             stop.addEventListener('click', stop_timer, false);
             var reset=document.getElementById('reset');
             reset.addEventListener('click', reset_timer, false);
-            
-            /*
-            var tweet = document.getElementById('button');
-        
-            tweet.addEventListener('click', function() {
-                console.log('クリックされました！');
-                
-                var token = document.getElementsByName('csrf-token').item(0).content;
-                var request = new XMLHttpRequest();
-                
-                request.open('post', '/tweets/store', true);
-                request.responseType = 'json';
-                request.setRequestHeader('X-CSRF-Token', token);
-                request.onload = function(){
-                    var data = this.response;
-                    console.log(data);
-                };
-                request.setRequestHeader('Content-type', 'application/x-www-form-urlencoded');
-                request.send("status=stop");
-                console.log(request.send("status=stop"));
-                
-            }, false);
-            */
         }
         
         
-        
-        
         var apikey = 'AIzaSyCRj1tsmPrdQa7NC3TWwrVlDdpwUzQntSw';
-        //AIzaSyCRj1tsmPrdQa7NC3TWwrVlDdpwUzQntSw
         var channelid = 'UCHrjqpLwUNY4BV017sq21Tw';
-        //UCHrjqpLwUNY4BV017sq21Tw
-        var maxresults = '1';
+        var maxresults = '0';
         var url = 'https://www.googleapis.com/youtube/v3/search?part=snippet&channelId='+channelid+'&maxResults='+maxresults+'&order=date&type=video&key='+apikey;
         var xhr = new XMLHttpRequest();
         xhr.open('get', url);
@@ -163,90 +136,39 @@
         }
         
         
-        /*
-        document.getElementById("button").onclick = function() {
-            alert('Click');
-            
-            var token = document.getElementsByName('csrf-token').item(0).content;
-            var request = new XMLHttpRequest();
-            
-            request.open('post', '/tweets/store', true);
-            request.responseType = 'json';
-            request.setRequestHeader('X-CSRF-Token', token);
-            request.onload = function(){
-                var data = this.response;
-                console.log(data);
-            };
-            request.setRequestHeader('Content-type', 'application/x-www-form-urlencoded');
-            request.send("status=stop");
-        };
-        */
-        
-        /*
-        window.addEventListener=function(){
-            var tweet = document.getElementById('button');
-        
-            tweet.addEventListener('click', function() {
-                console.log('クリックされました！');
-                alert('Click');
-            }, false);
-        }
-        */
-        
-        
         
     </script>
     <style>
         .parent{
             border: 1px solid;
-            /*overflow:hidden;*/
-            /*height:100%;*/
-            /*background-color: gray;*/
-            /*border: 1px;*/
-            /*min-width: 500px;*/
-            /*background-color: blue;*/
-            /*text-align: center;*/
-            /*max-width: 1350px;*/
-            
             margin: auto;
-            /*display: block;*/
             width: 90%;
-            /*margin-left: 100px;*/
         }
-        .own_study_site{
-            float: left;
-            width: 40%;
-            border: 1px solid;
-            /*max-width: 705px;*/
-            min-width: 337px;
-            /*margin-left: 10%;*/
-            /*margin-left: 20%;*/
-        }
-        .box_site_list{
-            margin-left: 10%;
-        }
+        
+        
         .time{
             float: left;
             width: 60%;
             border: 1px solid;
             max-width: 100%;
             min-width: 675px;
-            /*margin-left: 10%;*/
-            /*text-align: center;*/
-            /*margin-left: 1%;*/
-            /*margin-right: 600px;*/
-            /*margin: auto;*/
-            /*width: 400px;*/
         }
         .register_study_site{
-            margin-left: 10%;
+            border: solid 3px black;
+            /*background-color: powderblue;*/
+            border-radius: 10px;
+            margin: 4%;
+            padding: 10px;
+        }
+        .clearfix::after {
+            content: "";
+            display: block;
+            clear: both;
         }
         .title_register{
-            /*margin-left: 10%;*/
         }
         .study_title{
             float:left;
-            /*margin-left: 10%;*/
         }
         .study_site{
             float:left;
@@ -258,46 +180,102 @@
             margin-left: 10px;
             margin-top: 38px;
         }
+        
+        
+        .measure_box{
+            border: solid 3px black;
+            border-radius: 10px;
+            margin: 4%;
+            padding: 10px;
+        }
         .select_study_site{
-            margin-top: 100px;
-            margin-left: 10%;
+            /*margin-top: 30px;*/
+            /*margin-left: 10%;*/
             clear: both;
+        }
+        select{
+            width: 300px;
+            height: 30px;
+            text-align: center;
         }
         .display{
             font-size: 200px;
             text-align: center;
-            /*width: 300px;*/
             margin: 0;
         }
+        .buttons{
+            text-align: center;
+        }
         .start,.stop,.reset{
-            padding: 10px 30px;
-            font-size: 20px;
-            /*margin-left: 20px;*/
-            margin-left: 10%;
+            padding: 5px 20px;
+            font-size: 40px;
+            /*margin-left: 9%;*/
+            border-radius: 50px;
         }
-        .youtubelist{
-            float: left;
-            /*margin-top: 100px;*/
-            width: 40%;
-            border: 1px solid;
-            min-width: 337px;
-            /*margin-left: 300px;*/
+        .stop{
+            margin: 0 10%;
         }
-        .box_youtube{
-            margin-left: 10%;
-        }
-        /*.youtube_box{*/
-        /*    float: left;*/
-        /*    width: 200px;*/
-        /*    clear: both;*/
-        /*}*/
+        
+        
+        
         .tweet{
-            float: left;
-            /*margin-top: 100px;*/
+            float: right;
             width: 40%;
             border: 1px solid;
             min-width: 337px;
         }
+        .tweet_box{
+            border: solid 3px black;
+            border-radius: 10px;
+            margin: 5%;
+            padding: 10px;
+        }
+        .tweet_body{
+            text-align: center;
+            /*margin: auto;*/
+        }
+        textarea{
+            width: 80%;
+            height: 20%;
+        }
+        .tweet_button{
+            text-align: right;
+            margin-right: 3%;
+        }
+        
+        
+        .own_study_site{
+            float: right;
+            width: 40%;
+            border: 1px solid;
+            min-width: 337px;
+        }
+        .site_list_box{
+            border: solid 3px black;
+            border-radius: 10px;
+            margin: 5%;
+            padding: 10px;
+        }
+        
+        
+        .youtubelist{
+            float: right;
+            width: 40%;
+            border: 1px solid;
+            min-width: 337px;
+        }
+        .youtube_box{
+            border: solid 3px black;
+            border-radius: 10px;
+            margin: 5%;
+            padding: 10px;
+        }
+        
+        
+        h2{
+            border-bottom: solid 2px orange;
+        }
+        
         
         
         
@@ -312,19 +290,14 @@
 
 <div class="">
     <div class="parent">
-        
-        
-        
-        
-        
-        
         <div class="time">
-            <div class="register_study_site">
-                <h2 class="title_register">勉強するサイトの登録</h2>
-                <div class="">
+            
+            <div class="register_study_site clearfix">
+                <h2 class="title_register">～勉強するサイトの登録～</h2>
+                <!--<div class="">-->
                     <form action="/study_sites/store" method="post">
                         @csrf
-                        <div class="">
+                        <!--<div class="">-->
                             <div class="study_title">
                                 <h3>Study title</h3>
                                 <input type="text" name="study_title" placeholder="タイトル">
@@ -336,31 +309,56 @@
                             <div class="save_button">
                                 <input type="submit" value="save">
                             </div>
-                        </div>
+                        <!--</div>-->
                     </form>
-                </div>
+                <!--</div>-->
             </div>
             
-            <div class="select_study_site">
-                <h2>学習するサイトを選択</h2>
-                <select id="select_study_site">
-                    <option selected>学習するサイトを選択</option>
-                    @foreach($study_sites as $study_site)
-                    <option value="{{ $study_site->id }}" >{{ $study_site->study_title }}</option>
-                    @endforeach
-                </select>
+            <div class="measure_box">
+                <div class="select_study_site">
+                    <h2>～学習するサイトを選択～</h2>
+                    <select id="select_study_site">
+                        <option selected>学習するサイトを選択</option>
+                        @foreach($study_sites as $study_site)
+                        <option value="{{ $study_site->id }}" >{{ $study_site->study_title }}</option>
+                        @endforeach
+                    </select>
+                </div>
+                
+                <div>
+                    <p id="display" class="display">0:0:0</p>
+                </div>
+                <div class="buttons">
+                    <button id="start" class="start">start</button>
+                    <button id="stop" class="stop" disabled>stop</button>
+                    <button id="reset" class="reset" disabled>reset</button>
+                </div>
+                
             </div>
-            <div>
-                <p id="display" class="display">0:0:0</p>
-            </div>
-            <button id="start" class="start">start</button>
-            <button id="stop" class="stop" disabled>stop</button>
-            <button id="reset" class="reset" disabled>reset</button>
             
         </div>
         
+        
+        <div class="tweet">
+            <div class="tweet_box">
+                <h2>～今日の目標をツイートしよう～</h2>
+                <form action="/tweets/store" method="post">
+                    @csrf
+                    <div class="tweet_body">
+                        <textarea name="goal" placeholder="ツイート">{{ old('goal', $latest_goal->goal ?? '') }}</textarea>
+                    </div>
+                    <p class="title__error" style="color:red">{{ $errors->first('goal') }}</p>
+                    <div class="tweet_button">
+                        <input type="submit" value="tweet">
+                    </div>
+                    <input type="hidden" name="status" value="1">
+                </form>
+            </div>
+        </div>
+        
+        
         <div class="own_study_site">
-            <div class="box_site_list">
+            <div class="site_list_box">
                 <h2>～Own Study Site～</h2>
                 <div>
                     @foreach($study_sites as $study_site)
@@ -375,23 +373,13 @@
         </div>
         
         <div class="youtubelist">
-            <div class="box_youtube">
+            <div class="youtube_box">
                 <h2>～Refresh～</h2>
                 <div id="youtubeList" class=""></div>
             </div>
         </div>
         
-        <div class="tweet">
-            <h2>今日の目標をツイートしよう</h2>
-            <form action="/tweets/store" method="post">
-                @csrf
-                <textarea name="goal" placeholder="ツイート">{{ old('goal', $latest_goal->goal ?? '') }}</textarea>
-                <!--<textarea name="goal" placeholder="ツイート">{{-- old('goal') --}}</textarea>-->
-                <p class="title__error" style="color:red">{{ $errors->first('goal') }}</p>
-                <input type="submit" id="button" value="tweet">
-                <input type="hidden" name="status" value="1">
-            </form>
-        </div>
+        
         
     </div>
     

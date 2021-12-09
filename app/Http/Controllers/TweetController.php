@@ -49,6 +49,7 @@ class TweetController extends Controller
                 "status" => $tweet->review 
             ]);
         }
+        
         return redirect('/');
     }
 }

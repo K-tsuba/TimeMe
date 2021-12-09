@@ -6,9 +6,11 @@
             margin: auto;
         }
         .comment{
-            border: 1px solid;
+            border: solid 3px black;
+            border-radius: 10px;
             width: 90%;
             margin: auto;
+            margin-bottom: 10px;
             padding: 20px;
         }
         h2{
@@ -28,8 +30,10 @@
             width: 95%;     
             margin: auto;
         }
+        
         .reply{
-            border: 1px solid;
+            border: solid 3px black;
+            border-radius: 10px;
             width: 90%;
             margin: auto;
             padding: 20px;

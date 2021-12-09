@@ -4,12 +4,14 @@ namespace App;
 
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
+use Illuminate\Pagination\Paginator;
 
 class Post extends Model
 {
     use SoftDeletes;
     
     protected $fillable = [
+        'content',
         'title',
         'body',
         'user_id'
@@ -25,7 +27,7 @@ class Post extends Model
     }
     public function getUser()
     {
-        return $this::with('user')->orderBy('updated_at', 'DESC')->get();
+        return $this::with('user')->orderBy('updated_at', 'DESC')->paginate(10);
     }
 
 }

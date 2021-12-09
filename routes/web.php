@@ -27,6 +27,8 @@ Route::group(['middleware' => 'auth'], function(){
     Route::post('/tweets/review_store', 'TweetController@review_store');
     
     Route::get('/user/{study_site_id}', 'UserController@index');
+    Route::get('/user/{time}/edit', 'UserController@edit');
+    Route::put('/user/{time}', 'UserController@update');
 
     Route::post('/study_sites/store', 'StudySiteController@store'); //サイトのtitleとurlを保存
     Route::put('/posts/{post}', 'PostController@update');

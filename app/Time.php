@@ -5,6 +5,7 @@ namespace App;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
 // use Illuminate\Support\Facades\Auth;
+use Illuminate\Pagination\Paginator;
 
 use Carbon\Carbon;
 
@@ -33,9 +34,15 @@ class Time extends Model
     {
         return $this->belongsTo('App\StudySite');
     }
-    public function getTimes(int $limit_count = 10)
+    // public function getTimes(int $limit_count = 50)
+    // {
+    //     // return $this->orderBy('updated_at', 'desc')->limit($limit_count)->get();
+    //     return $this->orderBy('updated_at', 'desc')->limit($limit_count)->paginate(10);
+    // }
+    public function getTimes()
     {
-        return $this->orderBy('updated_at', 'desc')->limit($limit_count)->get();
+        // return $this->orderBy('updated_at', 'desc')->limit($limit_count)->get();
+        return $this->orderBy('updated_at', 'desc')->paginate(10);
     }
     public function getLatestTime()
     {

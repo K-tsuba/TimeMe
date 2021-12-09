@@ -97,6 +97,18 @@
         <form action="/posts/store" method="post">
             @csrf
             <div>
+                <h2>Post/Question</h2>
+                <label>
+                    <input type="checkbox" name="post[content]" value="post">
+                    Post
+                </label>
+                <label>
+                    <input type="checkbox" name="post[content]" value="question">
+                    Question
+                </label>
+                <p class="error">{{ $errors->first('post.content') }}</p>
+            </div>
+            <div>
                 <h2>Title</h2>
                 <div class="title_box">
                     <input type="text" class="title" name="post[title]" placeholder="タイトル" value="{{ old('post.title') }}"/>

@@ -26,7 +26,7 @@
 @section('content')
 <div class="parent">
     <h1>学習時間編集画面</h1>
-    <form action="/times/{{ $time->id }}" method="post">
+    <form action="/user/{{ $time->id }}" method="post">
         @csrf
         @method('put')
         <div class="time_box">

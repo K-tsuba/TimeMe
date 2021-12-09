@@ -92,4 +92,17 @@ class UserController extends Controller
             'latest_review' => $latest_review
         ]);
     }
+    public function edit()
+    {
+        return view('User/edit')->with(['time' => $time ]);
+    }
+    public function update(Request $request, Time $time)
+    {
+        $edit_time = $request['time'];
+        $time->time = date('H:i:s', strtotime($edit_time));
+        $time->save();
+        
+        return redirect('times/show');
+    }
+    //そのユーザーのstudysiteのidを渡す
 }

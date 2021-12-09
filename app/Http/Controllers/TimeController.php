@@ -9,6 +9,7 @@ use App\Tweet;
 use Illuminate\Http\Request;
 use Carbon\Carbon;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Pagination\Paginator;
 
 // use App\Http\Controllers\TwitterOAuth;
 use Abraham\TwitterOAuth\TwitterOAuth;
@@ -82,7 +83,7 @@ class TimeController extends Controller
         $edit_time = $request['time'];
         $time->time = date('H:i:s', strtotime($edit_time));
         $time->save();
-        return redirect('/');
+        return redirect('times/show');
     }
     public function delete(Time $time)
     {
