@@ -24,17 +24,21 @@
 
 @extends('layouts.app')
 @section('content')
-<div class="parent">
-    <h1>学習時間編集画面</h1>
-    <form action="/user/{{ $time->id }}" method="post">
-        @csrf
-        @method('put')
-        <div class="time_box">
-            <input type='time' class="time"　name='time' value="{{ $time->time }}">
+<div class="container">
+    <div class="mx-auto p-3 border rounded bg-primary" style="width: 100%;">
+        <div class="mx-auto p-3 border rounded bg-secondary" style="width: 80%;">
+            <h1 class="mx-auto" style="width: 83%;">Edit Time</h1>
+            <form action="/user/{{ $time->id }}" method="post">
+                @csrf
+                @method('put')
+                <div class="time_box">
+                    <input type='time' class="time"　name='time' value="{{ $time->time }}">
+                </div>
+                <div class="text-right mt-3" style="width: 83%;">
+                    <input type="submit" value="&#xf00c; save" class="fas fa-lg p-2 rounded-pill bg-secondary">
+                </div>
+            </form>
         </div>
-        <div class="save_button">
-            <input type='submit' value="save">
-        </div>
-    </form>
+    </div>
 </div>
 @endsection

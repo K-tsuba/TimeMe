@@ -12,7 +12,7 @@ use App\Http\Requests\TweetReviewRequest;
 
 class TweetController extends Controller
 {
-    public function store(TweetGoalRequest $request, Tweet $tweet)
+    public function goal_store(TweetGoalRequest $request, Tweet $tweet)
     {
         $status = $request['status'];
         $tweet->user_id = Auth::user()->id;
@@ -32,7 +32,7 @@ class TweetController extends Controller
         }
         return redirect('/');
     }
-    public function review_store(TweetReviewRequest $request, Tweet $tweet)
+    public function review_store(TweetReviewRequest $request, Tweet $tweet, $study_site_id)
     {
         $status = $request['status'];
         $tweet->user_id = Auth::user()->id;
@@ -50,6 +50,6 @@ class TweetController extends Controller
             ]);
         }
         
-        return redirect('/');
+        return redirect('/user/'.$study_site_id);
     }
 }

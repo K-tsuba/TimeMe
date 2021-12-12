@@ -1,39 +1,12 @@
 <head>
     <style>
-        .parent{
-            width: 90%;
-            /*height: 100%;*/
-            border: 1px solid;
-            margin: auto;
-        }
-        .clearfix::after {
-            content: "";
-            display: block;
-            clear: both;
-        }
-        
-        
-        .this_week_time{
+        .left{
             width: 65%;
-            border: 1px solid;
+            border: 0px solid;
             float: left;
-            min-width: 675px;
+            min-width: 713px;
         }
-        .this_week_time_box{
-            border: 3px solid black;
-            border-radius: 10px;
-            padding: 10px;
-            margin: 3%;
-            
-        }
-        .time_box{
-            width: 80%;
-            border: 3px solid black;
-            border-radius: 10px;
-            margin: auto;
-            margin-bottom: 10px;
-            padding: 10px;
-        }
+        
         .date{
             float: left;
             margin-left: 2%;
@@ -41,54 +14,29 @@
         }
         .day_of_week{
             float: left;
-            /*clear: both;*/
             margin-left: 1%;
             margin-right: 5%;
             font-size: 20px;
         }
         .time{
             float: left;
-            /*margin-left: 30px;*/
             font-size: 30px;
         }
-        .edit{
-            float: right;
-            text-align: center;
-            float: right;
-            border: 2px solid;
-            width: 56.5px;
-            height: 28px;
-            margin-left: 2%;
-        }
-        .edit_button{
-            display: block;
-        }
-        .delete{
-            text-align: right;
-            /*float: left;*/
-            /*margin-left: 20px;*/
-            /*clear: both;*/
-        }
         
         
-        
-        .side{
-            border: 5px solid;
+        .right_side{
+            border: 0px solid;
             width: 35%;
             float: left;
-            min-width: 470px;
+            min-width: 380px;
         }
-        
-        
-        
-        .total_time{
-            /*float: left;*/
-            border: 1px solid;
+        .right{
+            border: 0px solid;
             width: 100%;
             min-width: 337px;
         }
-        .total_time_box{
-            border: 3px solid black;
+        .right_box{
+            border: 1px solid black;
             border-radius: 10px;
             padding: 10px;
             margin: 5%;
@@ -99,88 +47,6 @@
         }
         
         
-        
-        .tweet{
-            /*float: left;*/
-            border: 1px solid;
-            width: 100%;
-            min-width: 337px;
-        }
-        .tweet_box{
-            border: 3px solid black;
-            border-radius: 10px;
-            padding: 10px;
-            margin: 5%;
-        }
-        .tweet_body{
-            text-align: center;
-            /*margin: auto;*/
-        }
-        textarea{
-            width: 80%;
-            height: 20%;
-        }
-        .tweet_button{
-            text-align: right;
-            margin-right: 3%;
-        }
-        
-        
-        
-        
-        .times_list{
-            /*float: left;*/
-            border: 1px solid;
-            width: 100%;
-            min-width: 337px;
-        }
-        .times_list_box{
-            border: 3px solid black;
-            border-radius: 10px;
-            padding: 10px;
-            margin: 5%;
-        }
-        table{
-            width: 90%;
-            /*height: 10%;*/
-            margin: auto;
-            /*margin-left: 10px;*/
-            /*margin-bottom: 10px ;*/
-            /*border-collapse: collapse;*/
-            /*border: 1px solid;*/
-        }
-        tr,td,th{
-            
-        }
-        table,tr,td,th {
-            border: 1px solid black;
-            padding: 10px;
-        }
-        
-        
-        .past_time{
-            /*float: left;*/
-            border: 1px solid;
-            width: 100%;
-            min-width: 337px;
-        }
-        .past_time_box{
-            border: 3px solid black;
-            border-radius: 10px;
-            padding: 10px;
-            margin: 5%;
-        }
-        .year{
-            margin-bottom: 10px;
-        }
-        .year, .month{
-            text-align: center;
-        }
-        .button{
-            text-align: right;
-            margin-right: 20%;
-            margin-top: 10px;
-        }
         .year_month{
             margin-left: 10%;
             font-size: 20px;
@@ -192,7 +58,7 @@
         
         
         h2{
-            border-bottom: solid 2px orange;
+            border-bottom: solid 2px black;
         }
         
         
@@ -202,31 +68,31 @@
 
 @extends('layouts.app')
 @section('content')
-<div class="parent clearfix">
+<div class="container">
     <div>
-        <h1>Study Site : {{ $own_study_site->study_title }}</h1>
+        <h1 class="text-center mb-3">Study Site : {{ $own_study_site->study_title }}</h1>
     </div>
     
     
     
-    <div class="this_week_time">
-        <div class="this_week_time_box">
-            <h2>～今週の学習時間～</h2>
+    <div class="left">
+        <div class="border rounded mb-4 mr-4 p-2 bg-primary">
+            <h2 class="mb-3">～今週の学習時間～</h2>
             @foreach($own_study_sites as $study_site)
-                <div class="time_box clearfix">
-                    <div class="date">{{ $study_site->updated_at->format('Y-m-d') }}</div>
-                    <div class="day_of_week">{{ $week[date('w', strtotime($study_site->updated_at))] }}</div>
+                <div class="border rounded mx-auto mb-3 px-3 pt-3 bg-secondary clearfix" style="width: 80%;">
+                    <div class="date">{{ $study_site->updated_at->format('Y/m/d') }}</div>
+                    <div class="day_of_week">({{ $week[date('w', strtotime($study_site->updated_at))] }})</div>
                     <div class="time">
                         <p>Time : {{ $study_site->time }}</p>
                     </div>
-                    <div class="edit">
-                        <a href="/user/{{ $study_site->id }}/edit" class="edit_button">edit</a>
+                    <div class="float-right mt-2">
+                        <a href="/user/{{ $study_site->id }}/edit" class="d-block"><i class="fas fa-edit fa-lg" ></i></a>
                     </div>
-                    <div class="delete">
+                    <div class="text-right">
                         <form action="/times/{{ $study_site->id }}" id="form_{{ $study_site->id }}" method="post" style="display:inline">
                             @csrf
                             @method('DELETE')
-                            <button type="submit" class="">delete</button> 
+                            <button type="submit" class="btn btn-secondary mt-1"><i class="fas fa-trash-alt fa-lg"></i></button> 
                         </form>
                     </div>
                 </div>
@@ -236,35 +102,35 @@
     
     
     
-    <div class="side">
-        <div class="total_time">
-            <div class="total_time_box">
+    <div class="right_side">
+        <div class="right">
+            <div class="border rounded mb-4 p-2 bg-primary">
                 <h2>～今までの合計学習時間～</h2>
                 <p class="all_sum">{{ $all_sum }}</p>
             </div>
         </div>
         
-        <div class="tweet">
-            <div class="tweet_box">
+        <div class="right">
+            <div class="border rounded mb-4 p-2 bg-primary">
                 <h2>～今日の振り返りをツイートしよう～</h2>
-                <form action="/tweets/review_store" method="post">
+                <form action="/tweets/{{ $study_site_id }}/review_store" method="post">
                     @csrf
-                    <div class="tweet_body">
-                        <textarea name="review" placeholder="ツイート">{{ old('review', $latest_review->review ?? '') }}</textarea>
+                    <div class="text-center mt-4">
+                        <textarea name="review" placeholder="ツイート" style="width: 80%; height: 20%;">{{ old('review', $latest_review->review ?? '') }}</textarea>
                     </div>
                     <p class="title__error" style="color:red">{{ $errors->first('review') }}</p>
-                    <div class="tweet_button">
-                        <input type="submit" id="button" value="tweet">
+                    <div class="text-right mr-2">
+                        <input type="submit" value="&#xf099; Tweet" class="fab fa-2x rounded-pill p-2 bg-secondary" value="&#xf099;">
                     </div>
                     <input type="hidden" name="status" value="1">
                 </form>
             </div>
         </div>
         
-        <div class="times_list">
-            <div class="times_list_box">
+        <div class="right">
+            <div class="border rounded mb-4 p-2 bg-primary">
                 <h2>～Time Table～</h2>
-                <table>
+                <table class="table table-hover">
                     <tr>
                         <th>今週の合計時間</th>
                         <th>{{ $sum_this_week }}</th>
@@ -298,12 +164,12 @@
         </div>
         
         
-        <div class="past_time">
-            <div class="past_time_box">
+        <div class="right">
+            <div class="border rounded mb-4 p-2 bg-primary">
                 <form method="get" action="/user/{{ $own_study_site->id }}">
                     @csrf
                     <h2>～過去の学習時間の表示～</h2>
-                    <div class="year">
+                    <div class="my-3 text-center">
                         <select name="year">
                             <option value="" selected>「年」を選択してください</option>
                             @for($i=2021; $i<2025; $i++)
@@ -311,7 +177,7 @@
                             @endfor
                         </select>
                     </div>
-                    <div class="month">
+                    <div class="text-center">
                         <select name="month">
                             <option value="" selected>「月」を選択してください</option>
                             @for($i=1; $i<13; $i++)
@@ -319,8 +185,8 @@
                             @endfor
                         </select>
                     </div>
-                    <div class="button">
-                        <input type="submit" value="表示">
+                    <div class="text-right mr-5 mt-3">
+                        <input type="submit" value="表示" class="rounded-pill bg-secondary">
                     </div>
                 </form>
                 
@@ -333,9 +199,6 @@
             </div>
         </div>
     </div>
-    
-    
-
 </div>
 
 @endsection

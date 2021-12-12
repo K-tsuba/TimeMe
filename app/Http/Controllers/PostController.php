@@ -37,10 +37,11 @@ class PostController extends Controller
     }
     public function update(PostRequest $request, Post $post)
     {
+        // dd($request);
         $input_post = $request['post'];
         $input_post += ['uesr_id' => $request->user()->id];
         $post->fill($input_post)->save();
-        return redirect('/posts/');
+        return redirect('/posts');
     }
     public function delete(Post $post)
     {

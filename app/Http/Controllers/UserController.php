@@ -89,11 +89,13 @@ class UserController extends Controller
             'month_sum' => $past_month_sum,
             'year' => $year,
             'month' => $month,
-            'latest_review' => $latest_review
+            'latest_review' => $latest_review,
+            'study_site_id' => $study_site_id
         ]);
     }
-    public function edit()
+    public function edit(Time $time)
     {
+        // dd($time);
         return view('User/edit')->with(['time' => $time ]);
     }
     public function update(Request $request, Time $time)
@@ -102,7 +104,7 @@ class UserController extends Controller
         $time->time = date('H:i:s', strtotime($edit_time));
         $time->save();
         
-        return redirect('times/show');
+        return redirect('user/'.$time->study_site_id);
     }
     //そのユーザーのstudysiteのidを渡す
 }

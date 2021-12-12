@@ -89,6 +89,8 @@
             };
             request.setRequestHeader('Content-type', 'application/x-www-form-urlencoded');
             request.send("status=stop");
+            
+            document.getElementById("stop").disabled = true;
         }
         function reset_timer(){
             time=0;
@@ -139,217 +141,92 @@
         
     </script>
     <style>
-        .parent{
-            border: 1px solid;
-            margin: auto;
-            width: 90%;
-        }
-        
-        
-        .time{
-            float: left;
-            width: 60%;
-            border: 1px solid;
-            max-width: 100%;
-            min-width: 675px;
-        }
-        .register_study_site{
-            border: solid 3px black;
-            /*background-color: powderblue;*/
-            border-radius: 10px;
-            margin: 4%;
-            padding: 10px;
-        }
-        .clearfix::after {
-            content: "";
-            display: block;
-            clear: both;
-        }
-        .title_register{
-        }
-        .study_title{
-            float:left;
-        }
-        .study_site{
-            float:left;
-            margin-left: 10px;
-        }
-        .save_button{
-            float:left;
-            width: 50px;
-            margin-left: 10px;
-            margin-top: 38px;
-        }
-        
-        
-        .measure_box{
-            border: solid 3px black;
-            border-radius: 10px;
-            margin: 4%;
-            padding: 10px;
-        }
-        .select_study_site{
-            /*margin-top: 30px;*/
-            /*margin-left: 10%;*/
-            clear: both;
-        }
-        select{
-            width: 300px;
-            height: 30px;
-            text-align: center;
+        .min-w{
+            min-width: 713px;
         }
         .display{
             font-size: 200px;
             text-align: center;
             margin: 0;
         }
-        .buttons{
-            text-align: center;
-        }
         .start,.stop,.reset{
             padding: 5px 20px;
             font-size: 40px;
-            /*margin-left: 9%;*/
             border-radius: 50px;
+            background-color: #ADC2A9;
         }
         .stop{
             margin: 0 10%;
         }
-        
-        
-        
-        .tweet{
-            float: right;
-            width: 40%;
-            border: 1px solid;
-            min-width: 337px;
+        .right_side{
+            border: 0px solid;
+            width: 35%;
+            float: left;
+            min-width: 380px;
         }
-        .tweet_box{
-            border: solid 3px black;
-            border-radius: 10px;
-            margin: 5%;
-            padding: 10px;
-        }
-        .tweet_body{
-            text-align: center;
-            /*margin: auto;*/
-        }
-        textarea{
-            width: 80%;
-            height: 20%;
-        }
-        .tweet_button{
-            text-align: right;
-            margin-right: 3%;
-        }
-        
-        
-        .own_study_site{
-            float: right;
-            width: 40%;
-            border: 1px solid;
-            min-width: 337px;
-        }
-        .site_list_box{
-            border: solid 3px black;
-            border-radius: 10px;
-            margin: 5%;
-            padding: 10px;
-        }
-        
-        
-        .youtubelist{
-            float: right;
-            width: 40%;
-            border: 1px solid;
-            min-width: 337px;
-        }
-        .youtube_box{
-            border: solid 3px black;
-            border-radius: 10px;
-            margin: 5%;
-            padding: 10px;
-        }
-        
-        
         h2{
-            border-bottom: solid 2px orange;
+            border-bottom: solid 2px black;
         }
-        
-        
-        
-        
     </style>
 </head>
 @extends('layouts.app')
 @section('content')
-
-<!--<div>-->
-<!--    {{--Auth::user()->name--}}-->
-<!--</div>-->
-
-<div class="">
-    <div class="parent">
-        <div class="time">
-            
-            <div class="register_study_site clearfix">
-                <h2 class="title_register">～勉強するサイトの登録～</h2>
-                <!--<div class="">-->
-                    <form action="/study_sites/store" method="post">
-                        @csrf
-                        <!--<div class="">-->
-                            <div class="study_title">
-                                <h3>Study title</h3>
-                                <input type="text" name="study_title" placeholder="タイトル">
-                            </div>
-                            <div class="study_site">
-                                <h3>Study site</h3>
-                                <input type="text" name="study_site" placeholder="urlを記入">
-                            </div>
-                            <div class="save_button">
-                                <input type="submit" value="save">
-                            </div>
-                        <!--</div>-->
-                    </form>
-                <!--</div>-->
+<div class="container">
+    <div class="float-left min-w" style="width: 65%;">
+        <div class="border rounded mr-4 mb-4 p-2 bg-primary clearfix" style="">
+            <h2 class="title_register">～勉強するサイトの登録～</h2>
+                <form action="/study_sites/store" method="post">
+                    @csrf
+                        <div class="float-left mt-2">
+                            <h3>Study title</h3>
+                            <input type="text" name="study_title" placeholder="タイトル" class="" style="width: 200px; height: 38px;">
+                        </div>
+                        <div class="float-left ml-3 mt-2">
+                            <h3>Study site</h3>
+                            <input type="text" name="study_site" placeholder="urlを記入" class="" style="width: 200px; height: 38px;">
+                        </div>
+                        <div class="float-left ml-3 mt-5" style="width: 50px">
+                            <input type="submit" value="&#xf00c; save" class="fas fa-2x bg-secondary">
+                        </div>
+                </form>
+        </div>
+        
+        <div class="border rounded mb-4 mr-4 p-2 bg-primary">
+            <div class="">
+                <h2 class="">～学習するサイトを選択～</h2>
+                <select id="select_study_site" class="text-center mt-2" style="width: 300px; height: 30px;">
+                    <option selected>学習するサイトを選択</option>
+                    @foreach($study_sites as $study_site)
+                    <option value="{{ $study_site->id }}" >{{ $study_site->study_title }}</option>
+                    @endforeach
+                </select>
             </div>
             
-            <div class="measure_box">
-                <div class="select_study_site">
-                    <h2>～学習するサイトを選択～</h2>
-                    <select id="select_study_site">
-                        <option selected>学習するサイトを選択</option>
-                        @foreach($study_sites as $study_site)
-                        <option value="{{ $study_site->id }}" >{{ $study_site->study_title }}</option>
-                        @endforeach
-                    </select>
-                </div>
-                
-                <div>
-                    <p id="display" class="display">0:0:0</p>
-                </div>
-                <div class="buttons">
-                    <button id="start" class="start">start</button>
-                    <button id="stop" class="stop" disabled>stop</button>
-                    <button id="reset" class="reset" disabled>reset</button>
-                </div>
-                
+            <div>
+                <p id="display" class="display">0:0:0</p>
+            </div>
+            <div class="text-center mb-2">
+                <button id="start" class="start">start</button>
+                <button id="stop" class="stop" disabled>stop</button>
+                <button id="reset" class="reset" disabled>reset</button>
             </div>
             
         </div>
         
-        
-        <div class="tweet">
-            <div class="tweet_box">
-                <h2>～今日の目標をツイートしよう～</h2>
-                <form action="/tweets/store" method="post">
+    </div>
+    
+    <div class="right_side">
+        <div style="width: 100%;">
+            <div class="border rounded mb-4 p-2 bg-primary">
+                <h2>～今日の目標をツイート～</h2>
+                <form action="/tweets/goal_store" method="post">
                     @csrf
-                    <div class="tweet_body">
-                        <textarea name="goal" placeholder="ツイート">{{ old('goal', $latest_goal->goal ?? '') }}</textarea>
+                    <div class="text-center mt-4">
+                        <textarea name="goal" placeholder="今日の目標は？" style="width: 80%; height: 20%;">{{ old('goal', $latest_goal->goal ?? '') }}</textarea>
                     </div>
                     <p class="title__error" style="color:red">{{ $errors->first('goal') }}</p>
-                    <div class="tweet_button">
-                        <input type="submit" value="tweet">
+                    <div class="text-right mr-2">
+                        <input type="submit" value="&#xf099; Tweet" class="fab fa-2x rounded-pill p-2 bg-secondary" value="&#xf099;">
                     </div>
                     <input type="hidden" name="status" value="1">
                 </form>
@@ -357,14 +234,14 @@
         </div>
         
         
-        <div class="own_study_site">
-            <div class="site_list_box">
+        <div style="width: 100%;">
+            <div class="border rounded mb-4 p-2 bg-primary">
                 <h2>～Own Study Site～</h2>
                 <div>
                     @foreach($study_sites as $study_site)
                         <ul>
                             <li>{{ $study_site->study_title }}</li>
-                            <p><a href="{{ $study_site->study_site }}" target="_blank">{{ $study_site->study_site }}</a></p>
+                            <p><a href="{{ $study_site->study_site }}" target="_blank" class="text-white">{{ $study_site->study_site }}</a></p>
                         </ul>
                         
                     @endforeach
@@ -372,19 +249,12 @@
             </div>
         </div>
         
-        <div class="youtubelist">
-            <div class="youtube_box">
+        <div style="width: 100%;">
+            <div class="border rounded mb-4 p-2 bg-primary">
                 <h2>～Refresh～</h2>
                 <div id="youtubeList" class=""></div>
             </div>
         </div>
-        
-        
-        
     </div>
-    
-    
-    
 </div>
-
 @endsection

@@ -61,4 +61,40 @@ class CommentController extends Controller
         // $post_id->post_id = Comment::find($comment_id);
         return redirect('/comments/'.$post_id);
     }
+    public function comment_edit(Comment $comment)
+    {
+        return view('comments/comment_edit')->with(['comment' => $comment]);
+    }
+    public function comment_update(Request $request, Comment $comment)
+    {
+        $comment->comment = $request['comment'];
+        // dd($comment);
+        $comment->save();
+        return redirect('/comments/'.$comment->post_id);
+    }
+    public function comment_delete(Comment $comment)
+    {
+        $comment->delete();
+        return redirect('/comments/'.$comment->post_id);
+    }
+    public function reply_edit($post_id, Reply $reply)
+    {
+        return view('comments/reply_edit')->with([
+            'reply' => $reply,
+            'post_id' => $post_id
+        ]);
+    }
+    public function reply_update(Request $request, $post_id, Reply $reply, Comment $comment)
+    {
+        // dd($request['reply']);
+        $reply->reply = $request['reply'];
+        // dd($reply);
+        $reply->save();
+        return redirect('/comments/'.$post_id);
+    }
+    public function reply_delete($post_id, Reply $reply)
+    {
+        $reply->delete();
+        return redirect('/comments/'.$post_id);
+    }
 }

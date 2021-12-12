@@ -1,109 +1,34 @@
 <head>
     <style>
-        .parent{
-            border: 1px solid;
-            width: 90%;
-            margin: auto;
-        }
-        .times_list{
-            border: 1px solid;
-            width: 63%;
+        .left{
+            border: 0px solid;
+            width: 65%;
             float:left;
-            min-width: 675px;
-            /*padding: 20px;*/
-        }
-        .times_list_box{
-            border: solid 3px black;
-            border-radius: 10px;
-            margin: 3%;
-            padding: 10px;
-        }
-        .time_list_box{
-            border: 3px solid;
-            border-radius: 10px;
-            width: 80%;
-            margin: auto;
-            margin-bottom: 10px;
-            padding: 20px 20px 0 20px;
-        }
-        .clearfix::after {
-            content: "";
-            display: block;
-            clear: both;
-        }
-        .user_name{
-            font-size: 18px;
-            height: 40px;
-            /*width: 200px;*/
+            min-width: 713px;
         }
         .user_name, .study_site, .date{
             float: left;
             margin-right: 5%;
-            /*font-size: 15px;*/
+            font-size: 18px;
         }
         .study_site, .date{
             font-size: 15px;
         }
         .time{
             font-size: 30px;
-            /*width: 30%;*/
             clear: both;
         }
-        .delete{
-            text-align: right;
-            /*margin-right: 50px;*/
-        }
-        .edit{
-            text-align: center;
-            float: right;
-            border: 2px solid;
-            width: 56.5px;
-            height: 28px;
-            margin-left: 2%;
-            /*display:block;*/
-        }
-        .edit_button{
-            display:block;
-            
-        }
-        .links{
-            margin: auto;
-            width: 360px;
-            
-        }
-        
-        
-        
-        .ranking{
-            border: 1px solid;
-            width: 37%;
+        .right{
+            border: 0px solid;
+            width: 35%;
             float: left;
-            min-width: 480px;
+            min-width: 380px;
         }
-        .last_week{
-            
-        }
-        .last_week, .last_month{
-            border: solid 3px black;
-            border-radius: 10px;
-            margin: 5%;
-            padding: 10px;
-        }
-        th, td{
-            padding: 10px;
-        }
-        table{
-            width: 90%;
-            margin-left: 10px;
-            margin-bottom: 10px;
-        }
-        table,tr,td,th {
-            border: 1px solid black;
-        }
+        
         
         
         h1, h2{
-            border-bottom: solid 2px orange;
+            border-bottom: solid 2px black;
         }
         
     </style>
@@ -111,13 +36,13 @@
 
 @extends('layouts.app')
 @section('content')
-
-<div class="parent clearfix">
-    <div class="times_list">
-        <div class="times_list_box">
+<div class="container">
+<!--<div class="mx-auto clearfix" style="width: 90%;">-->
+    <div class="left">
+        <div class="border rounded mr-4 mb-4 p-2 bg-primary">
             <h1>～学習時間一覧～</h1>
             @foreach ($times as $time)
-                <div class="time_list_box">
+                <div class="border rounded m-4 p-2 bg-secondary">
                     <div class="user_name">
                         <p>User Name : {{ $time->user->name }}</p>
                     </div>
@@ -128,14 +53,14 @@
                         <p>Date : {{ $time->updated_at }}</p>
                     </div>
                     
-                    <div class="edit">
-                        <a href="/times/{{ $time->id }}/edit" class="edit_button">edit</a>
+                    <div class="float-right mr-2 mt-2">
+                        <a href="/times/{{ $time->id }}/edit" class="d-block"><i class="fas fa-edit fa-lg" ></i></a>
                     </div>
-                    <div class="delete">
+                    <div class="text-right">
                         <form action="/times/{{ $time->id }}" id="form_{{ $time->id }}" method="post" style="display:inline">
                             @csrf
                             @method('DELETE')
-                            <button type="submit" class="">delete</button> 
+                            <button type="submit" onClick="delete_time({{ $time->id}})" class="btn btn-secondary mt-2"><i class="fas fa-trash-alt fa-lg"></i></button> 
                         </form>
                     </div>
                     <div class="time">
@@ -143,49 +68,68 @@
                     </div>
                 </div>
             @endforeach
-            <div class="links">
+            <div class="mx-auto mt-3" style="width: 360px;">
                 <div>{{ $times->links() }}</div>
             </div>
         </div>
     </div>
     
-    <div class="ranking">
-        <div class="last_week">
-            <h2>～先週の学習時間ランキング～</h2>
-            <table>
-                <tr>
-                    <th>順位</th>
-                    <th>名前</th>
-                    <th>Time</th>
-                </tr>
-                @foreach($week_ranking as $time)
-                <tr>
-                    <td>{{ $loop->iteration }}</td>
-                    <td>{{ $time['user_name'] }}</td>
-                    <td>{{ $time['sum'] }}</td>
-                </tr>
-                @endforeach
+    <div class="right">
+        <div class="border rounded mb-4 p-2 bg-primary">
+            <h2 class="mb-3">～先週の学習時間ランキング～</h2>
+            <table class="table table-hover">
+                <thead>
+                    <tr class="table-active">
+                        <th>順位</th>
+                        <th>名前</th>
+                        <th>Time</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach($week_ranking as $time)
+                    <tr class="table-secondary">
+                        <td>{{ $loop->iteration }}</td>
+                        <td>{{ $time['user_name'] }}</td>
+                        <td>{{ $time['sum'] }}</td>
+                    </tr>
+                    @endforeach
+                </tbody>
             </table>    
         </div>
         
-        <div class="last_month">
-            <h2>～先月の学習時間ランキング～</h2>
-            <table>
-                <tr>
-                    <th>順位</th>
-                    <th>名前</th>
-                    <th>Time</th>
-                </tr>
-                @foreach($month_ranking as $time)
-                <tr>
-                    <td>{{ $loop->iteration }}</td>
-                    <td>{{ $time['user_name'] }}</td>
-                    <td>{{ $time['sum'] }}</td>
-                </tr>
-                @endforeach
+        <div class="border rounded mb-4 p-2 bg-primary">
+            <h2 class="mb-3">～先月の学習時間ランキング～</h2>
+            <table class="table table-hover">
+                <thead>
+                    <tr class="table-active">
+                        <th>順位</th>
+                        <th>名前</th>
+                        <th>Time</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach($month_ranking as $time)
+                    <tr class="table-secondary">
+                        <td>{{ $loop->iteration }}</td>
+                        <td>{{ $time['user_name'] }}</td>
+                        <td>{{ $time['sum'] }}</td>
+                    </tr>
+                    @endforeach
+                </tbody>
             </table>
         </div>
     </div>
 </div>
+<script>
+    function delete_time($id){
+        console.log($id);
+        if (window.confirm('本当に削除しますか？')){
+            document.getElementById('form_'.$id).submit();
+        } else {
+            window.alert('削除がキャンセルされました。');
+        }
+    }
+    
+</script>
 
 @endsection
