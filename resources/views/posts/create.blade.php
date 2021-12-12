@@ -1,34 +1,8 @@
-<head>
-    <script>
-        var token = document.getElementsByName('csrf-token').item(0).content;
-        var request = new XMLHttpRequest();
-        
-        request.open('post', '/posts/create', true);
-        request.responseType = 'json';
-        request.setRequestHeader('X-CSRF-Token', token);
-        request.onload = function(){
-            var data = this.response;
-            console.log(data);
-        };
-        request.setRequestHeader('Content-type', 'application/x-www-form-urlencoded');
-        request.send("status=stop");
-    </script>
-    <style>
-        .post_form{
-            border: 1px solid;
-            width: 90%;
-            margin: auto;
-            padding: 20px;
-        }
-    </style>
-</head>
-
 @extends('layouts.app')
 @section('content')
 <div class="container">
     <div class="mx-auto p-3 border rounded bg-primary" style="width: 100%;">
         <div class="mx-auto p-3 border rounded bg-secondary" style="width: 80%;">
-            <!--<h1>投稿する画面</h1>-->
             <form action="/posts/store" method="post">
                 @csrf
                 <div>

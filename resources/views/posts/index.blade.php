@@ -3,30 +3,19 @@
         .post_content{
             clear: both;
         }
-        .user_name{
-            float: left;
-            margin-right: 10%;
+        .user_name, .post{
+            font-size: 18px;
         }
-        .title{
-            float: left;
-            margin-right: 10%;
+        .title, .date{
+            font-size: 15px;
         }
-        .date{
-            float: left;
-        }
-        
         .post{
             clear: both;
-            margin: 0;
             color: white;
         }
-        
-    
         h1{
             border-bottom: solid 2px black;
         }
-        
-        
     </style>
 </head>
 @extends('layouts.app')
@@ -40,13 +29,13 @@
         <div class="post_content">
             @foreach($posts as $post)
                 <div class="border rounded mx-auto mb-3 p-3 bg-secondary" style="width: 80%;">
-                    <div class="user_name">
+                    <div class="float-left mr-4 user_name">
                         <p class="">Uesr Name : {{ $post->user->name }}</p>
                     </div>
-                    <div class="title">
+                    <div class="float-left mr-4 mt-1 title">
                         <p class="">Title : {{ $post->title }}</p>
                     </div>
-                    <div class="date">
+                    <div class="float-left mt-1 date">
                         <p class="" >Date : {{ $post->updated_at->format('Y-m-d H:i') }}</p>
                     </div>
                     <div class="float-right mt-1">
@@ -56,14 +45,14 @@
                         <form action="/posts/{{ $post->id }}" id="form_{{ $post->id }}" method="post" style="display:inline">
                             @csrf
                             @method('DELETE')
-                            <button type="submit" class="btn btn-secondary"><i class="fas fa-trash-alt fa-lg"></i></button> 
+                            <button type="submit" onClick="delete_post({{ $post->id}})" class="btn btn-secondary"><i class="fas fa-trash-alt fa-lg"></i></button> 
                         </form>
                     </div>
                     <div>
                         @if($post->content == 'post')
-                            <p class="post">Post</p>
+                            <p class="m-0 post">Post</p>
                         @else($post->content == 'question')
-                            <p class="post"><i class="far fa-question-circle"></i> Question</p>
+                            <p class="m-0 post"><i class="far fa-question-circle"></i> Question</p>
                         @endif
                         <p class="mx-auto my-2 px-3 h5">{{ $post->body }}</p>
                     </div>
@@ -78,5 +67,15 @@
         </div>
     </div>
 </div>
+<script>
+    function delete_post($id){
+        if (window.confirm('本当に削除しますか？')){
+            document.getElementById('form_'.$id).submit();
+        } else {
+            window.alert('削除がキャンセルされました。');
+            event.preventDefault();
+        }
+    }
+</script>
 @endsection
 

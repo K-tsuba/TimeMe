@@ -29,7 +29,9 @@ Route::group(['middleware' => 'auth'], function(){
     Route::get('/user/{study_site_id}', 'UserController@index');
     Route::get('/user/{time}/edit', 'UserController@edit');
     Route::put('/user/{time}', 'UserController@update');
+    Route::delete('/user/{time}', 'UserController@delete');
 
+    Route::delete('/study_sites/{study_site}', 'StudySiteController@delete');
     Route::post('/study_sites/store', 'StudySiteController@store'); //サイトのtitleとurlを保存
     
     Route::get('/posts/{post}/edit', 'PostController@edit');

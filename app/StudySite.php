@@ -23,14 +23,11 @@ class StudySite extends Model
     }
     public function getOwnStudySites()
     {
-        // return $this::with('times')->find(Auth::id())->times()->orderBy('updated_at', 'desc')->get();                 
         return $this->where('user_id', Auth::id())->get();
     }
     public function getOwnTimes()
     {
         return $this->times()->get();
-        // return $this::with('times')->where('user_id', Auth::id())->orderBy('updated_at', 'desc')->get();
-        // dd($this::with('times')->where('user_id', Auth::id())->get());
     }
     public function getStudySitefirst($study_site_id)
     {

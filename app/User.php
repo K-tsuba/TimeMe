@@ -57,18 +57,13 @@ class User extends Authenticatable
     }
     public function getOwnTimes()
     {
-        // dd($this->times()->get());
         return $this->times()->get();
     }
     public function day_of_week($date)
     {
         // $date = Time::whereDate('created_at', '>=', $week)->where('study_site_id', $study_site_id)->get(['updated_at']);
-        
-        // dd($date[0]);
         $day_week = date('w', strtotime($date));
-        // dd($day_week);
         $week = [ '日', '月', '火', '水', '木', '金', '土' ];
-        // dd($week[$day_week]);
         return $week[$day_week];
     }
     public function this_week_times($study_site_id)

@@ -27,8 +27,6 @@ class PostController extends Controller
         $input = $request['post'];
         $input += ['user_id' => $request->user()->id];
         $post->fill($input)->save();
-        
-        
         return redirect('/posts/');
     }
     public function edit(Post $post)
@@ -37,7 +35,6 @@ class PostController extends Controller
     }
     public function update(PostRequest $request, Post $post)
     {
-        // dd($request);
         $input_post = $request['post'];
         $input_post += ['uesr_id' => $request->user()->id];
         $post->fill($input_post)->save();

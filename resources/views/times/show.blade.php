@@ -1,14 +1,9 @@
 <head>
     <style>
-        .left{
-            border: 0px solid;
-            width: 65%;
-            float:left;
+        .min-wl{
             min-width: 713px;
         }
-        .user_name, .study_site, .date{
-            float: left;
-            margin-right: 5%;
+        .user_name{
             font-size: 18px;
         }
         .study_site, .date{
@@ -18,16 +13,10 @@
             font-size: 30px;
             clear: both;
         }
-        .right{
-            border: 0px solid;
-            width: 35%;
-            float: left;
+        .min-wr{
             min-width: 380px;
         }
-        
-        
-        
-        h1, h2{
+        h1, h3{
             border-bottom: solid 2px black;
         }
         
@@ -37,33 +26,32 @@
 @extends('layouts.app')
 @section('content')
 <div class="container">
-<!--<div class="mx-auto clearfix" style="width: 90%;">-->
-    <div class="left">
+    <div class="float-left min-wl" style="width: 65%;">
         <div class="border rounded mr-4 mb-4 p-2 bg-primary">
             <h1>～学習時間一覧～</h1>
             @foreach ($times as $time)
                 <div class="border rounded m-4 p-2 bg-secondary">
-                    <div class="user_name">
+                    <div class="float-left mr-3 user_name">
                         <p>User Name : {{ $time->user->name }}</p>
                     </div>
-                    <div class="study_site">
+                    <div class="float-left mr-3 mt-1 study_site">
                         <p>Study Site : {{ $time->study_site->study_title }}</p>
                     </div>
-                    <div class="date">
+                    <div class="float-left mt-1 date">
                         <p>Date : {{ $time->updated_at }}</p>
                     </div>
                     
-                    <div class="float-right mr-2 mt-2">
+                    <div class="float-right mr-2 mt-1">
                         <a href="/times/{{ $time->id }}/edit" class="d-block"><i class="fas fa-edit fa-lg" ></i></a>
                     </div>
                     <div class="text-right">
                         <form action="/times/{{ $time->id }}" id="form_{{ $time->id }}" method="post" style="display:inline">
                             @csrf
                             @method('DELETE')
-                            <button type="submit" onClick="delete_time({{ $time->id}})" class="btn btn-secondary mt-2"><i class="fas fa-trash-alt fa-lg"></i></button> 
+                            <button type="submit" onClick="delete_time({{ $time->id}})" class="btn btn-secondary"><i class="fas fa-trash-alt fa-lg"></i></button> 
                         </form>
                     </div>
-                    <div class="time">
+                    <div class="text-center time">
                         <p>Time : {{ $time->time }}</p>
                     </div>
                 </div>
@@ -73,10 +61,9 @@
             </div>
         </div>
     </div>
-    
-    <div class="right">
+    <div class="float-left min-wr" style="width: 35%;">
         <div class="border rounded mb-4 p-2 bg-primary">
-            <h2 class="mb-3">～先週の学習時間ランキング～</h2>
+            <h3 class="mb-3">～先週の学習時間ランキング～</h3>
             <table class="table table-hover">
                 <thead>
                     <tr class="table-active">
@@ -96,9 +83,8 @@
                 </tbody>
             </table>    
         </div>
-        
         <div class="border rounded mb-4 p-2 bg-primary">
-            <h2 class="mb-3">～先月の学習時間ランキング～</h2>
+            <h3 class="mb-3">～先月の学習時間ランキング～</h3>
             <table class="table table-hover">
                 <thead>
                     <tr class="table-active">
@@ -122,14 +108,13 @@
 </div>
 <script>
     function delete_time($id){
-        console.log($id);
         if (window.confirm('本当に削除しますか？')){
             document.getElementById('form_'.$id).submit();
         } else {
             window.alert('削除がキャンセルされました。');
+            event.preventDefault();
         }
     }
-    
 </script>
 
 @endsection

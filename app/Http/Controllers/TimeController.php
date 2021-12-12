@@ -21,15 +21,11 @@ class TimeController extends Controller
     {
         $latest_goal = Tweet::where('user_id', Auth::user()->id)->whereDate('updated_at', Carbon::today())->latest('updated_at')->first(['goal']);
         // $latest_goal = Tweet::where('user_id', Auth::user()->id)->whereDate('updated_at', Carbon::today()->get(['goal']);
-        // dd($latest_goal);
-        
         return view('/times/index')->with([
             'study_sites' => $study_site->getOwnStudySites(),
             'latest_goal' => $latest_goal
         ]);
     }
-    
-    
     public function start_store(Request $request, Time $time, StudySite $study_site)
     {
         $input = $request['status'];
@@ -40,9 +36,7 @@ class TimeController extends Controller
             $time->save();
             return redirect('/');
         } 
-
     }
-    
     public function stop_store(Request $request, Time $time){
         $input = $request['status'];
         if ($input === 'stop'){
@@ -54,7 +48,6 @@ class TimeController extends Controller
             return redirect('/');
         }
     }
-
     public function show(Time $time)
     {
         //先週のランキング
@@ -73,7 +66,6 @@ class TimeController extends Controller
             'month_ranking' => $month_ranking
         ]);
     }
-    
     public function edit(Time $time)
     {
         return view('times/edit')->with(['time' => $time ]);
@@ -89,57 +81,5 @@ class TimeController extends Controller
     {
         $time->delete();
         return redirect('times/show');
-    }
-    
-    public function ranking(Time $time)
-    {
-        $week = Carbon::today()->subDay(7);
-        $time_rank = $time->orderby('time', 'desc')->whereDate('created_at', '>=', $week);
-        $ranking = $time_rank->with('user')->paginate(10);
-        
-        // function _get_sum_time($source_time, $add_time) {
-        //     $source_times = explode(":", $source_time);
-        //     $add_times = explode(":", $add_time);
-        //     return date("H:i:s", mktime($source_times[0] + $add_times[0], $source_times[1] + $add_times[1], $source_times[2] + $add_times[2]));
-        // };
-        // //今週1週間の時間だけを取得
-        // $this_week_times = Time::whereDate('created_at', '>=', Carbon::today()->startOfWeek())->get();
-        // $initial_time = "00:00:00";
-        // $sum_this_week = "00:00:00";
-        // foreach ($this_week_times as $addend){
-        //     $sum_this_week = _get_sum_time($sum_this_week, _get_sum_time($initial_time, $addend['time']));
-        // };
-        
-        
-    
-        
-        
-        
-        
-        return view('times/ranking')->with([
-            'times' => $ranking,
-            // 'sum_this_weeks' => $sum_this_week
-        ]);
-    }
-    public function tweet(Request $request){
-        $twitter = new TwitterOAuth(
-            env('TWITTER_CLIENT_ID'),
-            env('TWITTER_CLIENT_SECRET'),
-            env('TWITTER_CLIENT_ID_ACCESS_TOKEN'),
-            env('TWITTER_CLIENT_ID_ACCESS_TOKEN_SECRET')
-            );
-            
-        $twitter->post("statuses/update", [
-            "status" =>
-                'New Photo Post!' . PHP_EOL .
-                '新しい聖地の写真が投稿されました!' . PHP_EOL 
-                // 'タイトル「' . $title . '」' . PHP_EOL .
-                // '#photo #anime #photography #アニメ #聖地 #写真 #HolyPlacePhoto' . PHP_EOL .
-                // 'https://www.holy-place-photo.com/photos/' . $id
-        ]);
-        // $res = self::tweet($twitter);
-        // return $res;
-        return redirect('/ranking');
-
     }
 }

@@ -95,7 +95,6 @@ class UserController extends Controller
     }
     public function edit(Time $time)
     {
-        // dd($time);
         return view('User/edit')->with(['time' => $time ]);
     }
     public function update(Request $request, Time $time)
@@ -103,8 +102,11 @@ class UserController extends Controller
         $edit_time = $request['time'];
         $time->time = date('H:i:s', strtotime($edit_time));
         $time->save();
-        
         return redirect('user/'.$time->study_site_id);
     }
-    //そのユーザーのstudysiteのidを渡す
+    public function delete(Time $time)
+    {
+        $time->delete();
+        return redirect('user/'.$time->study_site_id);
+    }
 }

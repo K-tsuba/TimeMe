@@ -17,7 +17,6 @@ class TweetController extends Controller
         $status = $request['status'];
         $tweet->user_id = Auth::user()->id;
         $tweet->goal = $request['goal'];
-        // $tweet->review = null;
         $tweet->save();
         if ($status == 1) { //$statusは投稿の公開ステータス 0：保留、1：公開
             $twitter = new TwitterOAuth(
@@ -49,7 +48,6 @@ class TweetController extends Controller
                 "status" => $tweet->review 
             ]);
         }
-        
         return redirect('/user/'.$study_site_id);
     }
 }

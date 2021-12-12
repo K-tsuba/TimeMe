@@ -1,9 +1,5 @@
 <head>
     <script>
-        
-        
-        
-    
         var interval_id;
         var start_click=false;
         var time=0;
@@ -50,8 +46,6 @@
                 alert("学習するサイトを選択してください。");
                 start_click=false;
             }
-            
-            
         }
         
         function hoge(event) {
@@ -136,9 +130,6 @@
                 document.getElementById('youtubeList').innerHTML = html;
             }
         }
-        
-        
-        
     </script>
     <style>
         .min-w{
@@ -146,51 +137,46 @@
         }
         .display{
             font-size: 200px;
-            text-align: center;
-            margin: 0;
         }
-        .start,.stop,.reset{
-            padding: 5px 20px;
+        .size{
             font-size: 40px;
-            border-radius: 50px;
-            background-color: #ADC2A9;
         }
-        .stop{
-            margin: 0 10%;
-        }
-        .right_side{
-            border: 0px solid;
-            width: 35%;
-            float: left;
+        .min-wr{
             min-width: 380px;
         }
         h2{
             border-bottom: solid 2px black;
         }
+        
+        li{
+            /*clear:both;*/
+        }
     </style>
 </head>
+
 @extends('layouts.app')
 @section('content')
 <div class="container">
     <div class="float-left min-w" style="width: 65%;">
         <div class="border rounded mr-4 mb-4 p-2 bg-primary clearfix" style="">
             <h2 class="title_register">～勉強するサイトの登録～</h2>
-                <form action="/study_sites/store" method="post">
-                    @csrf
-                        <div class="float-left mt-2">
-                            <h3>Study title</h3>
-                            <input type="text" name="study_title" placeholder="タイトル" class="" style="width: 200px; height: 38px;">
-                        </div>
-                        <div class="float-left ml-3 mt-2">
-                            <h3>Study site</h3>
-                            <input type="text" name="study_site" placeholder="urlを記入" class="" style="width: 200px; height: 38px;">
-                        </div>
-                        <div class="float-left ml-3 mt-5" style="width: 50px">
-                            <input type="submit" value="&#xf00c; save" class="fas fa-2x bg-secondary">
-                        </div>
-                </form>
+            <form action="/study_sites/store" method="post">
+                @csrf
+                <div class="float-left mt-2">
+                    <h3>Study title</h3>
+                    <input type="text" name="study_title" placeholder="タイトル" class="" style="width: 200px; height: 38px;">
+                    <p class="m-0">{{ $errors->first('study_title') }}</p>
+                </div>
+                <div class="float-left ml-3 mt-2">
+                    <h3>Study site</h3>
+                    <input type="text" name="study_site" placeholder="urlを記入" class="" style="width: 200px; height: 38px;">
+                    <p class="m-0">{{ $errors->first('study_site') }}</p>
+                </div>
+                <div class="float-left ml-3 mt-5" style="width: 50px">
+                    <input type="submit" value="&#xf00c; save" class="fas fa-2x bg-secondary">
+                </div>
+            </form>
         </div>
-        
         <div class="border rounded mb-4 mr-4 p-2 bg-primary">
             <div class="">
                 <h2 class="">～学習するサイトを選択～</h2>
@@ -201,21 +187,17 @@
                     @endforeach
                 </select>
             </div>
-            
             <div>
-                <p id="display" class="display">0:0:0</p>
+                <p id="display" class="text-center display">0:0:0</p>
             </div>
             <div class="text-center mb-2">
-                <button id="start" class="start">start</button>
-                <button id="stop" class="stop" disabled>stop</button>
-                <button id="reset" class="reset" disabled>reset</button>
+                <button id="start" class="rounded-pill bg-secondary px-3 py-2 size">start</button>
+                <button id="stop" class="rounded-pill bg-secondary px-3 py-2 mx-5 size" disabled>stop</button>
+                <button id="reset" class="rounded-pill bg-secondary px-3 py-2 size" disabled>reset</button>
             </div>
-            
         </div>
-        
     </div>
-    
-    <div class="right_side">
+    <div class="float-left min-wr" style="width: 35%;">
         <div style="width: 100%;">
             <div class="border rounded mb-4 p-2 bg-primary">
                 <h2>～今日の目標をツイート～</h2>
@@ -224,16 +206,14 @@
                     <div class="text-center mt-4">
                         <textarea name="goal" placeholder="今日の目標は？" style="width: 80%; height: 20%;">{{ old('goal', $latest_goal->goal ?? '') }}</textarea>
                     </div>
-                    <p class="title__error" style="color:red">{{ $errors->first('goal') }}</p>
-                    <div class="text-right mr-2">
+                    <p class="ml-5 mt-1">{{ $errors->first('goal') }}</p>
+                    <div class="text-right mt-3 mr-2">
                         <input type="submit" value="&#xf099; Tweet" class="fab fa-2x rounded-pill p-2 bg-secondary" value="&#xf099;">
                     </div>
                     <input type="hidden" name="status" value="1">
                 </form>
             </div>
         </div>
-        
-        
         <div style="width: 100%;">
             <div class="border rounded mb-4 p-2 bg-primary">
                 <h2>～Own Study Site～</h2>
@@ -241,14 +221,19 @@
                     @foreach($study_sites as $study_site)
                         <ul>
                             <li>{{ $study_site->study_title }}</li>
-                            <p><a href="{{ $study_site->study_site }}" target="_blank" class="text-white">{{ $study_site->study_site }}</a></p>
+                            <p class="float-left"><a href="{{ $study_site->study_site }}" target="_blank" class="text-white">{{ $study_site->study_site }}</a></p>
+                            <div class="text-right">
+                                <form action="/study_sites/{{ $study_site->id }}" id="form_{{ $study_site->id }}" method="post" style="display:inline">
+                                    @csrf
+                                    @method('DELETE')
+                                    <button type="submit" onClick="delete_time({{ $study_site->id}})" class="btn btn-primary"><i class="fas fa-trash-alt fa-lg"></i></button> 
+                                </form>
+                            </div>
                         </ul>
-                        
                     @endforeach
                 </div>
             </div>
         </div>
-        
         <div style="width: 100%;">
             <div class="border rounded mb-4 p-2 bg-primary">
                 <h2>～Refresh～</h2>
@@ -257,4 +242,14 @@
         </div>
     </div>
 </div>
+<script>
+    function delete_time($id){
+        if (window.confirm('本当に削除しますか？')){
+            document.getElementById('form_'.$id).submit();
+        } else {
+            window.alert('削除がキャンセルされました。');
+            event.preventDefault();
+        }
+    }
+</script>
 @endsection
