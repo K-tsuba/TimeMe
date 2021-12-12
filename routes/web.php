@@ -50,7 +50,7 @@ Route::group(['middleware' => 'auth'], function(){
     Route::post('/comments/create', 'CommentController@create');
     Route::post('/comments/store/{post_id}', 'CommentController@store');
     Route::get('/comments/reply/{comment_id}', 'CommentController@reply');
-    Route::post('/comments/reply/store/{comment_id}', 'CommentController@reply_store');
+    Route::post('/comments/reply/store/{comment_id}/{post_id}', 'CommentController@reply_store');
     
     Route::get('/reply/{post_id}/{reply}/edit', 'CommentController@reply_edit');
     Route::put('/reply/{post_id}/{reply}', 'CommentController@reply_update');

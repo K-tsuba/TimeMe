@@ -17,13 +17,11 @@ use Abraham\TwitterOAuth\TwitterOAuth;
 
 class TimeController extends Controller
 {
-    public function index(StudySite $study_site, Time $time)
+    public function index(StudySite $study_site, Time $time, Tweet $tweet)
     {
-        $latest_goal = Tweet::where('user_id', Auth::user()->id)->whereDate('updated_at', Carbon::today())->latest('updated_at')->first(['goal']);
-        // $latest_goal = Tweet::where('user_id', Auth::user()->id)->whereDate('updated_at', Carbon::today()->get(['goal']);
         return view('/times/index')->with([
             'study_sites' => $study_site->getOwnStudySites(),
-            'latest_goal' => $latest_goal
+            'latest_goal' => $tweet->latest_goal()
         ]);
     }
     public function start_store(Request $request, Time $time, StudySite $study_site)
@@ -81,11 +79,5 @@ class TimeController extends Controller
     {
         $time->delete();
         return redirect('times/show');
-    }
-    
-    
-    public function ranking()
-    {
-        return redirect('/ranking');
     }
 }

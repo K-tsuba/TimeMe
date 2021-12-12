@@ -15,13 +15,11 @@ use Auth;
 
 class CommentController extends Controller
 {
-    public function index(Comment $comment, $post_id)
+    public function index(Comment $comment, $post_id, Post $post)
     {
-        $post = Post::with('user')->where('id', $post_id)->first();
-        $comment = Comment::where('post_id', $post_id)->get();
         return view('comments/index')->with([
-            'post' => $post,
-            'comments' => $comment
+            'post' => $post->PostFirst($post_id),
+            'comments' => $comment->getComment($post_id)
         ]);
     }
     public function create()
@@ -36,19 +34,16 @@ class CommentController extends Controller
         $comment->save();
         return redirect('/comments/'.$post_id);
     }
-    public function reply($comment_id)
+    public function reply($comment_id, Comment $comment)
     {
-        $comment = Comment::with('user')->where('id', $comment_id)->first();
-        return view('comments/reply')->with(['comment' => $comment]);
+        return view('comments/reply')->with(['comment' => $comment->CommentFirst($comment_id)]);
     }
-    public function reply_store(Comment $comment, Reply $reply, ReplyRequest $request, $comment_id)
+    public function reply_store(Comment $comment, Reply $reply, ReplyRequest $request, $comment_id, $post_id)
     {
         $reply->reply = $request->reply_body;
         $reply->user_id = Auth::user()->id;
         $reply->comment_id = $comment_id;
         $reply->save();
-        $post = Comment::where('id', $comment_id)->first();
-        $post_id = $post->post_id;
         return redirect('/comments/'.$post_id);
     }
     public function comment_edit(Comment $comment)

@@ -61,7 +61,6 @@ class User extends Authenticatable
     }
     public function day_of_week($date)
     {
-        // $date = Time::whereDate('created_at', '>=', $week)->where('study_site_id', $study_site_id)->get(['updated_at']);
         $day_week = date('w', strtotime($date));
         $week = [ '日', '月', '火', '水', '木', '金', '土' ];
         return $week[$day_week];

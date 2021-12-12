@@ -109,7 +109,7 @@
         
         var apikey = 'AIzaSyCRj1tsmPrdQa7NC3TWwrVlDdpwUzQntSw';
         var channelid = 'UCHrjqpLwUNY4BV017sq21Tw';
-        var maxresults = '0';
+        var maxresults = '1';
         var url = 'https://www.googleapis.com/youtube/v3/search?part=snippet&channelId='+channelid+'&maxResults='+maxresults+'&order=date&type=video&key='+apikey;
         var xhr = new XMLHttpRequest();
         xhr.open('get', url);
@@ -131,35 +131,9 @@
             }
         }
     </script>
-    <style>
-        .min-w{
-            min-width: 713px;
-        }
-        .display{
-            font-size: 200px;
-        }
-        .size{
-            font-size: 40px;
-        }
-        .min-wr{
-            min-width: 380px;
-        }
-        h2{
-            border-bottom: solid 2px black;
-        }
-        
-        
-        .button{
-            background: #ADC2A9;
-            color: #D3E4CD;
-            <!--border:none;-->
-            cursor:pointer;
-        }
-        .button:hover{
-            background: #D3E4CD;
-            color: #ADC2A9;
-        }
-    </style>
+    
+    <link href="/css/home.css" rel="stylesheet">
+    <link href="/css/button.css" rel="stylesheet">
 </head>
 
 @extends('layouts.app')

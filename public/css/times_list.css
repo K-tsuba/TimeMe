@@ -1,0 +1,19 @@
+.min-wl{
+    min-width: 713px;
+}
+.user_name{
+    font-size: 18px;
+}
+.study_site, .date{
+    font-size: 15px;
+}
+.time{
+    font-size: 30px;
+    clear: both;
+}
+.min-wr{
+    min-width: 380px;
+}
+h1, h3{
+    border-bottom: solid 2px black;
+}

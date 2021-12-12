@@ -27,4 +27,12 @@ class Comment extends Model
     {
         return $this->user()->first();
     }
+    public function getComment($post_id)
+    {
+        return $this->where('post_id', $post_id)->get();
+    }
+    public function CommentFirst($comment_id)
+    {
+        return $this->with('user')->where('id', $comment_id)->first();
+    }
 }

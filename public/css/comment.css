@@ -1,0 +1,9 @@
+.user_name{
+    font-size: 18px;
+}
+.title, .date{
+    font-size: 15px;
+}
+.body{
+    clear: both;
+}

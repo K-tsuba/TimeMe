@@ -25,6 +25,7 @@ class StudySite extends Model
     {
         return $this->where('user_id', Auth::id())->get();
     }
+    
     public function getOwnTimes()
     {
         return $this->times()->get();

@@ -1,0 +1,27 @@
+.min-wl{
+    min-width: 713px;
+}
+.date{
+    font-size: 20px;
+}
+.day_of_week{
+    font-size: 20px;
+}
+.time{
+    font-size: 30px;
+}
+.min-wr{
+    min-width: 380px;
+}
+.all_sum{
+    font-size: 50px;
+}
+.year_month{
+    font-size: 20px;
+}
+.past_month_sum{
+    font-size: 30px;
+}
+h2{
+    border-bottom: solid 2px black;
+}

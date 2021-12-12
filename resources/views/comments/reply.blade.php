@@ -1,25 +1,6 @@
 <head>
-    <style>
-        .user_name{
-            font-size: 18px;
-        }
-        .date{
-            font-size: 15px;
-        }
-        .body{
-            clear: both;
-        }
-        .button{
-            background: #ADC2A9;
-            color: #D3E4CD;
-            <!--border:none;-->
-            cursor:pointer;
-        }
-        .button:hover{
-            background: #D3E4CD;
-            color: #ADC2A9;
-        }
-    </style>
+    <link href="/css/comment.css" rel="stylesheet">
+    <link href="/css/button.css" rel="stylesheet">
 </head>
 @extends('layouts.app')
 @section('content')
@@ -42,7 +23,7 @@
         </div>
         <div class="mx-auto my-3" style="width: 80%;">
             <div class="border rounded bg-secondary p-3 mb-3">
-                <form action="/comments/reply/store/{{ $comment->id }}" method="post">
+                <form action="/comments/reply/store/{{ $comment->id }}/{{ $comment->post_id }}" method="post">
                     @csrf
                     <div>
                         <h2 class="float-left mr-5">Reply</h2>

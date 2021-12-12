@@ -1,46 +1,6 @@
 <head>
-    <style>
-        .post_content{
-            clear: both;
-        }
-        .user_name, .post{
-            font-size: 18px;
-        }
-        .title, .date{
-            font-size: 15px;
-        }
-        .post{
-            clear: both;
-            color: white;
-        }
-        h1{
-            border-bottom: solid 2px black;
-        }
-        
-        .button_post{
-            background: #D3E4CD;
-            color: #ADC2A9;
-            <!--border:none;-->
-            cursor:pointer;
-            
-        }
-        .button_post:hover{
-            background: #ADC2A9;
-            color: #D3E4CD;
-        }
-        .button{
-            background: #ADC2A9;
-            color: #D3E4CD;
-            <!--border:none;-->
-            cursor:pointer;
-        }
-        .button:hover{
-            background: #D3E4CD;
-            color: #ADC2A9;
-        }
-        
-        
-    </style>
+    <link href="/css/post.css" rel="stylesheet">
+    <link href="/css/button.css" rel="stylesheet">
 </head>
 @extends('layouts.app')
 @section('content')
@@ -53,13 +13,13 @@
         <div class="post_content">
             @foreach($posts as $post)
                 <div class="border rounded mx-auto mb-3 p-3 bg-secondary" style="width: 80%;">
-                    <div class="float-left mr-4 user_name">
+                    <div class="float-left mr-3 user_name">
                         <p class="">Uesr Name : {{ $post->user->name }}</p>
                     </div>
-                    <div class="float-left mr-4 mt-1 title">
+                    <div class="float-left mr-3 mt-1 title">
                         <p class="">Title : {{ $post->title }}</p>
                     </div>
-                    <div class="float-left mt-1 date">
+                    <div class="float-left mt-1 mr-2 date">
                         <p class="" >Date : {{ $post->updated_at->format('Y-m-d H:i') }}</p>
                     </div>
                     <div class="float-right mt-1">

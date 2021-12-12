@@ -1,0 +1,27 @@
+.post_content{
+    clear: both;
+}
+.user_name, .post{
+    font-size: 18px;
+}
+.title, .date{
+    font-size: 15px;
+}
+.post{
+    clear: both;
+    color: white;
+}
+h1{
+    border-bottom: solid 2px black;
+}
+
+.button_post{
+    background: #D3E4CD;
+    color: #ADC2A9;
+    cursor:pointer;
+    
+}
+.button_post:hover{
+    background: #ADC2A9;
+    color: #D3E4CD;
+}

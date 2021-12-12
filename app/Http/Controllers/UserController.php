@@ -15,7 +15,7 @@ use Auth;
 
 class UserController extends Controller
 {
-    public function index(Time $time, User $user, StudySite $study_site, Request $request, $study_site_id)
+    public function index(Time $time, User $user, StudySite $study_site, Request $request, $study_site_id, Tweet $tweet)
     {
         //今週1週間のtimesを取得
         $this_week_time_all = $time->this_week_all($study_site_id);
@@ -49,10 +49,8 @@ class UserController extends Controller
         
         //過去のデータ表示
         $Times = $time->times_of_one_site($study_site_id);
-        
         $year = $request->input('year');
         $month = $request->input('month');
-        
         if ($year !== null){
             $past_times = $Times->whereYear('updated_at', $year);
             if ($month !== null){
@@ -71,8 +69,6 @@ class UserController extends Controller
         $today = Carbon::today();
         $week = [ '日', '月', '火', '水', '木', '金', '土' ];
         
-        $latest_review = Tweet::where('user_id', Auth::user()->id)->whereDate('updated_at', Carbon::today())->latest('updated_at')->first(['review']);
-
         return view('User/index')->with([
             'own_study_sites' => $this_week_time_all,
             'own_study_site' => $study_site,
@@ -89,7 +85,7 @@ class UserController extends Controller
             'month_sum' => $past_month_sum,
             'year' => $year,
             'month' => $month,
-            'latest_review' => $latest_review,
+            'latest_review' => $tweet->latest_review(),
             'study_site_id' => $study_site_id
         ]);
     }

@@ -25,7 +25,6 @@ class Time extends Model
     public function latestId(){
         return $this->latest('updated_at')->first();
     }
-    
     public function user()
     {
         return $this->belongsTo('App\User','user_id');
@@ -34,21 +33,15 @@ class Time extends Model
     {
         return $this->belongsTo('App\StudySite');
     }
-    // public function getTimes(int $limit_count = 50)
-    // {
-    //     // return $this->orderBy('updated_at', 'desc')->limit($limit_count)->get();
-    //     return $this->orderBy('updated_at', 'desc')->limit($limit_count)->paginate(10);
-    // }
+    
     public function getTimes()
     {
-        // return $this->orderBy('updated_at', 'desc')->limit($limit_count)->get();
         return $this->orderBy('updated_at', 'desc')->paginate(10);
     }
     public function getLatestTime()
     {
         return $this->where('user_id', Auth::user()->id)->latest('updated_at')->first();
     }
-    
     public function _get_sum_time($source_time, $add_time)
     {
         $source_times = explode(":", $source_time);
@@ -105,14 +98,16 @@ class Time extends Model
     {
         return $this->orderBy('updated_at', 'desc')->where('study_site_id', $study_site_id);
     }
-    public function past_time_search($Times, $year, $month)
-    {
-        if ($year !== null){
-            $past_times = $Times->whereYear('updated_at', $year);
-            if ($month !== null){
-                $past_times = $Times->whereMonth('updated_at', $month);
-            }
-        }
-        return $past_times;
-    }
+    // public function past_time_search($Times, $year, $month)
+    // {
+    //     if ($year !== null){
+    //         $past_times = $Times->whereYear('updated_at', $year);
+    //         if ($month !== null){
+    //             $past_times = $Times->whereMonth('updated_at', $month);
+    //         }
+    //     }
+    //     return $past_times;
+    // }
+    
+    
 }

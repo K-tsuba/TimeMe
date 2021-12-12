@@ -29,5 +29,8 @@ class Post extends Model
     {
         return $this::with('user')->orderBy('updated_at', 'DESC')->paginate(10);
     }
-
+    public function PostFirst($post_id)
+    {
+        return $this->with('user')->where('id', $post_id)->first();
+    }
 }

@@ -1,9 +1,6 @@
 <head>
-    <style>
-        .time{
-            font-size: 50px;
-        }
-    </style>
+    <link href="/css/time_edit.css" rel="stylesheet">
+    <link href="/css/button.css" rel="stylesheet">
 </head>
 @extends('layouts.app')
 @section('content')
@@ -18,7 +15,7 @@
                     <input type='time' class="text-center time" style="width: 60%; height: 20%;"　name='time' value="{{ $time->time }}">
                 </div>
                 <div class="text-right mt-3" style="width: 83%;">
-                    <input type="submit" value="&#xf00c; save" class="fas fa-lg p-2 rounded-pill bg-secondary">
+                    <input type="submit" value="&#xf00c; save" class="fas fa-lg p-2 border-secondary rounded-pill button">
                 </div>
             </form>
         </div>

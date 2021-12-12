@@ -1,16 +1,5 @@
 <head>
-    <style>
-        .button{
-            background: #ADC2A9;
-            color: #D3E4CD;
-            <!--border:none;-->
-            cursor:pointer;
-        }
-        .button:hover{
-            background: #D3E4CD;
-            color: #ADC2A9;
-        }
-    </style>
+    <link href="/css/button.css" rel="stylesheet">
 </head>
 @extends('layouts.app')
 @section('content')
