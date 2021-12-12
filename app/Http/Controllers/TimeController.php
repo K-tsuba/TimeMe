@@ -82,4 +82,10 @@ class TimeController extends Controller
         $time->delete();
         return redirect('times/show');
     }
+    
+    
+    public function ranking()
+    {
+        return redirect('/ranking');
+    }
 }

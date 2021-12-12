@@ -16,6 +16,30 @@
         h1{
             border-bottom: solid 2px black;
         }
+        
+        .button_post{
+            background: #D3E4CD;
+            color: #ADC2A9;
+            <!--border:none;-->
+            cursor:pointer;
+            
+        }
+        .button_post:hover{
+            background: #ADC2A9;
+            color: #D3E4CD;
+        }
+        .button{
+            background: #ADC2A9;
+            color: #D3E4CD;
+            <!--border:none;-->
+            cursor:pointer;
+        }
+        .button:hover{
+            background: #D3E4CD;
+            color: #ADC2A9;
+        }
+        
+        
     </style>
 </head>
 @extends('layouts.app')
@@ -23,7 +47,7 @@
 <div class="container">
     <div class="mx-auto p-3 border rounded bg-primary" style="width: 100%;">
         <h1 class="float-left">～アウトプット投稿/質問～</h1>
-        <div class="mb-3 border rounded-pill float-right bg-secondary">
+        <div class="mb-3 border border-secondary rounded-pill float-right button_post">
             <a href="/posts/create" class="d-block py-2 px-5 text-white fa-2x"><i class="fas fa-pencil-alt"></i> 投稿・質問する</a>
         </div>
         <div class="post_content">
@@ -56,7 +80,7 @@
                         @endif
                         <p class="mx-auto my-2 px-3 h5">{{ $post->body }}</p>
                     </div>
-                    <div class="border rounded-pill p-1" style="width: 95px; ">
+                    <div class="border-secondary rounded-pill p-1 button" style="width: 95px; ">
                         <a href="/comments/{{ $post->id }}" class="d-block"><i class="far fa-comment-dots"></i> Comment</a>
                     </div>
                 </div>

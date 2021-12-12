@@ -9,6 +9,16 @@
         .body{
             clear: both;
         }
+        .button{
+            background: #ADC2A9;
+            color: #D3E4CD;
+            <!--border:none;-->
+            cursor:pointer;
+        }
+        .button:hover{
+            background: #D3E4CD;
+            color: #ADC2A9;
+        }
     </style>
 </head>
 @extends('layouts.app')
@@ -56,7 +66,7 @@
                             <div class="body">
                                 <p class="mx-auto" style="width: 95%;">{{ $comment->comment }}</p>
                             </div>
-                            <div class="border rounded-pill p-1 mb-3" style="width: 75px; ">
+                            <div class="border-secondary rounded-pill p-1 mb-3 button" style="width: 75px; ">
                                 <a href="/comments/reply/{{ $comment->id }}"><i class="fas fa-reply"></i> Reply</a>
                             </div>
                             
@@ -107,7 +117,7 @@
                         </div>
                         <p class="ml-5">{{ $errors->first('comment_body') }}</p>
                         <div class="text-right">
-                            <input type="submit" value="&#xf075; comment" class="fas rounded-pill p-2 bg-secondary">
+                            <input type="submit" value="&#xf075; comment" class="fas border-secondary rounded-pill p-2 button">
                         </div>
                     </div>
                 </form>

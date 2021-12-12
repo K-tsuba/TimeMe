@@ -27,6 +27,16 @@
         h2{
             border-bottom: solid 2px black;
         }
+        .button{
+            background: #ADC2A9;
+            color: #D3E4CD;
+            <!--border:none;-->
+            cursor:pointer;
+        }
+        .button:hover{
+            background: #D3E4CD;
+            color: #ADC2A9;
+        }
     </style>
 </head>
 
@@ -84,7 +94,7 @@
                     </div>
                     <p class="ml-5" style="color:red">{{ $errors->first('review') }}</p>
                     <div class="text-right mr-2">
-                        <input type="submit" value="&#xf099; Tweet" class="fab fa-2x rounded-pill p-2 bg-secondary" value="&#xf099;">
+                        <input type="submit" value="&#xf099; Tweet" class="fab fa-2x border-secondary rounded-pill p-2 button" value="&#xf099;">
                     </div>
                     <input type="hidden" name="status" value="1">
                 </form>
@@ -150,7 +160,7 @@
                         </select>
                     </div>
                     <div class="text-right mr-5 mt-3">
-                        <input type="submit" value="表示" class="rounded-pill bg-secondary">
+                        <input type="submit" value="表示" class="border-secondary rounded-pill button">
                     </div>
                 </form>
                 

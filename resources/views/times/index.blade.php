@@ -148,8 +148,16 @@
             border-bottom: solid 2px black;
         }
         
-        li{
-            /*clear:both;*/
+        
+        .button{
+            background: #ADC2A9;
+            color: #D3E4CD;
+            <!--border:none;-->
+            cursor:pointer;
+        }
+        .button:hover{
+            background: #D3E4CD;
+            color: #ADC2A9;
         }
     </style>
 </head>
@@ -173,7 +181,7 @@
                     <p class="m-0">{{ $errors->first('study_site') }}</p>
                 </div>
                 <div class="float-left ml-3 mt-5" style="width: 50px">
-                    <input type="submit" value="&#xf00c; save" class="fas fa-2x bg-secondary">
+                    <input type="submit" value="&#xf00c; save" class="fas fa-2x border-secondary button">
                 </div>
             </form>
         </div>
@@ -208,7 +216,7 @@
                     </div>
                     <p class="ml-5 mt-1">{{ $errors->first('goal') }}</p>
                     <div class="text-right mt-3 mr-2">
-                        <input type="submit" value="&#xf099; Tweet" class="fab fa-2x rounded-pill p-2 bg-secondary" value="&#xf099;">
+                        <input type="submit" value="&#xf099; Tweet" class="fab fa-2x border-secondary rounded-pill px-2 button" value="&#xf099;">
                     </div>
                     <input type="hidden" name="status" value="1">
                 </form>

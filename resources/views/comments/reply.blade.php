@@ -9,6 +9,16 @@
         .body{
             clear: both;
         }
+        .button{
+            background: #ADC2A9;
+            color: #D3E4CD;
+            <!--border:none;-->
+            cursor:pointer;
+        }
+        .button:hover{
+            background: #D3E4CD;
+            color: #ADC2A9;
+        }
     </style>
 </head>
 @extends('layouts.app')
@@ -42,7 +52,7 @@
                         <p class="ml-5">{{ $errors->first('reply_body') }}</p>
                     </div>
                     <div class="text-right">
-                        <input type="submit" value="&#xf3e5; reply" class="fas rounded-pill p-2 bg-secondary">
+                        <input type="submit" value="&#xf3e5; reply" class="fas border-secondary rounded-pill p-2 button">
                     </div>
                 </form>
             </div>

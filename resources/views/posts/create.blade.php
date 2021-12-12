@@ -1,3 +1,17 @@
+<head>
+    <style>
+        .button{
+            background: #ADC2A9;
+            color: #D3E4CD;
+            <!--border:none;-->
+            cursor:pointer;
+        }
+        .button:hover{
+            background: #D3E4CD;
+            color: #ADC2A9;
+        }
+    </style>
+</head>
 @extends('layouts.app')
 @section('content')
 <div class="container">
@@ -34,7 +48,7 @@
                     <p class="ml-5">{{ $errors->first('post.body') }}</p>
                 </div>
                 <div class="text-right">
-                    <input type="submit" value="&#xf303; Post" class="fas fa-lg rounded-pill p-2 bg-secondary">
+                    <input type="submit" value="&#xf303; Post" class="fas fa-lg border-secondary rounded-pill p-2 button">
                 </div>
             </form>
         </div>

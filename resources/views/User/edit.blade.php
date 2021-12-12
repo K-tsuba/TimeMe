@@ -19,6 +19,16 @@
             margin-right: 20%;
             margin-top: 10px;
         }
+        .button{
+            background: #ADC2A9;
+            color: #D3E4CD;
+            <!--border:none;-->
+            cursor:pointer;
+        }
+        .button:hover{
+            background: #D3E4CD;
+            color: #ADC2A9;
+        }
     </style>
 </head>
 
@@ -35,7 +45,7 @@
                     <input type='time' class="time"　name='time' value="{{ $time->time }}">
                 </div>
                 <div class="text-right mt-3" style="width: 83%;">
-                    <input type="submit" value="&#xf00c; save" class="fas fa-lg p-2 rounded-pill bg-secondary">
+                    <input type="submit" value="&#xf00c; save" class="fas fa-lg p-2 border-secondary rounded-pill button">
                 </div>
             </form>
         </div>
