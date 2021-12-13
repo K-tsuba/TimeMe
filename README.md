@@ -7,9 +7,13 @@
 <a href="https://packagist.org/packages/laravel/framework"><img src="https://poser.pugx.org/laravel/framework/license.svg" alt="License"></a>
 </p>
 
-## TimeMe
+# TimeMe
 
 学習時間を計測し、学習のモチベーションの維持向上を図るアプリケーションです。
+
+## Description
+
+コロナによりオンライン学習が発展し、webサイトなどで気軽に学習できる教材が増えています。しかしオンラインで一人で学習するのも難しいと思う方が多いと思います。そこで学習時間を計測することで1日にどれくらい学習しているを把握でき、予定を立てることに繋がったり、学習時間の可視化によりモチベーションを保つことができます。
 
 ## About Laravel
 
