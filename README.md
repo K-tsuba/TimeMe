@@ -16,10 +16,13 @@
 コロナによりオンライン学習が発展し、webサイトなどで気軽に学習できる教材が増えています。しかしオンラインで一人で学習するのも難しいと思う方が多いと思います。そこで学習時間を計測することで1日にどれくらい学習しているを把握でき、予定を立てることに繋がったり、学習時間の可視化によりモチベーションを保つことができます。
 
 ### 代表的な機能
-- 学習時間の記録
-- 時間の計測
 - 学習するサイトの登録
-
+　自分が学習したいサイトのタイトルを決めていただいて、urlを記入していただければこのサイトから自分が学習したいサイトへ遷移することができます。
+- 時間の計測
+　学習するサイトを選んでいただいた後に、startのボタンを押していただくと計測することができます。
+- 学習時間の記録
+　1日の学習時間以外にも、今までの学習時間だったり、過去の学習時間も見ることができます。
+ 
 ## About Laravel
 
 Laravel is a web application framework with expressive, elegant syntax. We believe development must be an enjoyable and creative experience to be truly fulfilling. Laravel takes the pain out of development by easing common tasks used in many web projects, such as:
