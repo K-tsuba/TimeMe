@@ -125,7 +125,7 @@
                     thumbnail = json.items[i].snippet.thumbnails.default.url;
                     videoid = json.items[i].id.videoId;
                     title = json.items[i].snippet.title;
-                    html += '<div class="youtube_box"><a href="https://www.youtube.com/watch?v='+videoid+'" target="_blank"><img src="'+thumbnail+'"><br>'+title+'<br></div>';
+                    html += '<div class="youtube_box"><a href="https://www.youtube.com/watch?v='+videoid+'" target="_blank" class="text-white"><img src="'+thumbnail+'"><br>'+title+'<br></div>';
                 }
                 document.getElementById('youtubeList').innerHTML = html;
             }
