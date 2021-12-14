@@ -1,5 +1,4 @@
 <head>
-    
     <script type="text/javascript" src="/js/time.js"></script>
     <link href="/css/home.css" rel="stylesheet">
     <link href="/css/button.css" rel="stylesheet">
@@ -30,7 +29,7 @@
         </div>
         <div class="border rounded mb-4 mr-4 p-2 bg-primary">
             <div class="">
-                <h2 class="">～学習するサイトを選択～</h2>
+                <h2 class="">～学習するサイトを選択 / 計測～</h2>
                 <select id="select_study_site" class="text-center mt-2" style="width: 300px; height: 30px;">
                     <option selected>学習するサイトを選択</option>
                     @foreach($study_sites as $study_site)

@@ -123,7 +123,7 @@ xhr.onreadystatechange = function(){
             thumbnail = json.items[i].snippet.thumbnails.default.url;
             videoid = json.items[i].id.videoId;
             title = json.items[i].snippet.title;
-            html += '<div class="youtube_box"><a href="https://www.youtube.com/watch?v='+videoid+'" target="_blank" class="text-white"><img src="'+thumbnail+'"><br>'+title+'<br></div>';
+            html += '<div class="text-center"><iframe width="150" height="100" src="https://www.youtube.com/embed/' +videoid+ '" frameborder="0" allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe><a href="https://www.youtube.com/watch?v='+videoid+'" target="_blank" class="text-white"><br>'+title+'<br></div>';
         }
         document.getElementById('youtubeList').innerHTML = html;
     }
