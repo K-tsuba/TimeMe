@@ -1,137 +1,6 @@
 <head>
-    <script>
-        var interval_id;
-        var start_click=false;
-        var time=0;
-        var hour=0;
-        var min=0;
-        var sec=0;
-        function start_timer(){
-            
-            var selectBox = document.getElementById('select_study_site');
-            var start_button = document.getElementById('start');
-            
-            if (selectBox.options[0].selected === false){
-                start_button.disabled = false;
-                
-                if (start_click === false){
-                    
-                    interval_id=setInterval(count_down, 1000);
-                    start_click=true;
-                    
-                    document.getElementById("start").disabled = true;
-                    document.getElementById("stop").disabled = false;
-                    document.getElementById("reset").disabled = false;
-                    
-                    var select = document.getElementById('select_study_site');
-                    var study_site_id = select.value;
-                    
-                    var token = document.getElementsByName('csrf-token').item(0).content;
-                    var request = new XMLHttpRequest();
-        
-                    request.open('post', '/times/start_store/'+study_site_id, true);
-                    request.responseType = 'json';
-                    request.setRequestHeader('X-CSRF-Token', token);
-                    request.onload = function () {
-                        var data = this.response;
-                        console.log(data);
-                        console.log(start_click);
-                    };
-                    request.setRequestHeader('Content-type', 'application/x-www-form-urlencoded');
-                    
-                    request.send("status=start");
-                }
-                
-            } else {
-                alert("学習するサイトを選択してください。");
-                start_click=false;
-            }
-        }
-        
-        function hoge(event) {
-            if (start_click === true) {
-                event = event || window.event;
-                return event.returnValue = '表示させたいメッセージ';
-            }
-        }
-        
-        if (window.addEventListener) {
-            window.addEventListener('beforeunload', hoge, false);
-        }
-        
-        function count_down(){
-            time++;
-            hour=Math.floor(time/3600);
-            min=Math.floor((time/60)%60);
-            sec=time%60;
-            var display=document.getElementById('display');
-            display.innerHTML=hour+':'+min+':'+sec;
-        }
-        function stop_timer(){
-            clearInterval(interval_id);
-            start_click=false;
-            
-            var token = document.getElementsByName('csrf-token').item(0).content;
-            var request = new XMLHttpRequest();
-            
-            request.open('post', '/times/stop_store', true);
-            request.responseType = 'json';
-            request.setRequestHeader('X-CSRF-Token', token);
-            request.onload = function(){
-                var data = this.response;
-                console.log(data);
-            };
-            request.setRequestHeader('Content-type', 'application/x-www-form-urlencoded');
-            request.send("status=stop");
-            
-            document.getElementById("stop").disabled = true;
-        }
-        function reset_timer(){
-            time=0;
-            var hour=0;
-            var min=0;
-            var sec=0;
-            var reset=document.getElementById('display');
-            reset.innerHTML='0:0:0';
-            document.getElementById("start").disabled = false;
-            document.getElementById("stop").disabled = true;
-            document.getElementById("reset").disabled = true;
-        }
-        window.onload=function(){
-            var start=document.getElementById('start');
-            start.addEventListener('click', start_timer, false);
-            var stop=document.getElementById('stop');
-            stop.addEventListener('click', stop_timer, false);
-            var reset=document.getElementById('reset');
-            reset.addEventListener('click', reset_timer, false);
-        }
-        
-        
-        var apikey = 'AIzaSyCRj1tsmPrdQa7NC3TWwrVlDdpwUzQntSw';
-        var channelid = 'UCHrjqpLwUNY4BV017sq21Tw';
-        var maxresults = '1';
-        var url = 'https://www.googleapis.com/youtube/v3/search?part=snippet&channelId='+channelid+'&maxResults='+maxresults+'&order=date&type=video&key='+apikey;
-        var xhr = new XMLHttpRequest();
-        xhr.open('get', url);
-        xhr.send();
-        xhr.onreadystatechange = function(){
-            if(xhr.readyState === 4 && xhr.status === 200){
-                var json = JSON.parse(xhr.responseText);
-                var html = "";
-                var thumnail = "";
-                var videoid = "";
-                var title = "";
-                for (var i=0; i<json.items.length; i++){
-                    thumbnail = json.items[i].snippet.thumbnails.default.url;
-                    videoid = json.items[i].id.videoId;
-                    title = json.items[i].snippet.title;
-                    html += '<div class="youtube_box"><a href="https://www.youtube.com/watch?v='+videoid+'" target="_blank" class="text-white"><img src="'+thumbnail+'"><br>'+title+'<br></div>';
-                }
-                document.getElementById('youtubeList').innerHTML = html;
-            }
-        }
-    </script>
     
+    <script type="text/javascript" src="/js/time.js"></script>
     <link href="/css/home.css" rel="stylesheet">
     <link href="/css/button.css" rel="stylesheet">
 </head>
@@ -141,7 +10,7 @@
 <div class="container">
     <div class="float-left min-w" style="width: 65%;">
         <div class="border rounded mr-4 mb-4 p-2 bg-primary clearfix" style="">
-            <h2 class="title_register">～勉強するサイトの登録～</h2>
+            <h2 class="title_register">～学習するサイトの登録～</h2>
             <form action="/study_sites/store" method="post">
                 @csrf
                 <div class="float-left mt-2">
@@ -208,7 +77,7 @@
                                 <form action="/study_sites/{{ $study_site->id }}" id="form_{{ $study_site->id }}" method="post" style="display:inline">
                                     @csrf
                                     @method('DELETE')
-                                    <button type="submit" onClick="delete_time({{ $study_site->id}})" class="btn btn-primary"><i class="fas fa-trash-alt fa-lg"></i></button> 
+                                    <button type="submit" onClick="delete_time({{ $study_site->id}})" class="btn btn-primary"><span title="delete"><i class="fas fa-trash-alt fa-lg"></i></span></button> 
                                 </form>
                             </div>
                         </ul>

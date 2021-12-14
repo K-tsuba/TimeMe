@@ -20,13 +20,13 @@
                         <p>Time : {{ $study_site->time }}</p>
                     </div>
                     <div class="float-right mt-2">
-                        <a href="/user/{{ $study_site->id }}/edit" class="d-block"><i class="fas fa-edit fa-lg" ></i></a>
+                        <a href="/user/{{ $study_site->id }}/edit" class="d-block"><span title="edit"><i class="fas fa-edit fa-lg" ></i></span></a>
                     </div>
                     <div class="text-right">
                         <form action="/user/{{ $study_site->id }}" id="form_{{ $study_site->id }}" method="post" style="display:inline">
                             @csrf
                             @method('DELETE')
-                            <button type="submit" onClick="delete_time({{ $study_site->id}})" class="btn btn-secondary mt-1"><i class="fas fa-trash-alt fa-lg"></i></button> 
+                            <button type="submit" onClick="delete_time({{ $study_site->id}})" class="btn btn-secondary mt-1"><span title="delete"><i class="fas fa-trash-alt fa-lg"></i></span></button> 
                         </form>
                     </div>
                 </div>

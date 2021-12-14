@@ -23,13 +23,13 @@
                         <p class="" >Date : {{ $post->updated_at->format('Y-m-d H:i') }}</p>
                     </div>
                     <div class="float-right mt-1">
-                        <a href="/posts/{{ $post->id }}/edit" class="d-block"><i class="fas fa-edit fa-lg" ></i></a>
+                        <a href="/posts/{{ $post->id }}/edit" class="d-block"><span title="edit"><i class="fas fa-edit fa-lg" ></i></span></a>
                     </div>
                     <div class="text-right">
                         <form action="/posts/{{ $post->id }}" id="form_{{ $post->id }}" method="post" style="display:inline">
                             @csrf
                             @method('DELETE')
-                            <button type="submit" onClick="delete_post({{ $post->id}})" class="btn btn-secondary"><i class="fas fa-trash-alt fa-lg"></i></button> 
+                            <button type="submit" onClick="delete_post({{ $post->id}})" class="btn btn-secondary"><span title="delete"><i class="fas fa-trash-alt fa-lg"></i></span></button> 
                         </form>
                     </div>
                     <div>

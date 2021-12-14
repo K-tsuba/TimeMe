@@ -21,13 +21,13 @@
                     </div>
                     
                     <div class="float-right mr-2 mt-1">
-                        <a href="/times/{{ $time->id }}/edit" class="d-block"><i class="fas fa-edit fa-lg" ></i></a>
+                        <a href="/times/{{ $time->id }}/edit" class="d-block"><span title="edit"><i class="fas fa-edit fa-lg" ></i></span></a>
                     </div>
                     <div class="text-right">
                         <form action="/times/{{ $time->id }}" id="form_{{ $time->id }}" method="post" style="display:inline">
                             @csrf
                             @method('DELETE')
-                            <button type="submit" onClick="delete_time({{ $time->id}})" class="btn btn-secondary"><i class="fas fa-trash-alt fa-lg"></i></button> 
+                            <button type="submit" onClick="delete_time({{ $time->id}})" class="btn btn-secondary"><span title="delete"><i class="fas fa-trash-alt fa-lg"></i></span></button> 
                         </form>
                     </div>
                     <div class="text-center time">
