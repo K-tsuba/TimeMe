@@ -32,8 +32,6 @@ function start_timer(){
             request.setRequestHeader('X-CSRF-Token', token);
             request.onload = function () {
                 var data = this.response;
-                console.log(data);
-                console.log(start_click);
             };
             request.setRequestHeader('Content-type', 'application/x-www-form-urlencoded');
             
