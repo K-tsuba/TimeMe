@@ -9,16 +9,16 @@
 <div class="container">
     <div class="float-left min-w" style="width: 65%;">
         <div class="border rounded mr-4 mb-4 p-2 bg-primary clearfix" style="">
-            <h2 class="title_register">～学習するサイトの登録～</h2>
+            <h3 class="title_register">～学習するサイトの登録～</h3>
             <form action="/study_sites/store" method="post">
                 @csrf
                 <div class="float-left mt-2">
-                    <h3>Study title</h3>
+                    <h4>Study title</h4>
                     <input type="text" name="study_title" placeholder="タイトル" class="" style="width: 200px; height: 38px;">
                     <p class="m-0">{{ $errors->first('study_title') }}</p>
                 </div>
                 <div class="float-left ml-3 mt-2">
-                    <h3>Study site</h3>
+                    <h4>Study site</h4>
                     <input type="text" name="study_site" placeholder="urlを記入" class="" style="width: 200px; height: 38px;">
                     <p class="m-0">{{ $errors->first('study_site') }}</p>
                 </div>
@@ -27,6 +27,29 @@
                 </div>
             </form>
         </div>
+        
+        <div class="border rounded mr-4 mb-4 p-2 bg-primary clearfix" style="">
+            <h3 class="title_register">～学習するサイトの登録～</h3>
+            <form action="/study_sites/store" method="post">
+                @csrf
+                <div class="form-row">
+                <div class="form-group col-4 p-2">
+                    <h4>Study title</h4>
+                    <input type="text" name="study_title" placeholder="タイトル" class="form-control" style="width: 200px; height: 38px;">
+                    <p class="m-0">{{ $errors->first('study_title') }}</p>
+                </div>
+                <div class="form-group col-4">
+                    <h4>Study site</h4>
+                    <input type="text" name="study_site" placeholder="urlを記入" class="form-control" style="width: 200px; height: 38px;">
+                    <p class="m-0">{{ $errors->first('study_site') }}</p>
+                </div>
+                <div class="form-group col-4">
+                    <input type="submit" value="&#xf00c; save" class="fas fa-2x border-secondary button" style="margin-top: 33px;">
+                </div>
+                </div>
+            </form>
+        </div>
+        
         <div class="border rounded mb-4 mr-4 p-2 bg-primary">
             <div class="">
                 <h2 class="">～学習するサイトを選択 / 計測～</h2>
@@ -66,7 +89,7 @@
         </div>
         <div style="width: 100%;">
             <div class="border rounded mb-4 p-2 bg-primary">
-                <h2>～Own Study Site～</h2>
+                <h2>～学習リスト～</h2>
                 <div>
                     @foreach($study_sites as $study_site)
                         <ul>
@@ -86,7 +109,7 @@
         </div>
         <div style="width: 100%;">
             <div class="border rounded mb-4 p-2 bg-primary">
-                <h2>～Refresh～</h2>
+                <h2>～リフレッシュ～</h2>
                 <div id="youtubeList" class=""></div>
             </div>
         </div>

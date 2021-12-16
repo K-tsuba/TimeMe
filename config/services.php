@@ -43,7 +43,7 @@ return [
     ],
     
     'youtube' => [
-        'api_key' => env('YOUTUBE_API_KEY')
+        'api_key' => env('MIX_YOUTUBE_API_KEY')
     ]
 
 ];
